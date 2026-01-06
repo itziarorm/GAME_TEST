@@ -6,6 +6,8 @@ export default{
     ctx:{},     //acces to context
     canvasHUD: {}, //acces to HUD canvas
     ctxHUD:{},     //acces to HUD context
+    canvasHUD_RIGHT: {}, //acces to right HUD canvas
+    ctxHUD_RIGHT:{},     //acces to right HUD context
 
     //game states
     gameState: Game.INVALID,

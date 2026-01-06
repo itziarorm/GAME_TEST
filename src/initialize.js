@@ -6,7 +6,7 @@ import Frames from "./Frames.js";
 import { Level, level1 } from "./Levels.js";
 import Timer from "./Timer.js";
 import Physics from "./Physics.js";
-import { Pirate } from "./Sprite.js";
+import { Ghost } from "./Sprite.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 
 function initHTMLelements(){
@@ -16,6 +16,9 @@ function initHTMLelements(){
 
     globals.canvasHUD = document.getElementById('gameHUD');
     globals.ctxHUD = globals.canvasHUD.getContext('2d');
+
+    globals.canvasHUD_RIGHT = document.getElementById('gameHUD_RIGHT');
+    globals.ctxHUD_RIGHT = globals.canvasHUD_RIGHT.getContext('2d');
 
     globals.ctx.imageSmoothingEnabled = false;
 
@@ -58,14 +61,14 @@ function loadAssets(){
     //Load the spritesheet image
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/spritesheet.png";
+    tileSet.src = "./images/sprite2.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
 
     //Load the brick image
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/bricks.png";
+    tileSet.src = "./images/blocks.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
 }
@@ -97,16 +100,26 @@ function initTimers(){
 function initSprites(){
     
     initPlayer();
-    initPirate();
+    initGhost();
+    initGhostYellow();
+    initGhostOrange();
+    initGhostBlue();
+    initPotionVelocity();
+    initPotionParalize();
+    initPotionInverted();
+    initCards();
+    initPoints();
+    initDoor();
+    initKey();
 }
 
 function initPlayer(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(0, 0, 44, 57, 10, 6, 64);
+    const imageSet = new ImageSet(0, 0, 16, 16, 0, 0, 16);
 
-    //create frames data: 8 frames, animation speed 5 frames/second
-    const frames = new Frames(8, 5);
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(4, 4);
 
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(40);
@@ -118,29 +131,215 @@ function initPlayer(){
     globals.sprites.push(player);
 }
 
-function initPirate(){
+function initGhost(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(9, 0, 32, 47, 17, 16, 64);
-    
-    //create frames data: 8 frames, animation speed 5 frames/second
-    const frames = new Frames(8, 5);
+    const imageSet = new ImageSet(12, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(2, 5);
 
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(40); // Max velocity 40 p/s
 
     const initTimeToChangeDirection = Math.floor(Math.random() * 3) + 1;
 
-    //create pirate sprite
-    const pirate = new Pirate(SpriteID.PIRATE, State.RIGHT_2, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
+    //create ghost sprite
+    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
     
-    //add pirate to sprites array
-    globals.sprites.push(pirate);
+    //add ghost to sprites array
+    globals.sprites.push(ghost);
+}
+
+function initGhostYellow(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
+    const imageSet = new ImageSet(8, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 5);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(60); // Max velocity 40 p/s
+
+    const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
+
+    //create ghost sprite
+    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
+    
+    //add ghost to sprites array
+    globals.sprites.push(ghost);
+}
+
+function initGhostOrange(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
+    const imageSet = new ImageSet(9, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 5);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(40); // Max velocity 40 p/s
+
+    const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
+
+    //create ghost sprite
+    const ghost = new Ghost(SpriteID.ORANGE, State.RIGHT_4, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
+    
+    //add ghost to sprites array
+    globals.sprites.push(ghost);
+}
+
+function initGhostBlue(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
+    const imageSet = new ImageSet(8, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 5);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(40); // Max velocity 40 p/s
+
+    const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
+
+    //create ghost sprite
+    const ghost = new Ghost(SpriteID.BLUE, State.RIGHT_5, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
+    
+    //add ghost to sprites array
+    globals.sprites.push(ghost);
+}
+
+function initPotionVelocity(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(80);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.POTION, State.STILL, 10, 10, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initPotionParalize(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.POTION, State.STILL, 200, 10, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initPotionInverted(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.POTION, State.STILL, 200, 220, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initCards(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.CARD, State.STILL, 5, 220, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initPoints(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(21, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.POINT, State.STILL, 130, 5, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initDoor(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(16, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.DOOR, State.STILL, 200, 170, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initKey(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(15, 0, 16, 16, 0, 0, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(1, 1);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.KEY, State.STILL, 5, 140, imageSet, frames, physics);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
 }
 
 function initLevel(){
 
-    const imageSet = new ImageSet(0, 0, 32, 32, 0, 0, 32);
+    const imageSet = new ImageSet(0, 0, 8, 8, 0, 0, 8);
     globals.level = new Level(level1, imageSet);
 }
 

@@ -12,7 +12,7 @@ export default class Sprite{
     }
 }
 
-export class Pirate extends Sprite {
+export class Ghost extends Sprite {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, maxTimeToChangeDirection) {
         
         //we call the parent class constructor using super()

@@ -11,35 +11,62 @@ export const FPS = 30;
 export const SpriteID = {
     
     PLAYER: 0,
-    PIRATE: 1,
-    JOKER:  2,
-    KNIGHT: 3
+    GHOST: 1,
+    YELLOW:  2,
+    ORANGE: 3,
+    BLUE:  4,
+    POTION: 5,
+    CARD: 6,
+    POINTS: 7,
+    DOOR: 8,
+    KEY: 9
 }
 
 //Identificador de estado de sprite
 export const State = {
 
-    UP:     0,
-    LEFT:   1,
-    DOWN:   2,
+    UP:     1,
+    LEFT:   2,
+    DOWN:   0,
     RIGHT:  3,
     STILL_UP:    4,
     STILL_LEFT:  5,
     STILL_DOWN:  6,
     STILL_RIGHT: 7,
     
-    //PIRATE
-    LEFT_2:  0,
-    RIGHT_2: 1,
+    //ghost
+    UP_2: 0,
+    LEFT_2:  1,
+    RIGHT_2: 2,
+    DOWN_2: 3,
 
-    //JOKER, KNIGHT
-    STILL: 0
+    //YELLOW GHOST
+    UP_3: 0,
+    LEFT_3: 1,
+    RIGHT_3: 2,
+    DOWN_3: 3,
+
+    //ORANGE GHOST
+    UP_4: 0,
+    LEFT_4: 1,
+    RIGHT_4: 2,
+    DOWN_4: 3,
+
+    //BLUE GHOST
+    UP_5: 0,
+    LEFT_5: 1,
+    RIGHT_5: 2,
+    DOWN_5: 3,
+
+    //POTION
+
+    STILL: 0,
 }
 
 export const Tile = {
 
-    SIZE_64: 0,
-    SIZE_32: 1
+    SIZE_32: 0,
+    SIZE_8: 1
 }
 
 export const Block = {
@@ -51,13 +78,24 @@ export const Block = {
     DARK_1:    4,
     GRAY:      5,
     CRYSTAL_1: 6,
-    CRYSTAL_2: 7
+    CRYSTAL_2: 7,
+    WALL:      8,
+    WATER:     9,
+    LAVA:      10,
+    TREASURE:  11,
+    DOOR:      12,
+    KEY:       13,
+    SPIKES:    14,
+    EXIT:      15,
+    FLOOR:     16,
+    PLATFORM:  17
 }
 
 export const Key = {
 
-    UP:     87,     //38
-    LEFT:   65,     //37
-    DOWN:   83,     //40
-    RIGHT:  68      //39
+    UP:     87,     //w
+    LEFT:   65,     //a
+    DOWN:   83,     //s
+    RIGHT:  68,     //d
+    CARD:   69      //e
 }

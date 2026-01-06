@@ -29,6 +29,7 @@ function drawGame(){
     //clear canvases
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
     renderMap();
 
@@ -37,6 +38,8 @@ function drawGame(){
 
     //draw HUD
     renderHUD();
+
+    renderHUD_Right();
 
 }
 
@@ -52,7 +55,7 @@ function renderSprite(sprite){
     const yPos = Math.floor(sprite.yPos);
 
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_64],
+        globals.tileSets[Tile.SIZE_32],
         xTile, yTile,
         sprite.imageSet.xSize, sprite.imageSet.ySize,
         xPos, yPos,
@@ -103,7 +106,7 @@ function renderMap(){
 
             globals.ctx.drawImage(
 
-                globals.tileSets[Tile.SIZE_32],
+                globals.tileSets[Tile.SIZE_8],
                 xTile, yTile,
                 brickSize, brickSize,
                 xPos, yPos,
@@ -151,4 +154,46 @@ function renderHUD(){
     globals.ctxHUD.fillText("TIME", 224, 8);
     globals.ctxHUD.fillStyle = "lightgray";
     globals.ctxHUD.fillText(time, 224, 16);
+}
+
+function renderHUD_Right(){
+
+    //datos metidos a mano
+    const life = 3;
+    const mana = 10;
+    const stage = 1;
+
+
+    //Lucrecia
+    // globals.ctxHUD_Right.font = '8px emulogic';
+    // globals.ctxHUD_Right.fillStyle = 'lightblue';
+    // globals.ctxHUD_Right.fillText("LUCRECIA", 86, 16);
+
+    globals.ctxHUD_RIGHT.imageSet = new Image();
+    globals.ctxHUD_RIGHT.imageSet.src = "./images/lucrecia.png";
+    globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 8, 10, 64, 64);
+
+    //book
+    globals.ctxHUD_RIGHT.imageSet = new Image();
+    globals.ctxHUD_RIGHT.imageSet.src = "./images/Book.png";      //x, y, xsize, ysize
+    globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 0, 105, 80, 55);
+
+    //draw life
+    globals.ctxHUD_RIGHT.font = '8px emulogic';
+    globals.ctxHUD_RIGHT.fillStyle = 'lightblue';
+    globals.ctxHUD_RIGHT.fillText("LIFE", 5, 100);
+    globals.ctxHUD_RIGHT.fillStyle = 'black';
+    globals.ctxHUD_RIGHT.fillText(" " + life, 42, 109);
+    //Draw mana
+    globals.ctxHUD_RIGHT.fillStyle = 'lightblue';
+    globals.ctxHUD_RIGHT.fillText("MANA", 45, 100);
+    globals.ctxHUD_RIGHT.fillStyle = 'black';
+    globals.ctxHUD_RIGHT.fillText(" " + mana, 100, 74);
+
+    //STAGE
+    globals.ctxHUD_RIGHT.fillStyle = 'lightblue';
+    globals.ctxHUD_RIGHT.fillText("STAGE", 18, 180);
+    globals.ctxHUD_RIGHT.fillStyle = 'lightgray';
+    globals.ctxHUD_RIGHT.fillText(" " + stage, 25, 200);
+
 }

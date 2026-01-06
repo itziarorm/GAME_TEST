@@ -62,8 +62,20 @@ function updateSprite(sprite){
             updatePlayer(sprite);
             break;
         
-        case SpriteID.PIRATE:
-            updatePirate(sprite);
+        case SpriteID.GHOST:
+            updateGhost(sprite);
+            break;
+
+        case SpriteID.YELLOW:
+            updateGhostYellow(sprite);
+            break;
+
+        case SpriteID.ORANGE:
+            updateGhostOrange(sprite);
+            break;
+
+        case SpriteID.BLUE:
+            updateGhostBlue(sprite);
             break;
 
         default:
@@ -115,7 +127,7 @@ function updatePlayer(sprite){
     updateAnimationFrame(sprite);
 }
 
-function updatePirate(sprite){
+function updateGhost(sprite){
 
     switch(sprite.state){
 
@@ -124,6 +136,101 @@ function updatePirate(sprite){
             break;
         case State.LEFT_2:
             sprite.physics.vx = -sprite.physics.vLimit;
+            break;
+        default:
+            console.error("ERROR: Pirate state invalid");
+    }
+
+    //calculate distance moved
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+
+    //update animation frame
+    updateAnimationFrame(sprite);
+
+    //update direction randomly
+    updateDirectionRandom(sprite);
+
+    const isCollision = calculateCollisionWithBorders(sprite);
+
+    if(isCollision){
+
+        swapDirection(sprite);
+    }
+}
+
+function updateGhostYellow(sprite){
+
+    switch(sprite.state){
+
+        case State.UP_3:
+            sprite.physics.vy = -sprite.physics.vLimit;
+            break;
+
+        case State.DOWN_3:
+            sprite.physics.vy = sprite.physics.vLimit;
+            break;
+
+        default:
+            console.error("ERROR: state invalid");
+    }
+
+    //calculate distance moved
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    //update animation frame
+    updateAnimationFrame(sprite);
+
+    //update direction randomly
+    updateDirectionRandomVertical(sprite);
+
+    const isCollision = calculateCollisionWithBordersVertical(sprite);
+
+    if(isCollision){
+
+        swapDirectionVertical(sprite);
+    }
+}
+
+function updateGhostOrange(sprite){
+
+    switch(sprite.state){
+
+        case State.RIGHT_2:
+            sprite.physics.vx = sprite.physics.vLimit;
+            break;
+        case State.LEFT_2:
+            sprite.physics.vx = -sprite.physics.vLimit;
+            break;
+        default:
+            console.error("ERROR: Pirate state invalid");
+    }
+
+    //calculate distance moved
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+
+    //update animation frame
+    updateAnimationFrame(sprite);
+
+    //update direction randomly
+    updateDirectionRandom(sprite);
+
+    const isCollision = calculateCollisionWithBorders(sprite);
+
+    if(isCollision){
+
+        swapDirection(sprite);
+    }
+}
+
+function updateGhostBlue(sprite){
+
+    switch(sprite.state){
+
+        case State.RIGHT_2:
+            sprite.physics.vx = -sprite.physics.vLimit;
+            break;
+        case State.LEFT_2:
+            sprite.physics.vx = sprite.physics.vLimit;
             break;
         default:
             console.error("ERROR: Pirate state invalid");
@@ -188,6 +295,11 @@ function swapDirection(sprite){
     sprite.state = sprite.state === State.RIGHT_2 ? State.LEFT_2 : State.RIGHT_2;
 }
 
+function swapDirectionVertical(sprite){
+
+    sprite.state = sprite.state === State.UP_3 ? State.DOWN_3 : State.UP_3;
+}
+
 function updateDirectionRandom(sprite){
 
     //update counter
@@ -204,6 +316,25 @@ function updateDirectionRandom(sprite){
         
         //swap direction
         swapDirection(sprite);
+    }
+}
+
+function updateDirectionRandomVertical(sprite){
+
+    //update counter
+    sprite.directionChangeCounter += globals.deltaTime;
+
+    //check if it's time to change direction
+    if(sprite.directionChangeCounter > sprite.maxTimeToChangeDirection){
+
+        //reset counter
+        sprite.directionChangeCounter = 0;
+
+        //set new random time to change direction between 1 and 8 seconds
+        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 8) + 1;
+        
+        //swap direction
+        swapDirectionVertical(sprite);
     }
 }
 
@@ -228,6 +359,25 @@ function calculateCollisionWithBorders(sprite){
 
     //left border collision
     else if(sprite.xPos < 0){
+
+        isCollision = true;
+    }
+
+    return isCollision;
+}
+
+function calculateCollisionWithBordersVertical(sprite){
+    
+    let isCollision = false;
+
+     //bottom border collision
+    if(sprite.yPos + sprite.imageSet.ySize > globals.canvas.height){
+
+        isCollision = true;
+    }
+
+    //top border collision
+    else if(sprite.yPos < 0){
 
         isCollision = true;
     }
