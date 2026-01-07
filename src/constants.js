@@ -19,7 +19,8 @@ export const SpriteID = {
     CARD:       6,
     POINTS:     7,
     DOOR:       8,
-    KEY:        9
+    KEY:        9,
+    CARDS:      10,
 }
 
 //Identificador de estado de sprite
@@ -34,7 +35,7 @@ export const State = {
     STILL_DOWN:  6,
     STILL_RIGHT: 7,
     THROW_CARD: 8,
-    
+
     //ghost
     UP_2: 0,
     LEFT_2:  1,

@@ -143,26 +143,26 @@ function updatePlayer(sprite){
 }
 
 function createCard(sprite){
-
+    
    let direction = State.RIGHT;
-    let x = player.xPos + 8;
-    let y = player.yPos + 8;
+    let x = sprite.xPos + 8;
+    let y = sprite.yPos + 8;
 
-    if (player.state === State.LEFT || player.state === State.STILL_LEFT) {
+    if (sprite.state === State.LEFT || sprite.state === State.STILL_LEFT) {
         direction = State.LEFT;
-        x = player.xPos;
+        x = sprite.xPos;
 
-    } else if (player.state === State.RIGHT || player.state === State.STILL_RIGHT) {
+    } else if (sprite.state === State.RIGHT || sprite.state === State.STILL_RIGHT) {
         direction = State.RIGHT;
-        x = player.xPos + 16;
+        x = sprite.xPos + 16;
 
-    } else if (player.state === State.UP || player.state === State.STILL_UP) {
+    } else if (sprite.state === State.UP || sprite.state === State.STILL_UP) {
         direction = State.UP;
-        y = player.yPos;
+        y = sprite.yPos;
 
-    } else if (player.state === State.DOWN || player.state === State.STILL_DOWN) {
+    } else if (sprite.state === State.DOWN || sprite.state === State.STILL_DOWN) {
         direction = State.DOWN;
-        y = player.yPos + 16;
+        y = sprite.yPos + 16;
     }
 
     //Usar la función global
@@ -171,6 +171,8 @@ function createCard(sprite){
     globals.sprites.push(card);
 
 }
+
+
 
 function updateCard(sprite){
 

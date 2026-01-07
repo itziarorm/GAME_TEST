@@ -145,7 +145,7 @@ function initCardPrint(x, y, direction){
 
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(20);
-    
+
     if (direction === State.LEFT) physics.vx = -physics.vLimit;
     else if (direction === State.RIGHT) physics.vx = physics.vLimit;
     else if (direction === State.UP) physics.vy = -physics.vLimit;
@@ -153,6 +153,8 @@ function initCardPrint(x, y, direction){
 
     return new Sprite(SpriteID.CARD, direction, x, y, imageSet, frames, physics);
 }
+
+globals.initCardPrint = initCardPrint;
 
 function initGhost(){
 
@@ -308,7 +310,7 @@ function initCards(){
     const physics = new Physics(0);
 
     //create player sprite
-    const player = new Sprite(SpriteID.CARD, State.STILL, 5, 220, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.CARDS, State.STILL, 5, 220, imageSet, frames, physics);
    
     //add player to sprites array
     globals.sprites.push(player);
