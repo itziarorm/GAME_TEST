@@ -121,46 +121,37 @@ function renderHUD(){
     //TEST DATA
     const score = 1500;
     const highScore = 130000;
-    const life = 40;
     const time = globals.levelTime.value;
 
     //Draw score
     globals.ctxHUD.font = "8px emulogic";
     globals.ctxHUD.fillStyle = "lightblue";
-    globals.ctxHUD.fillText("SCORE", 8, 8);
+    globals.ctxHUD.fillText("SCORE", 32, 8);
     globals.ctxHUD.fillStyle = "lightgray";
-    globals.ctxHUD.fillText(" " + score, 8, 16);
+    globals.ctxHUD.fillText(" " + score, 32, 16);
 
     //Draw high score
     globals.ctxHUD.fillStyle = "lightblue";
-    globals.ctxHUD.fillText("HIGH SCORE", 72, 8);
+    globals.ctxHUD.fillText("HIGH SCORE", 96, 8);
     globals.ctxHUD.fillStyle = "lightgray";
-    globals.ctxHUD.fillText(" " + highScore, 72, 16);
-
-    //Draw life
-    globals.ctxHUD.fillStyle = "lightblue";
-    globals.ctxHUD.fillText("LIFE", 168, 8);
-    globals.ctxHUD.fillStyle = "lightgray";
-    globals.ctxHUD.fillRect(168, 9, life, 8);
-
-    globals.ctxHUD.fillStyle = "black";
-    globals.ctxHUD.fillRect(168, 9, 1, 1);
-    globals.ctxHUD.fillRect(168, 15, 1, 1);
-    globals.ctxHUD.fillRect(168 + life - 1, 9, 1, 1);
-    globals.ctxHUD.fillRect(168 + life - 1, 15, 1, 1);
+    globals.ctxHUD.fillText(" " + highScore, 96, 16);
 
     //Draw time
-    globals.ctxHUD.fillStyle = "lightblue";
-    globals.ctxHUD.fillText("TIME", 224, 8);
-    globals.ctxHUD.fillStyle = "lightgray";
-    globals.ctxHUD.fillText(time, 224, 16);
+    // globals.ctxHUD.fillStyle = "lightblue";
+    // globals.ctxHUD.fillText("TIME", 224, 8);
+    // globals.ctxHUD.fillStyle = "lightgray";
+    // globals.ctxHUD.fillText(time, 224, 16);
+}
+
+function drawSprite(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
+  ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
 }
 
 function renderHUD_Right(){
 
     //datos metidos a mano
-    const life = 3;
-    const mana = 10;
+    //const life = 3;
+    //const mana = 10;
     const stage = 1;
 
 
@@ -178,18 +169,38 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.imageSet.src = "./images/Book.png";      //x, y, xsize, ysize
     globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 0, 105, 80, 55);
 
+    globals.ctxHUD_RIGHT.imageSetFrames = new Image();
+    globals.ctxHUD_RIGHT.imageSetFrames.src = "./images/book_frames.png";      //x, y, xsize, ysize
+    
+    drawSprite(
+    globals.ctxHUD_RIGHT,
+    globals.ctxHUD_RIGHT.imageSetFrames,
+    56, 0,        // 0, 28, 56
+    14, 26,      // sw, sh  tamaño del sprite en la fuente
+    0, 105,    // dx, dy  posición donde dibujarlo en el canvas
+    40, 55       // dw, dh  tamaño final en el canvas
+  );
+
+  drawSprite(
+    globals.ctxHUD_RIGHT,
+    globals.ctxHUD_RIGHT.imageSetFrames,
+    14, 0,        // blue 14, 42, 70
+    14, 26,      // sw, sh  tamaño del sprite en la fuente
+    40, 105,    // dx, dy  posición donde dibujarlo en el canvas
+    40, 55       // dw, dh tamaño final en el canvas
+  );
+
+  
+
     //draw life
     globals.ctxHUD_RIGHT.font = '8px emulogic';
     globals.ctxHUD_RIGHT.fillStyle = 'lightblue';
     globals.ctxHUD_RIGHT.fillText("LIFE", 5, 100);
-    globals.ctxHUD_RIGHT.fillStyle = 'black';
-    globals.ctxHUD_RIGHT.fillText(" " + life, 42, 109);
+
     //Draw mana
     globals.ctxHUD_RIGHT.fillStyle = 'lightblue';
     globals.ctxHUD_RIGHT.fillText("MANA", 45, 100);
-    globals.ctxHUD_RIGHT.fillStyle = 'black';
-    globals.ctxHUD_RIGHT.fillText(" " + mana, 100, 74);
-
+    
     //STAGE
     globals.ctxHUD_RIGHT.fillStyle = 'lightblue';
     globals.ctxHUD_RIGHT.fillText("STAGE", 18, 180);

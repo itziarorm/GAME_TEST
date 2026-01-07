@@ -1,5 +1,6 @@
 import globals from "./globals.js";
 import { Game, State, SpriteID } from "./constants.js";
+import { Collision } from "./constants.js";
 
 export default function update(){
 
@@ -78,6 +79,14 @@ function updateSprite(sprite){
             updateGhostBlue(sprite);
             break;
 
+        case SpriteID.KEY:
+            updateKey(sprite);
+            break;
+
+        case SpriteID.CARD:
+            updateCard(sprite);
+            break;
+
         default:
             break;
     }
@@ -87,6 +96,12 @@ function updatePlayer(sprite){
 
     //read keyboard and assign state
     readKeyboardAndAssignState(sprite);
+
+    if (globals.action.throwCard) {
+        
+        createCard(sprite);
+        globals.action.throwCard = false;
+    }
 
     switch(sprite.state){
 
@@ -124,6 +139,46 @@ function updatePlayer(sprite){
     sprite.yPos += sprite.physics.vy * globals.deltaTime;
 
     //update animation frame
+    updateAnimationFrame(sprite);
+}
+
+function createCard(sprite){
+
+   let direction = State.RIGHT;
+    let x = player.xPos + 8;
+    let y = player.yPos + 8;
+
+    if (player.state === State.LEFT || player.state === State.STILL_LEFT) {
+        direction = State.LEFT;
+        x = player.xPos;
+
+    } else if (player.state === State.RIGHT || player.state === State.STILL_RIGHT) {
+        direction = State.RIGHT;
+        x = player.xPos + 16;
+
+    } else if (player.state === State.UP || player.state === State.STILL_UP) {
+        direction = State.UP;
+        y = player.yPos;
+
+    } else if (player.state === State.DOWN || player.state === State.STILL_DOWN) {
+        direction = State.DOWN;
+        y = player.yPos + 16;
+    }
+
+    //Usar la función global
+    const card = globals.initCardPrint(x, y, direction);
+
+    globals.sprites.push(card);
+
+}
+
+function updateCard(sprite){
+
+    // Update card position
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    // Update animation frame
     updateAnimationFrame(sprite);
 }
 
@@ -193,64 +248,73 @@ function updateGhostYellow(sprite){
 
 function updateGhostOrange(sprite){
 
-    switch(sprite.state){
+    sprite.physics.velChangeCounter += globals.deltaTime;
 
-        case State.RIGHT_2:
-            sprite.physics.vx = sprite.physics.vLimit;
-            break;
-        case State.LEFT_2:
-            sprite.physics.vx = -sprite.physics.vLimit;
-            break;
-        default:
-            console.error("ERROR: Pirate state invalid");
+    sprite.physics.vx = sprite.physics.velsX[sprite.physics.velPos];
+    sprite.physics.vy = sprite.physics.velsY[sprite.physics.velPos];
+
+    if(sprite.physics.velChangeCounter > sprite.physics.velChangeValue){
+
+        sprite.physics.velChangeCounter = 0;
+        sprite.physics.velPos++;
+    }
+
+    if(sprite.physics.velPos === sprite.physics.velsX.length){
+
+        sprite.physics.velPos = 0;
     }
 
     //calculate distance moved
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
 
     //update animation frame
     updateAnimationFrame(sprite);
 
     //update direction randomly
-    updateDirectionRandom(sprite);
+    //updateDirectionRandom(sprite);
 
-    const isCollision = calculateCollisionWithBorders(sprite);
-
-    if(isCollision){
-
-        swapDirection(sprite);
-    }
+    calculateCollisionWithBorders(sprite);
 }
 
 function updateGhostBlue(sprite){
 
-    switch(sprite.state){
+    switch(sprite.collisionBorder){
 
-        case State.RIGHT_2:
+        case Collision.BORDER_RIGHT:
             sprite.physics.vx = -sprite.physics.vLimit;
             break;
-        case State.LEFT_2:
+
+        case Collision.BORDER_LEFT:
             sprite.physics.vx = sprite.physics.vLimit;
             break;
-        default:
-            console.error("ERROR: Pirate state invalid");
+
+        case Collision.BORDER_UP:
+            sprite.physics.vy = sprite.physics.vLimit;
+            break;
+
+        case Collision.BORDER_DOWN:
+            sprite.physics.vy = -sprite.physics.vLimit;
+            break;
+
     }
 
     //calculate distance moved
-    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.xPos += sprite.physics.vx ^ globals.deltaTime;
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
 
     //update animation frame
     updateAnimationFrame(sprite);
 
     //update direction randomly
-    updateDirectionRandom(sprite);
+    //updateDirectionRandom(sprite);
 
-    const isCollision = calculateCollisionWithBorders(sprite);
+    calculateCollisionWithFourBorders(sprite);
+}
 
-    if(isCollision){
+function updateKey(sprite){
 
-        swapDirection(sprite);
-    }
+    updateAnimationFrame(sprite);
 }
 
 function updateAnimationFrame(sprite){
@@ -383,6 +447,37 @@ function calculateCollisionWithBordersVertical(sprite){
     }
 
     return isCollision;
+}
+
+function calculateCollisionWithFourBorders(sprite){
+
+    //right border collision
+    if(sprite.xPos + sprite.imageSet.xSize > globals.canvas.width){
+
+        sprite.collisionBorder = Collision.BORDER_RIGHT;
+    }
+
+    //left border collision
+    else if(sprite.xPos < 0){
+
+        sprite.collisionBorder = Collision.BORDER_LEFT;
+    }
+
+    else if(sprite.yPos < 0){
+
+        sprite.collisionBorder = Collision.BORDER_UP;
+    }
+
+    else if(sprite.yPos + sprite.imageSet.ySize > globals.canvas.width){
+
+        sprite.collisionBorder = Collision.BORDER_DOWN;
+    }
+
+    else{
+
+        sprite.collisionBorder = Collision.NO_COLISSION;
+    }
+
 }
 
 function readKeyboardAndAssignState(sprite){

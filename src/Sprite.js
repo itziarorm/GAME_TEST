@@ -1,3 +1,5 @@
+import { Collision } from "./constants.js";
+
 export default class Sprite{
 
     constructor(id, state, xPos, yPos, imageSet, frames, physics){
@@ -21,4 +23,15 @@ export class Ghost extends Sprite {
         this.directionChangeCounter = 0;                            // Counter to change direction (seconds)
         this.maxTimeToChangeDirection = maxTimeToChangeDirection;   // Max time to change direction (seconds)
     }
+}
+
+export class GhostBlue extends Sprite{
+    constructor(id, state, xPos, yPos, imageSet, frames, physics) {
+        
+        //we call the parent class constructor using super()
+        super(id, state, xPos, yPos, imageSet, frames, physics);
+
+        this.collisionBorder = Collision.NO_COLISSION;
+    }
+
 }

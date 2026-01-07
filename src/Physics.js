@@ -7,3 +7,17 @@ export default class Physics {
         this.vLimit = vLimit; // Velocity max limit (m/s)
     }
 }
+
+export class FreePhysics extends Physics{
+
+    constructor(vLimit, velsX, velsY, velChangeValue){
+
+        super(vLimit);
+
+        this.velsX = velsX;
+        this.velsY = velsY;
+        this.velChangeCounter = 0;
+        this.velChangeValue = velChangeValue;
+        this.velPos = 0;
+    }
+}

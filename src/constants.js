@@ -10,29 +10,30 @@ export const FPS = 30;
 //IDENTIFICADOR ID SPRITE
 export const SpriteID = {
     
-    PLAYER: 0,
-    GHOST: 1,
-    YELLOW:  2,
-    ORANGE: 3,
-    BLUE:  4,
-    POTION: 5,
-    CARD: 6,
-    POINTS: 7,
-    DOOR: 8,
-    KEY: 9
+    PLAYER:     0,
+    GHOST:      1,
+    YELLOW:     2,
+    ORANGE:     3,
+    BLUE:       4,
+    POTION:     5,
+    CARD:       6,
+    POINTS:     7,
+    DOOR:       8,
+    KEY:        9
 }
 
 //Identificador de estado de sprite
 export const State = {
-
-    UP:     1,
-    LEFT:   2,
-    DOWN:   0,
-    RIGHT:  3,
+    
+    DOWN:        0,
+    UP:          1,
+    LEFT:        2,
+    RIGHT:       3,
     STILL_UP:    4,
     STILL_LEFT:  5,
     STILL_DOWN:  6,
     STILL_RIGHT: 7,
+    THROW_CARD: 8,
     
     //ghost
     UP_2: 0,
@@ -59,7 +60,6 @@ export const State = {
     DOWN_5: 3,
 
     //POTION
-
     STILL: 0,
 }
 
@@ -98,4 +98,13 @@ export const Key = {
     DOWN:   83,     //s
     RIGHT:  68,     //d
     CARD:   69      //e
+}
+
+export const Collision = {
+
+    NO_COLISSION: -1,
+    BORDER_UP: 0,
+    BORDER_DOWN: 1,
+    BORDER_LEFT: 2,
+    BORDER_RIGHT: 3
 }
