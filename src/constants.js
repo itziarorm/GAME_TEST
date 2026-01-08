@@ -66,7 +66,7 @@ export const State = {
 
 export const Tile = {
 
-    SIZE_32: 0,
+    SIZE_16: 0,
     SIZE_8: 1
 }
 

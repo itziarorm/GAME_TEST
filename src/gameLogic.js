@@ -363,7 +363,7 @@ function swapDirection(sprite){
 
 function swapDirectionVertical(sprite){
 
-    sprite.state = sprite.state === State.UP_3 ? State.DOWN_3 : State.UP_3;
+    sprite.state = sprite.state === State.DOWN_3 ? State.UP_3 : State.DOWN_3;
 }
 
 function updateDirectionRandom(sprite){

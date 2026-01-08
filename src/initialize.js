@@ -185,7 +185,7 @@ function initGhostYellow(){
     const frames = new Frames(1, 5);
 
     //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(60); // Max velocity 40 p/s
+    const physics = new Physics(30); // Max velocity 40 p/s
 
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
@@ -199,10 +199,10 @@ function initGhostYellow(){
 function initGhostOrange(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(9, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(7, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 5);
+    const frames = new Frames(2, 5);
 
     const velsX = [30, 40, 0, -40, -30, 0];
     const velsY = [38, -10, 10, -10, 10, -30];
@@ -226,13 +226,13 @@ function initGhostOrange(){
 function initGhostBlue(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(8, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(10, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 8);
+    const frames = new Frames(4, 8);
 
     //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(10); // Max velocity 40 p/s
+    const physics = new Physics(2); // Max velocity 40 p/s
 
     //create ghost sprite
     const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 100, 100, imageSet, frames, physics);
@@ -256,7 +256,7 @@ function initPotionVelocity(){
     const physics = new Physics(80);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 10, 10, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 5, 5, imageSet, frames, physics);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -274,7 +274,7 @@ function initPotionParalize(){
     const physics = new Physics(0);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 200, 10, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 5, imageSet, frames, physics);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -283,7 +283,7 @@ function initPotionParalize(){
 function initPotionInverted(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(19, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
@@ -292,7 +292,7 @@ function initPotionInverted(){
     const physics = new Physics(0);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 200, 220, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 220, imageSet, frames, physics);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -328,7 +328,7 @@ function initPoints(){
     const physics = new Physics(0);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POINT, State.STILL, 130, 5, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POINTS, State.STILL, 130, 5, imageSet, frames, physics);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -364,7 +364,7 @@ function initKey(){
     const physics = new Physics(10);
 
     //create player sprite
-    const player = new Sprite(SpriteID.KEY, State.STILL, 5, 137, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.KEY, State.STILL, 5, 80, imageSet, frames, physics);
    
     //add player to sprites array
     globals.sprites.push(player);

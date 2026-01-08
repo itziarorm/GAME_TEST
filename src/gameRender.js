@@ -55,7 +55,7 @@ function renderSprite(sprite){
     const yPos = Math.floor(sprite.yPos);
 
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_32],
+        globals.tileSets[Tile.SIZE_16],
         xTile, yTile,
         sprite.imageSet.xSize, sprite.imageSet.ySize,
         xPos, yPos,
@@ -116,6 +116,29 @@ function renderMap(){
     }    
 }
 
+function drawImageFrames(){
+
+    //cambiar esto por los frames del libro 
+
+    const xTile = 4;  //crear algo en initialize??
+    const yTile = 4;
+    const xPos = 4;
+    const yPos = 4;
+    const xPosC = 5;
+    const yPosC = 4;
+    const xCanva = 4;
+    const yCanva = 4;
+
+    ctx.drawImage(
+        globals.ctxHUD_RIGHT,
+        globals.ctxHUD_RIGHT.imageSetFrames,
+        xTile, yTile,
+        xPos, yPos,
+        xPosC, yPosC,
+        xCanva, yCanva
+    );
+}
+
 function renderHUD(){
 
     //TEST DATA
@@ -170,7 +193,7 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 0, 105, 80, 55);
 
     globals.ctxHUD_RIGHT.imageSetFrames = new Image();
-    globals.ctxHUD_RIGHT.imageSetFrames.src = "./images/book_frames.png";      //x, y, xsize, ysize
+    globals.ctxHUD_RIGHT.imageSetFrames.src = "./images/book_frames.png";
     
     drawSprite(
     globals.ctxHUD_RIGHT,
@@ -189,8 +212,6 @@ function renderHUD_Right(){
     40, 105,    // dx, dy  posición donde dibujarlo en el canvas
     40, 55       // dw, dh tamaño final en el canvas
   );
-
-  
 
     //draw life
     globals.ctxHUD_RIGHT.font = '8px emulogic';
