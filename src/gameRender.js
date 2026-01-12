@@ -72,6 +72,8 @@ function drawSprites(){
         drawSpriteRectangle(sprite);
 
         renderSprite(sprite);
+
+        drawHitBox(sprite);
     }
 }
 
@@ -85,6 +87,17 @@ function drawSpriteRectangle(sprite){
     globals.ctx.fillStyle = "green";
     globals.ctx.fillRect(x1, y1, w1, h1);
 
+}
+
+function drawHitBox(sprite){
+
+    const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.hitBox.xOffset);
+    const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.hitBox.yOffset);
+    const w1 = sprite.hitBox.xSize;
+    const h1 = sprite.hitBox.ySize;
+
+    globals.ctx.strokeStyle = "red";
+    globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 
 function renderMap(){

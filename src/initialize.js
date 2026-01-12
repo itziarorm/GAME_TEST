@@ -10,6 +10,7 @@ import { Ghost } from "./Sprite.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 import { FreePhysics } from "./Physics.js";
 import { GhostBlue } from "./Sprite.js";
+import HitBox from "./HitBox.js";
 
 function initHTMLelements(){
 
@@ -128,8 +129,10 @@ function initPlayer(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(40);
 
+    const hitBox = new HitBox(8, 12, 4, 2);
+
     //create player sprite
-    const player = new Sprite(SpriteID.PLAYER, State.STILL_RIGHT, 100, 155, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.PLAYER, State.STILL_RIGHT, 100, 155, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -146,12 +149,14 @@ function initCardPrint(x, y, direction){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(20);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     if (direction === State.LEFT) physics.vx = -physics.vLimit;
     else if (direction === State.RIGHT) physics.vx = physics.vLimit;
     else if (direction === State.UP) physics.vy = -physics.vLimit;
     else if (direction === State.DOWN) physics.vy = physics.vLimit;
 
-    return new Sprite(SpriteID.CARD, direction, x, y, imageSet, frames, physics);
+    return new Sprite(SpriteID.CARD, direction, x, y, imageSet, frames, physics, hitBox);
 }
 
 globals.initCardPrint = initCardPrint;
@@ -167,10 +172,12 @@ function initGhost(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(40); // Max velocity 40 p/s
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     const initTimeToChangeDirection = Math.floor(Math.random() * 3) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
+    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -187,10 +194,12 @@ function initGhostYellow(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(30); // Max velocity 40 p/s
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 100, 100, imageSet, frames, physics, initTimeToChangeDirection);
+    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 100, 100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -211,10 +220,12 @@ function initGhostOrange(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new FreePhysics(40, velsX, velsY, velChangeValue); // Max velocity 40 p/s
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new GhostBlue(SpriteID.ORANGE, State.RIGHT_4, 10, 100, imageSet, frames, physics);
+    const ghost = new GhostBlue(SpriteID.ORANGE, State.RIGHT_4, 10, 100, imageSet, frames, physics, hitBox);
     
     ghost.physics.vx = ghost.physics.vLimit;
     ghost.physics.vy = ghost.physics.vLimit;
@@ -234,8 +245,10 @@ function initGhostBlue(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(2); // Max velocity 40 p/s
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create ghost sprite
-    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 100, 100, imageSet, frames, physics);
+    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 100, 100, imageSet, frames, physics, hitBox);
     
     ghost.physics.vx = ghost.physics.vLimit;
     ghost.physics.vy = ghost.physics.vLimit;
@@ -255,8 +268,10 @@ function initPotionVelocity(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(80);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 5, 5, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 5, 5, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -273,8 +288,10 @@ function initPotionParalize(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(0);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 5, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 5, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -291,8 +308,10 @@ function initPotionInverted(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(0);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 220, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 220, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -309,8 +328,10 @@ function initCards(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(0);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.CARDS, State.STILL, 5, 220, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.CARDS, State.STILL, 5, 220, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -327,8 +348,10 @@ function initPoints(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(0);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.POINTS, State.STILL, 130, 5, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.POINTS, State.STILL, 130, 5, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -345,8 +368,10 @@ function initDoor(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(0);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.DOOR, State.STILL, 200, 170, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.DOOR, State.STILL, 200, 170, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -363,8 +388,10 @@ function initKey(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(10);
 
+    const hitBox = new HitBox(10, 14, 3, 1);
+
     //create player sprite
-    const player = new Sprite(SpriteID.KEY, State.STILL, 5, 80, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.KEY, State.STILL, 5, 80, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);

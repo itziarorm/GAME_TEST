@@ -1,6 +1,7 @@
 import globals from "./globals.js";
 import { Game, State, SpriteID } from "./constants.js";
 import { Collision } from "./constants.js";
+import detectCollisions from "./collisions.js";
 
 export default function update(){
 
@@ -26,6 +27,8 @@ function playGame(){
     //completar
 
     updateSprites();
+
+    detectCollisions();
 
     updateGameTime();
     
