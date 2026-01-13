@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Block, State } from "./constants.js";
+import { Block, BlockIDs, State } from "./constants.js";
 
 export default function detectCollision(){
 
@@ -63,7 +63,7 @@ function getMapTileId(xPos, yPos){
     return levelData[fil][col];
 }
 
-function isCollidingWithObstacleAt(xPos, yPos, obstacleId){
+function isCollidingWithObstacleAt(xPos, yPos, obstacleIds){
 
     let isColliding;
 
@@ -71,13 +71,11 @@ function isCollidingWithObstacleAt(xPos, yPos, obstacleId){
 
     //change to all the collision blocks
 
-    if(id === obstacleId){
-
-        isColliding = true;
-    }
-    else{
-
-        isColliding = false;
+    for (let i = 0; i < obstacleIds.length; i++) {
+        if (id === obstacleIds[i]) {
+            isColliding = true;
+            break;
+        }
     }
 
     return isColliding;
@@ -103,7 +101,7 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
     const brickSize = globals.level.imageSet.gridSize;
     const direction = player.state;
 
-    const obstacleId = Block.CRYSTAL_1;
+    const obstacleIds = BlockIDs;
 
     switch(direction){
 
@@ -111,13 +109,13 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
             yPos = player.yPos + player.hitBox.yOffset;
-            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
+            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             yPos = player.yPos + player.hitBox.yOffset + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
+            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleId);
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleIds);
 
             isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
 
@@ -135,13 +133,13 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             xPos = player.xPos + player.hitBox.xOffset;
             yPos = player.yPos + player.hitBox.yOffset;
-            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
+            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             yPos = player.yPos + player.hitBox.yOffset + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
+            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleId);
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleIds);
 
             isColliding = isCollidingOnPos1 || isCollidingOnPos2 || isCollidingOnPos3;
 
@@ -159,10 +157,10 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
             xPos = player.xPos + player.hitBox.xOffset;
-            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
+            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleId);
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleIds);
 
             isColliding = isCollidingOnPos1 || isCollidingOnPos3;
 
@@ -180,10 +178,10 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             yPos = player.yPos + player.hitBox.yOffset;
             xPos = player.xPos + player.hitBox.xOffset;
-            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleId);
+            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleId);
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleIds);
 
             isColliding = isCollidingOnPos1 || isCollidingOnPos3;
 

@@ -73,6 +73,17 @@ export const Tile = {
 export const Block = {
 
     EMPTY:     0,
+    VINES:     1,
+    BROWN_1:   2,
+    BROWN_2:   3,
+    DARK_1:    4,
+    GRAY:      5,
+    CRYSTAL_1: 6,
+    CRYSTAL_2: 7,
+    WALL:      8,
+    FLOWER:    9,
+    CEIL:      10,
+    PATH:      11,
     DOOR:      12,
     KEY:       13,
     SPIKES:    14,
@@ -81,10 +92,20 @@ export const Block = {
     PLATFORM:  17,
 
     //create array for the collision
-
-    START_BLOCK: 1,
-    END_BLOCK: 11,
 }
+
+export const BlockIDs = [
+    Block.VINES,
+    Block.BROWN_1,
+    Block.BROWN_2,
+    Block.DARK_1,
+    Block.GRAY,
+    Block.CRYSTAL_1,
+    Block.CRYSTAL_2,
+    Block.WALL,
+    Block.FLOWER,
+    Block.CEIL,
+]
 
 export const Key = {
 
