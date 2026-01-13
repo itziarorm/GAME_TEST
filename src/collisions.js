@@ -69,6 +69,8 @@ function isCollidingWithObstacleAt(xPos, yPos, obstacleId){
 
     const id = getMapTileId(xPos, yPos);
 
+    //change to all the collision blocks
+
     if(id === obstacleId){
 
         isColliding = true;
@@ -86,6 +88,9 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
     const player = globals.sprites[0];
 
     player.isCollidingWithObstacleOnTheRight = false;
+    player.isCollidingWithObstacleOnTheLeft = false;
+    player.isCollidingWithObstacleOnTheUp = false;
+    player.isCollidingWithObstacleOnTheDown = false;
 
     let xPos;
     let yPos;
@@ -142,7 +147,7 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             if(isColliding){
 
-                player.isCollidingWithObstacleOnTheRight = true;
+                player.isCollidingWithObstacleOnTheLeft = true;
 
                 overlap = brickSize - Math.floor(xPos) % brickSize;
                 player.xPos += overlap;
@@ -163,7 +168,7 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             if(isColliding){
 
-                player.isCollidingWithObstacleOnTheRight = true;
+                player.isCollidingWithObstacleOnTheDown = true;
 
                 overlap = Math.floor(yPos) % brickSize + 1;
                 player.yPos -= overlap;
@@ -184,7 +189,7 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
 
             if(isColliding){
 
-                player.isCollidingWithObstacleOnTheRight = true;
+                player.isCollidingWithObstacleOnTheUp = true;
 
                 overlap = brickSize - Math.floor(yPos) % brickSize;
                 player.yPos += overlap;
