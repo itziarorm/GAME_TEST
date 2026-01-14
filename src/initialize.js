@@ -172,12 +172,12 @@ function initGhost(){
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(40); // Max velocity 40 p/s
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+    const hitBox = new HitBox(10, 10, 3, 3);
 
     const initTimeToChangeDirection = Math.floor(Math.random() * 3) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 105, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -199,7 +199,7 @@ function initGhostYellow(){
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 100, 100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 145, 100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);

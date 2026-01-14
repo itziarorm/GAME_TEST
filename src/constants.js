@@ -105,6 +105,12 @@ export const BlockIDs = [
     Block.WALL,
     Block.FLOWER,
     Block.CEIL,
+    Block.PATH,
+    Block.KEY,
+    Block.SPIKES,
+    Block.EXIT,
+    Block.FLOOR,
+    Block.PLATFORM,
 ]
 
 export const Key = {
