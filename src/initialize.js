@@ -49,7 +49,7 @@ function initVars(){
         throwCard: false
     }
 
-    globals.life = 500;
+    globals.life = 400;
 }
 
 function initEvents(){
@@ -214,22 +214,16 @@ function initGhostOrange(){
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(4, 5);
 
-    const velsX = [50, 20, -20, -40, 0];
-    const velsY = [30, -30, 20, -10, -30];
-    const velChangeValue = 2;
-
     //physics with vlimit =  40 pixels/seconds
-    const physics = new FreePhysics(40, velsX, velsY, velChangeValue); // Max velocity 40 p/s
+    const physics = new FreePhysics(40); // Max velocity 40 p/s
 
     const hitBox = new HitBox(10, 14, 3, 1);
 
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new GhostBlue(SpriteID.ORANGE, State.RIGHT_4, 10, 100, imageSet, frames, physics, hitBox);
+    const ghost = new Ghost(SpriteID.ORANGE, State.RIGHT_4, 100, 112, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
-    ghost.physics.vx = ghost.physics.vLimit;
-    ghost.physics.vy = ghost.physics.vLimit;
 
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -244,12 +238,12 @@ function initGhostBlue(){
     const frames = new Frames(4, 4);
 
     //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(5); // Max velocity 40 p/s
+    const physics = new Physics(60); // Max velocity 40 p/s
 
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create ghost sprite
-    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 50, 100, imageSet, frames, physics, hitBox);
+    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 40, 170, imageSet, frames, physics, hitBox);
     
     ghost.physics.vx = ghost.physics.vLimit;
     ghost.physics.vy = ghost.physics.vLimit;

@@ -208,23 +208,56 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.imageSetFrames = new Image();
     globals.ctxHUD_RIGHT.imageSetFrames.src = "./images/book_frames.png";
     
-    drawSprite(
-    globals.ctxHUD_RIGHT,
-    globals.ctxHUD_RIGHT.imageSetFrames,
-    56, 0,        // 0, 28, 56
-    14, 26,      // sw, sh  tamaño del sprite en la fuente
-    0, 105,    // dx, dy  posición donde dibujarlo en el canvas
-    40, 55       // dw, dh  tamaño final en el canvas
-  );
+    let frameY = 14;
+    let frameX = 0;
 
-  drawSprite(
+    if (globals.life <= 0) {
+        frameX = 0; // vacío
+        frameY = 70;
+    } else if (globals.life <= 200) {
+        frameX = 28; // medio
+        frameY = 42;
+    } else {
+        frameX = 56; // completo
+        frameY = 14;
+    }
+
+
+// Dibujar el sprite
+drawSprite(
     globals.ctxHUD_RIGHT,
     globals.ctxHUD_RIGHT.imageSetFrames,
-    14, 0,        // blue 14, 42, 70
-    14, 26,      // sw, sh  tamaño del sprite en la fuente
-    40, 105,    // dx, dy  posición donde dibujarlo en el canvas
-    40, 55       // dw, dh tamaño final en el canvas
-  );
+    frameX, 0,        // sx, sy - posición del frame en la imagen
+    14, 26,          // sw, sh - tamaño del frame en la fuente
+    0, 105,          // dx, dy - posición donde dibujarlo en el canvas
+    40, 55           // dw, dh - tamaño final en el canvas
+);
+
+drawSprite(
+    globals.ctxHUD_RIGHT,
+    globals.ctxHUD_RIGHT.imageSetFrames,
+    frameY, 0,        // sx, sy - posición del frame en la imagen
+    14, 26,          // sw, sh - tamaño del frame en la fuente
+    40, 105,          // dx, dy - posición donde dibujarlo en el canvas
+    40, 55           // dw, dh - tamaño final en el canvas
+);
+//     drawSprite(
+//     globals.ctxHUD_RIGHT,
+//     globals.ctxHUD_RIGHT.imageSetFrames,
+//     56, 0,        // 0, 28, 56
+//     14, 26,      // sw, sh  tamaño del sprite en la fuente
+//     0, 105,    // dx, dy  posición donde dibujarlo en el canvas
+//     40, 55       // dw, dh  tamaño final en el canvas
+//   );
+
+//   drawSprite(
+//     globals.ctxHUD_RIGHT,
+//     globals.ctxHUD_RIGHT.imageSetFrames,
+//     14, 0,        // blue 14, 42, 70
+//     14, 26,      // sw, sh  tamaño del sprite en la fuente
+//     40, 105,    // dx, dy  posición donde dibujarlo en el canvas
+//     40, 55       // dw, dh tamaño final en el canvas
+//   );
 
     //draw life
     globals.ctxHUD_RIGHT.font = '8px emulogic';

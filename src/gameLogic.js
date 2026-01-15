@@ -255,20 +255,30 @@ function updateGhostYellow(sprite){
 
 function updateGhostOrange(sprite){
 
-    sprite.physics.velChangeCounter += globals.deltaTime;
+     switch(sprite.state){
 
-    sprite.physics.vx = sprite.physics.velsX[sprite.physics.velPos];
-    sprite.physics.vy = sprite.physics.velsY[sprite.physics.velPos];
+        case State.RIGHT_4:
+        sprite.physics.vx = sprite.physics.vLimit;
+        sprite.physics.vy = 0;
+        break;
 
-    if(sprite.physics.velChangeCounter > sprite.physics.velChangeValue){
+    case State.LEFT_4:
+        sprite.physics.vx = -sprite.physics.vLimit;
+        sprite.physics.vy = 0;
+        break;
 
-        sprite.physics.velChangeCounter = 0;
-        sprite.physics.velPos++;
-    }
+    case State.UP_4:
+        sprite.physics.vy = -sprite.physics.vLimit;
+        sprite.physics.vx = 0;
+        break;
 
-    if(sprite.physics.velPos === sprite.physics.velsX.length){
+    case State.DOWN_4:
+        sprite.physics.vy = sprite.physics.vLimit;
+        sprite.physics.vx = 0;
+        break;
 
-        sprite.physics.velPos = 0;
+    default:
+        console.error("ERROR: state invalid");
     }
 
     //calculate distance moved
@@ -281,7 +291,9 @@ function updateGhostOrange(sprite){
     //update direction randomly
     //updateDirectionRandom(sprite);
 
-    calculateCollisionWithBorders(sprite);
+    updateDirectionRandomUpRight(sprite);
+
+    calculateCollisionWithFourBorders(sprite);
 }
 
 function updateGhostBlue(sprite){
@@ -307,7 +319,7 @@ function updateGhostBlue(sprite){
     }
 
     //calculate distance moved
-    sprite.xPos += sprite.physics.vx ^ globals.deltaTime;
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
     sprite.yPos += sprite.physics.vy * globals.deltaTime;
 
     //update animation frame
@@ -366,6 +378,11 @@ function swapDirection(sprite){
     sprite.state = sprite.state === State.RIGHT_2 ? State.LEFT_2 : State.RIGHT_2;
 }
 
+function swapDirectionRandom(sprite){
+
+    sprite.state = sprite.state === State.RIGHT_2 ? State.LEFT_2 : State.RIGHT_2;
+}
+
 function swapDirectionVertical(sprite){
 
     sprite.state = sprite.state === State.DOWN_3 ? State.UP_3 : State.DOWN_3;
@@ -383,10 +400,35 @@ function updateDirectionRandom(sprite){
         sprite.directionChangeCounter = 0;
 
         //set new random time to change direction between 1 and 8 seconds
-        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 8) + 1;
+        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 20) + 1;
         
         //swap direction
         swapDirection(sprite);
+    }
+}
+
+function updateDirectionRandomUpRight(sprite){
+    //update counter
+    sprite.directionChangeCounter += globals.deltaTime;
+
+    //check if it's time to change direction
+    if(sprite.directionChangeCounter > sprite.maxTimeToChangeDirection){
+        //reset counter
+        sprite.directionChangeCounter = 0;
+
+        //set new random time to change direction between 1 and 8 seconds
+        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 8) + 5;
+        
+        // Cambiar dirección en orden: UP_4 → RIGHT_4 → DOWN_4 → LEFT_4 → repetir
+        if (sprite.state === State.UP_4) {
+            sprite.state = State.RIGHT_4;
+        } else if (sprite.state === State.RIGHT_4) {
+            sprite.state = State.DOWN_4;
+        } else if (sprite.state === State.DOWN_4) {
+            sprite.state = State.LEFT_4;
+        } else {
+            sprite.state = State.UP_4;
+        }
     }
 }
 
