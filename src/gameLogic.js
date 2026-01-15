@@ -33,6 +33,8 @@ function playGame(){
     updateGameTime();
     
     updateLevelTime();
+    
+    updateLife();
 }
 
 function updateGameTime(){
@@ -496,4 +498,17 @@ function readKeyboardAndAssignState(sprite){
                    sprite.state === State.UP ? State.STILL_UP :         //No key pressed, previous state up
                    sprite.state === State.DOWN ? State.STILL_DOWN :     //No key pressed, previous state down
                    sprite.state;
+}
+
+function updateLife(){
+
+    for(let i = 1; i < globals.sprites.length; ++i){
+
+        const sprite = globals.sprites[i];
+
+        if(sprite.isCollidingWithPlayer){
+            
+            globals.life--;
+        }
+    }
 }

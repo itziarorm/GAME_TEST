@@ -45,4 +45,6 @@ export default{
     //key pressed states
     action: {},
 
+    life: 0,
+
 };

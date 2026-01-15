@@ -49,6 +49,7 @@ function initVars(){
         throwCard: false
     }
 
+    globals.life = 500;
 }
 
 function initEvents(){
@@ -65,7 +66,7 @@ function loadAssets(){
     //Load the spritesheet image
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/sprite2.png";
+    tileSet.src = "./images/sprite3.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
 
@@ -132,7 +133,7 @@ function initPlayer(){
     const hitBox = new HitBox(8, 12, 4, 2);
 
     //create player sprite
-    const player = new Sprite(SpriteID.PLAYER, State.STILL_RIGHT, 100, 155, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 105, 175, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -164,10 +165,10 @@ globals.initCardPrint = initCardPrint;
 function initGhost(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(12, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(11, 0, 16, 16, 0, -1, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(2, 5);
+    const frames = new Frames(4, 5);
 
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(40); // Max velocity 40 p/s
@@ -177,7 +178,7 @@ function initGhost(){
     const initTimeToChangeDirection = Math.floor(Math.random() * 3) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 105, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.GHOST, State.RIGHT_2, 100, 80, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -186,20 +187,20 @@ function initGhost(){
 function initGhostYellow(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(8, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(10, 0, 16, 16, 0, -1, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 5);
+    const frames = new Frames(4, 4);
 
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(30); // Max velocity 40 p/s
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+    const hitBox = new HitBox(8, 12, 4, 2);
 
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 145, 100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 203, 90, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -208,13 +209,13 @@ function initGhostYellow(){
 function initGhostOrange(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(7, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(13, 0, 16, 16, 0, -1, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(2, 5);
+    const frames = new Frames(4, 5);
 
-    const velsX = [30, 40, 0, -40, -30, 0];
-    const velsY = [38, -10, 10, -10, 10, -30];
+    const velsX = [50, 20, -20, -40, 0];
+    const velsY = [30, -30, 20, -10, -30];
     const velChangeValue = 2;
 
     //physics with vlimit =  40 pixels/seconds
@@ -237,18 +238,18 @@ function initGhostOrange(){
 function initGhostBlue(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
-    const imageSet = new ImageSet(10, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(14, 0, 16, 16, 0, -1, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(4, 8);
+    const frames = new Frames(4, 4);
 
     //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(2); // Max velocity 40 p/s
+    const physics = new Physics(5); // Max velocity 40 p/s
 
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create ghost sprite
-    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 100, 100, imageSet, frames, physics, hitBox);
+    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 50, 100, imageSet, frames, physics, hitBox);
     
     ghost.physics.vx = ghost.physics.vLimit;
     ghost.physics.vy = ghost.physics.vLimit;
@@ -260,7 +261,7 @@ function initGhostBlue(){
 function initPotionVelocity(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(21, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
@@ -280,7 +281,7 @@ function initPotionVelocity(){
 function initPotionParalize(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(19, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
@@ -300,7 +301,7 @@ function initPotionParalize(){
 function initPotionInverted(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(19, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
@@ -320,7 +321,7 @@ function initPotionInverted(){
 function initCards(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(22, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
@@ -340,15 +341,15 @@ function initCards(){
 function initPoints(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(21, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(23, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 1);
+    const frames = new Frames(8, 8);
 
     //physics with vlimit =  40 pixels/seconds
     const physics = new Physics(0);
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+    const hitBox = new HitBox(6, 6, 5, 4);
 
     //create player sprite
     const player = new Sprite(SpriteID.POINTS, State.STILL, 130, 5, imageSet, frames, physics, hitBox);
@@ -360,7 +361,7 @@ function initPoints(){
 function initDoor(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(16, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
@@ -371,7 +372,7 @@ function initDoor(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.DOOR, State.STILL, 200, 170, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.DOOR, State.STILL, 200, 160, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -380,7 +381,7 @@ function initDoor(){
 function initKey(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(15, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(12, 5);

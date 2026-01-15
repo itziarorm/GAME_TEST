@@ -30,11 +30,12 @@ export const State = {
     UP:          1,
     LEFT:        2,
     RIGHT:       3,
-    STILL_UP:    4,
-    STILL_LEFT:  5,
-    STILL_DOWN:  6,
-    STILL_RIGHT: 7,
-    THROW_CARD: 8,
+    STILL_UP:    6,
+    STILL_LEFT:  7,
+    STILL_DOWN:  5,
+    STILL_RIGHT: 8,
+    COLLISION:   4, 
+    THROW_CARD:  9,
 
     //ghost
     UP_2: 0,
