@@ -400,7 +400,7 @@ function updateDirectionRandom(sprite){
         sprite.directionChangeCounter = 0;
 
         //set new random time to change direction between 1 and 8 seconds
-        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 20) + 1;
+        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 8) + 1;
         
         //swap direction
         swapDirection(sprite);
@@ -417,17 +417,15 @@ function updateDirectionRandomUpRight(sprite){
         sprite.directionChangeCounter = 0;
 
         //set new random time to change direction between 1 and 8 seconds
-        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 8) + 5;
+        sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 10) + 1;
         
         // Cambiar dirección en orden: UP_4 → RIGHT_4 → DOWN_4 → LEFT_4 → repetir
         if (sprite.state === State.UP_4) {
             sprite.state = State.RIGHT_4;
         } else if (sprite.state === State.RIGHT_4) {
             sprite.state = State.DOWN_4;
-        } else if (sprite.state === State.DOWN_4) {
-            sprite.state = State.LEFT_4;
         } else {
-            sprite.state = State.UP_4;
+            sprite.state = State.LEFT_4;
         }
     }
 }
@@ -517,7 +515,7 @@ function calculateCollisionWithFourBorders(sprite){
         sprite.collisionBorder = Collision.BORDER_UP;
     }
 
-    else if(sprite.yPos + sprite.imageSet.ySize > globals.canvas.width){
+    else if(sprite.yPos + sprite.imageSet.ySize > globals.canvas.height){
 
         sprite.collisionBorder = Collision.BORDER_DOWN;
     }

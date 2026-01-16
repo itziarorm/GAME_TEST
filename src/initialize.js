@@ -73,7 +73,7 @@ function loadAssets(){
     //Load the brick image
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/blocks.png";
+    tileSet.src = "./images/col.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
 }
@@ -222,7 +222,7 @@ function initGhostOrange(){
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.ORANGE, State.RIGHT_4, 100, 112, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.ORANGE, State.RIGHT_4, 20, 160, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
 
     //add ghost to sprites array
@@ -243,7 +243,7 @@ function initGhostBlue(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create ghost sprite
-    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 40, 170, imageSet, frames, physics, hitBox);
+    const ghost = new GhostBlue(SpriteID.BLUE, State.STILL, 40, 10, imageSet, frames, physics, hitBox);
     
     ghost.physics.vx = ghost.physics.vLimit;
     ghost.physics.vy = ghost.physics.vLimit;

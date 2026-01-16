@@ -69,7 +69,7 @@ function drawSprites(){
 
         const sprite = globals.sprites[i];
 
-        drawSpriteRectangle(sprite);
+        //drawSpriteRectangle(sprite);
 
         renderSprite(sprite);
 
