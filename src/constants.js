@@ -2,7 +2,11 @@ export const Game = {
     INVALID :  -1,  //inicializar
     LOADING:    0,  //cargar archivos, imagenes, sonido
     PLAYING:    1,  //jugando
-    GAME_OVER:  2   //estado terminado
+    GAME_OVER:  2,   //estado terminado
+    NEW_GAME:   3,
+    STORY:      4,
+    CONTROLS:   5,
+    DASHBOARD:  6,
 };
 
 export const FPS = 30;

@@ -52,3 +52,8 @@ export function keyupHandler(event){
             break;
     }
 }
+
+export function updateEvents(){
+
+    
+}

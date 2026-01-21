@@ -14,6 +14,9 @@ import HitBox from "./HitBox.js";
 
 function initHTMLelements(){
 
+    globals.canvasNew = document.getElementById('newGameScreen');
+    globals.ctxNew = globals.canvasNew.getContext('2d');
+
     globals.canvas = document.getElementById('gameScreen');
     globals.ctx = globals.canvas.getContext('2d');
 
@@ -49,7 +52,13 @@ function initVars(){
         throwCard: false
     }
 
-    globals.life = 400;
+    globals.score = 0;
+    globals.highScore = 0;
+
+    globals.life = 200;
+    globals.mana = 0;
+    globals.frameY = 14;
+    globals.frameX = 0;
 }
 
 function initEvents(){

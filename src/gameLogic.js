@@ -2,6 +2,7 @@ import globals from "./globals.js";
 import { Game, State, SpriteID } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
+import { updateEvents } from "./events.js";
 
 export default function update(){
 
@@ -17,6 +18,18 @@ export default function update(){
             playGame();
             
             break;
+
+        case Game.NEW_GAME:
+
+
+            break;
+
+        case Game.CONTROLS:
+            break;
+        
+        case Game.STORY:
+            break;
+
         default:
             console.error("ERROR: Game State invalid");
     }
@@ -30,11 +43,13 @@ function playGame(){
 
     detectCollisions();
 
+    updateEvents();
+
     updateGameTime();
     
     updateLevelTime();
     
-    updateLife();
+    
 }
 
 function updateGameTime(){
@@ -66,22 +81,47 @@ function updateSprite(sprite){
 
         case SpriteID.PLAYER:
             updatePlayer(sprite);
+            
+            updateLife();
+            updateHUDLifePoints();
+
+            updateMana();
+            updateHUDMana();
+            
             break;
         
         case SpriteID.GHOST:
             updateGhost(sprite);
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 200;
+            }
+
             break;
 
         case SpriteID.YELLOW:
             updateGhostYellow(sprite);
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 200;
+            }
             break;
 
         case SpriteID.ORANGE:
             updateGhostOrange(sprite);
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 200;
+            }
             break;
 
         case SpriteID.BLUE:
             updateGhostBlue(sprite);
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 200;
+            }
             break;
 
         case SpriteID.KEY:
@@ -550,5 +590,43 @@ function updateLife(){
             
             globals.life--;
         }
+    }
+}
+
+function updateHUDLifePoints(){
+    
+    if (globals.life <= 0) {
+
+        globals.frameX = 0; // vacío
+        //globals.gameState = Game.GAME_OVER;
+
+    } else if (globals.life <= 100) {
+
+        globals.frameX = 28; // medio
+
+    } else {
+
+        globals.frameX = 56; // completo
+    }
+}
+
+function updateMana(){
+
+    //si toca una bola acumula mana
+}
+
+function updateHUDMana(){
+
+    if (globals.mana <= 5) {
+
+        globals.frameY = 14;
+
+    } else if (globals.mana <= 20) {
+        
+        globals.frameY = 42;
+
+    } else {
+        
+        globals.frameY = 70;
     }
 }

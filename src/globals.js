@@ -9,6 +9,9 @@ export default{
     canvasHUD_RIGHT: {}, //acces to right HUD canvas
     ctxHUD_RIGHT:{},     //acces to right HUD context
 
+    canvasNew: {}, //acces to canvas
+    ctxNew:{},
+
     //game states
     gameState: Game.INVALID,
 
@@ -45,6 +48,13 @@ export default{
     //key pressed states
     action: {},
 
+    score: 0,
+    highScore: 0,
+
     life: 0,
+    mana: 0,
+
+    frameY: 0,
+    frameX: 0,
 
 };

@@ -7,6 +7,7 @@ export default function detectCollision(){
 
         const sprite = globals.sprites[i];
         detectCollisionBetweenPlayerAndSprite(sprite);
+        //detectCollisionBetweenCardAndSprite(sprite);
     }
 
     detectCollisionBetweenPlayerAndMapObstacles();
@@ -42,6 +43,30 @@ function detectCollisionBetweenPlayerAndSprite(sprite){
 
         sprite.isCollidingWithPlayer = true;
         player.state = State.COLLISION;
+    }
+}
+
+function detectCollisionBetweenCardAndSprite(sprite){
+
+    sprite.isCollidingWithPlayer = false;
+
+    const player = globals.sprites[10];
+
+    const x1 = player.xPos + player.hitBox.xOffset;
+    const y1 = player.yPos + player.hitBox.yOffset;
+    const w1 = player.hitBox.xSize;
+    const h1 = player.hitBox.ySize;
+
+    const x2 = sprite.xPos + sprite.hitBox.xOffset;
+    const y2 = sprite.yPos + sprite.hitBox.yOffset;
+    const w2 = sprite.hitBox.xSize;
+    const h2 = sprite.hitBox.ySize;
+
+    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
+    
+    if (isOverlap){
+
+        sprite.isCollidingWithPlayer = true;
     }
 }
 
