@@ -82,8 +82,7 @@ function updateSprite(sprite){
         case SpriteID.PLAYER:
             updatePlayer(sprite);
             
-            updateLife();
-            updateHUDLifePoints();
+            
 
             updateMana();
             updateHUDMana();
@@ -93,7 +92,10 @@ function updateSprite(sprite){
         case SpriteID.GHOST:
             updateGhost(sprite);
 
-            if(sprite.isCollidingWithPlayer){
+            updateLife(sprite);
+            updateHUDLifePoints();
+
+            if(sprite.isCollidingWithCard){
 
                 globals.score += 200;
             }
@@ -102,15 +104,24 @@ function updateSprite(sprite){
 
         case SpriteID.YELLOW:
             updateGhostYellow(sprite);
-            if(sprite.isCollidingWithPlayer){
+
+            updateLife(sprite);
+            updateHUDLifePoints();
+
+            if(sprite.isCollidingWithCard){
 
                 globals.score += 200;
             }
             break;
 
         case SpriteID.ORANGE:
+
             updateGhostOrange(sprite);
-            if(sprite.isCollidingWithPlayer){
+
+            updateLife(sprite);
+            updateHUDLifePoints();
+
+            if(sprite.isCollidingWithCard){
 
                 globals.score += 200;
             }
@@ -118,14 +129,24 @@ function updateSprite(sprite){
 
         case SpriteID.BLUE:
             updateGhostBlue(sprite);
-            if(sprite.isCollidingWithPlayer){
+
+            updateLife(sprite);
+            updateHUDLifePoints();
+
+            if(sprite.isCollidingWithCard){
 
                 globals.score += 200;
             }
             break;
 
         case SpriteID.KEY:
+            
             updateKey(sprite);
+
+            if(sprite.isCollidingWithCard){
+
+                globals.score += 1000;
+            }
             break;
 
         case SpriteID.CARD:
@@ -580,17 +601,15 @@ function readKeyboardAndAssignState(sprite){
                    sprite.state;
 }
 
-function updateLife(){
+function updateLife(sprite){
 
-    for(let i = 1; i < globals.sprites.length; ++i){
+    
 
-        const sprite = globals.sprites[i];
-
-        if(sprite.isCollidingWithPlayer){
+    if(sprite.isCollidingWithPlayer){
             
-            globals.life--;
-        }
+        globals.life--;
     }
+    
 }
 
 function updateHUDLifePoints(){

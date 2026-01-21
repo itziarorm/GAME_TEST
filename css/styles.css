@@ -8,7 +8,7 @@
 
     width: 896px;
     height: 960px;
-    margin-left: 500px;
+    margin-left: 220px;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     
@@ -19,8 +19,7 @@
     width: 1200px;
     height: 64px;
     margin-bottom: -5px;
-    margin-top: 200px;
-    margin-left: 500px;
+    margin-left: 220px;
     background-color: black;
     border-style: solid;
     image-rendering: pixelated;
@@ -42,15 +41,4 @@
     border-style: solid;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-}
-
-#newGameScreen{
-
-    width: 896px;
-    height: 960px;
-    margin-left: 500px;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-    background-color: rgb(255, 123, 0);
-    border-style: solid;
 }

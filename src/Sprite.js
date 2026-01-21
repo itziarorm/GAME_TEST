@@ -13,6 +13,7 @@ export default class Sprite{
         this.physics = physics; // Physics object
         this.hitBox = hitBox;
         this.isCollidingWithPlayer = false; // collision with player
+        this.isCollidingWithCard = false; // collision with card
         this.isCollidingWithObstacleOnTheTop = false;
         this.isCollidingWithObstacleOnTheLeft = false;
         this.isCollidingWithObstacleOnTheBottom = false;

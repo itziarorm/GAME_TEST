@@ -42,13 +42,13 @@ function detectCollisionBetweenPlayerAndSprite(sprite){
     if (isOverlap){
 
         sprite.isCollidingWithPlayer = true;
-        player.state = State.COLLISION;
+        //player.state = State.COLLISION;
     }
 }
 
 function detectCollisionBetweenCardAndSprite(sprite){
 
-    sprite.isCollidingWithPlayer = false;
+    sprite.isCollidingWithCard = false;
 
     const player = globals.sprites[10];
 
@@ -66,7 +66,7 @@ function detectCollisionBetweenCardAndSprite(sprite){
     
     if (isOverlap){
 
-        sprite.isCollidingWithPlayer = true;
+        sprite.isCollidingWithCard = true;
     }
 }
 
