@@ -14,9 +14,6 @@ import HitBox from "./HitBox.js";
 
 function initHTMLelements(){
 
-    globals.canvasNew = document.getElementById('newGameScreen');
-    globals.ctxNew = globals.canvasNew.getContext('2d');
-
     globals.canvas = document.getElementById('gameScreen');
     globals.ctx = globals.canvas.getContext('2d');
 
@@ -100,7 +97,7 @@ function loadHandler(){
         
         console.log("Assets finished loading");
 
-        globals.gameState = Game.PLAYING;
+        globals.gameState = Game.NEW_GAME;
 
     }
 }

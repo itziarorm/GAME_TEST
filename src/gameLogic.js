@@ -21,6 +21,7 @@ export default function update(){
 
         case Game.NEW_GAME:
 
+            newGame();
 
             break;
 
@@ -33,6 +34,11 @@ export default function update(){
         default:
             console.error("ERROR: Game State invalid");
     }
+}
+
+function newGame(){
+
+
 }
 
 function playGame(){
@@ -80,38 +86,34 @@ function updateSprite(sprite){
     switch(type){
 
         case SpriteID.PLAYER:
+
             updatePlayer(sprite);
             
-            
-
             updateMana();
             updateHUDMana();
             
             break;
         
         case SpriteID.GHOST:
+
             updateGhost(sprite);
 
             updateLife(sprite);
             updateHUDLifePoints();
 
-            if(sprite.isCollidingWithCard){
-
-                globals.score += 200;
-            }
+            updateScore(sprite);
 
             break;
 
         case SpriteID.YELLOW:
+
             updateGhostYellow(sprite);
 
             updateLife(sprite);
             updateHUDLifePoints();
 
-            if(sprite.isCollidingWithCard){
+            updateScore(sprite);
 
-                globals.score += 200;
-            }
             break;
 
         case SpriteID.ORANGE:
@@ -121,37 +123,66 @@ function updateSprite(sprite){
             updateLife(sprite);
             updateHUDLifePoints();
 
-            if(sprite.isCollidingWithCard){
+            updateScore(sprite);
 
-                globals.score += 200;
-            }
             break;
 
         case SpriteID.BLUE:
+
             updateGhostBlue(sprite);
 
             updateLife(sprite);
             updateHUDLifePoints();
 
-            if(sprite.isCollidingWithCard){
+            updateScore(sprite);
 
-                globals.score += 200;
-            }
             break;
 
         case SpriteID.KEY:
             
             updateKey(sprite);
 
-            if(sprite.isCollidingWithCard){
+            if(sprite.isCollidingWithPlayer){
 
-                globals.score += 1000;
+                globals.score += 500;
             }
             break;
 
         case SpriteID.CARD:
+
             updateCard(sprite);
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 50;
+            }
+
             break;
+
+        case SpriteID.POTION:
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 50;
+            }
+
+            break;
+
+        case SpriteID.DOOR:
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 2000;
+            }
+
+            break;
+
+        case SpriteID.POINTS:
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 20;
+            }
 
         default:
             break;
@@ -603,8 +634,6 @@ function readKeyboardAndAssignState(sprite){
 
 function updateLife(sprite){
 
-    
-
     if(sprite.isCollidingWithPlayer){
             
         globals.life--;
@@ -647,5 +676,13 @@ function updateHUDMana(){
     } else {
         
         globals.frameY = 70;
+    }
+}
+
+function updateScore(sprite){
+
+    if(sprite.isCollidingWithCard){
+
+        globals.score += 200;
     }
 }

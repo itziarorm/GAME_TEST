@@ -20,6 +20,7 @@ export default function render(){
         case Game.NEW_GAME:
 
             drawNewGame();
+
             break;
 
         case Game.CONTROLS:
@@ -35,7 +36,19 @@ export default function render(){
 
 function drawNewGame(){
 
+    renderScreen();
+}
 
+function renderScreen(){
+
+    //Draw score
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("SCORE", 110, 120);
+
+    //Draw high score
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("HIGH SCORE", 110, 150);
 }
 
 function drawGame(){
@@ -114,6 +127,11 @@ function drawHitBox(sprite){
 
     globals.ctx.strokeStyle = "red";
     globals.ctx.strokeRect(x1, y1, w1, h1);
+}
+
+function isDrawn(){
+
+
 }
 
 function renderMap(){
