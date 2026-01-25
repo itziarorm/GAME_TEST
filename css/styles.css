@@ -1,14 +1,18 @@
-#body{
-    background-image: "../images/arcade.jpg";
-    background-size: 1080px;
-    background-color: solid rebeccapurple;
+body {
+  background-image: url("../images/arcade.jpg"); /* tu color deseado */
+  background-size: 90% 105%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: burlywood;
 }
 
 #gameScreen{
 
     width: 896px;
     height: 960px;
-    margin-left: 220px;
+    margin-top: 105px;
+    margin-left: 642px;
     background-color: black;
     border-style: solid;
     image-rendering: pixelated;
@@ -18,9 +22,10 @@
 
 #gameHUD{
 
-    width: 1200px;
+    width: 1203px;
     height: 64px;
-    margin-bottom: -5px;
+    margin-left: 414px;
+    margin-bottom: -115px;
     background-color: black;
     border-style: solid;
     image-rendering: pixelated;
@@ -30,7 +35,7 @@
 @font-face {
 
     font-family: emulogic;
-    src: url("../fonts/emulogic.ttf");
+    src: url("../fonts/PressStart2P.ttf");
 }
 
 #gameHUD_RIGHT{

@@ -26,9 +26,17 @@ export default function update(){
             break;
 
         case Game.CONTROLS:
+
             break;
         
         case Game.STORY:
+
+            break;
+
+        case Game.GAME_OVER:
+
+            gameOver();
+
             break;
 
         default:
@@ -38,6 +46,57 @@ export default function update(){
 
 function newGame(){
 
+    if (globals.action.moveUp) {
+
+        //globals.menu.selected = (globals.menu.selected - 1 + globals.menu.options.length) % globals.menu.options.length;
+        globals.action.moveUp = false; // resetear para que no se repita
+
+        globals.arrow = 77;
+        
+    }
+
+    if (globals.action.moveDown) {
+        //globals.menu.selected = (globals.menu.selected + 1) % globals.menu.options.length;
+        globals.action.moveDown = false;
+
+        if (globals.arrow >= 167) {
+            globals.arrow = 77; // Reiniciar la flecha si excede las opciones
+        } else{
+            globals.arrow += 30;
+        }
+    
+    }
+
+    if (globals.action.moveRight) {
+
+        // Determinar qué opción está seleccionada según la posición de la flecha
+        if (globals.arrow === 77) {
+            
+            console.log("Mostrando NEW GAME");
+
+            // Opción "NEW GAME" seleccionada
+            globals.gameState = Game.PLAYING;
+
+        } else if (globals.arrow === 107) {
+
+            // Opción "HIGH SCORE" seleccionada
+            console.log("Mostrando STORY");
+            globals.gameState = Game.STORY;
+
+        }else if (globals.arrow === 137) {
+
+            console.log("Mostrando CONTROLS");
+            globals.gameState = Game.CONTROLS;
+
+        }   else if (globals.arrow === 167) {
+
+            console.log("Mostrando HIGH SCORE");
+            globals.gameState = Game.GAME_OVER;
+
+        }
+
+        globals.action.moveRight = false; // consumir la acción
+    }
 
 }
 
@@ -55,7 +114,7 @@ function playGame(){
     
     updateLevelTime();
     
-    
+    isGameOver();
 }
 
 function updateGameTime(){
@@ -684,5 +743,58 @@ function updateScore(sprite){
     if(sprite.isCollidingWithCard){
 
         globals.score += 200;
+    }
+}
+
+function isGameOver(){
+
+     if (globals.life <= 0) {
+
+        globals.gameState = Game.GAME_OVER;
+
+        if (globals.score > globals.highScore) {
+            globals.highScore = globals.score;
+        }
+    }
+}
+
+function gameOver(){
+
+
+
+    if (globals.action.moveUp) {
+
+        globals.action.moveUp = false; // resetear para que no se repita
+
+        globals.arrow = 137;
+        
+    }
+
+    if (globals.action.moveDown) {
+        
+        globals.action.moveDown = false;
+        globals.arrow = 167;
+    }
+
+    if (globals.action.moveRight) {
+
+        // Determinar qué opción está seleccionada según la posición de la flecha
+        if (globals.arrow === 137) {
+            
+            console.log("Mostrando NEW GAME");
+
+            // Opción "NEW GAME" seleccionada
+            globals.gameState = Game.NEW_GAME;
+
+        } else if (globals.arrow === 167) {
+
+            // Opción "HIGH SCORE" seleccionada
+            console.log("Mostrando PLAYING");
+            globals.gameState = Game.PLAYING;
+            globals.life = 100;
+
+        }
+
+        globals.action.moveRight = false; // consumir la acción
     }
 }

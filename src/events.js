@@ -57,3 +57,20 @@ export function updateEvents(){
 
     
 }
+export function keySelect(event){
+    
+    switch(event.keyCode){
+            
+            case Key.UP:
+                globals.action.moveUp = true;
+                break;
+
+            case Key.DOWN:
+                globals.action.moveDown = true;
+                break;
+            
+            case Key.CONFIRM:
+                globals.action.confirm = true;
+                break;
+    }
+}

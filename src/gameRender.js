@@ -24,9 +24,21 @@ export default function render(){
             break;
 
         case Game.CONTROLS:
+
+            drawControls();
+
             break;
         
         case Game.STORY:
+
+            drawStory();
+
+            break;
+
+        case Game.GAME_OVER:
+
+            drawGameOver();
+
             break;
 
         default:
@@ -36,19 +48,39 @@ export default function render(){
 
 function drawNewGame(){
 
-    renderScreen();
+    renderNewScreen();
 }
 
-function renderScreen(){
+function renderNewScreen(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
     //Draw score
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("SCORE", 110, 120);
+    globals.ctx.fillText("NEW GAME", 100, 90);
+
+    //story
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("STORY", 100, 120);
+
+    //controls
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("CONTROLS", 100, 150);
 
     //Draw high score
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("HIGH SCORE", 110, 150);
+    globals.ctx.fillText("HIGH SCORE", 100, 180);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/Arrow.png";      //x, y, xsize, ysize
+    globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
+
 }
 
 function drawGame(){
@@ -271,4 +303,90 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.fillStyle = 'lightgray';
     globals.ctxHUD_RIGHT.fillText(" " + stage, 25, 200);
 
+}
+
+function drawControls(){
+
+    renderControlsScreen();
+}
+
+function renderControlsScreen(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    //Keys
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("UP", 60, 90);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("DOWN", 60, 120);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("LEFT", 60, 150);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RIGHT", 60, 180);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("ATTACK", 160, 90);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("COIN", 160, 120);
+
+}
+
+function drawStory(){
+
+    renderStoryScreen();
+}
+
+function renderStoryScreen(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    // Draw story content
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("Lucrecia was in the forest...", 10, 110);
+}
+
+function drawGameOver(){
+
+    renderGameOverScreen();
+}
+
+function renderGameOverScreen(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+
+    //Draw score
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("GAME OVER", 80, 30);
+
+    //Draw high score
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("HIGH SCORE", 100, 110);
+    globals.ctx.fillText(" " + globals.highScore, 100, 120);
+
+    //go back to new game
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RETURN", 100, 150);
+
+    //restart game
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RESTART", 100, 180);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/Arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
 }

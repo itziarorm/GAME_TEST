@@ -54,4 +54,6 @@ export default{
     frameY: 0,
     frameX: 0,
 
+    arrow: 0,
+
 };

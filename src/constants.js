@@ -124,7 +124,9 @@ export const Key = {
     LEFT:   65,     //a
     DOWN:   83,     //s
     RIGHT:  68,     //d
-    CARD:   69      //e
+    CARD:   69,     //e
+    CONFIRM: 13,    //enter
+    INSERT_COIN: 67 //c
 }
 
 export const Collision = {
