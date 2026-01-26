@@ -78,7 +78,7 @@ function renderNewScreen(){
     globals.ctx.fillText("HIGH SCORE", 100, 180);
 
     globals.ctx.imageSet = new Image();
-    globals.ctx.imageSet.src = "./images/Arrow.png";      //x, y, xsize, ysize
+    globals.ctx.imageSet.src = "./images/arrow.png";      //x, y, xsize, ysize
     globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
 
 }
@@ -256,7 +256,7 @@ function renderHUD_Right(){
     drawSprite(
         globals.ctxHUD_RIGHT,
         globals.ctxHUD_RIGHT.imageSetFrames,
-        globals.frameX, 0,        // sx, sy - posición del frame en la imagen
+        globals.lifeFrameX, globals.lifeFrameY,        // sx, sy - posición del frame en la imagen
         14, 26,          // sw, sh - tamaño del frame en la fuente
         0, 105,          // dx, dy - posición donde dibujarlo en el canvas
         40, 55           // dw, dh - tamaño final en el canvas
@@ -265,7 +265,7 @@ function renderHUD_Right(){
     drawSprite(
         globals.ctxHUD_RIGHT,
         globals.ctxHUD_RIGHT.imageSetFrames,
-        globals.frameY, 0,        // sx, sy - posición del frame en la imagen
+        globals.manaFrameY, 0,        // sx, sy - posición del frame en la imagen
         14, 26,          // sw, sh - tamaño del frame en la fuente
         40, 105,          // dx, dy - posición donde dibujarlo en el canvas
         40, 55           // dw, dh - tamaño final en el canvas
@@ -336,6 +336,13 @@ function renderControlsScreen(){
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("COIN", 160, 120);
 
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("Back", 180, 210);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 160, globals.arrow, 16, 16);
+
 }
 
 function drawStory(){
@@ -349,10 +356,22 @@ function renderStoryScreen(){
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/forest.webp";
+    globals.ctx.drawImage(globals.ctx.imageSet, 20, 20, 180, 130);
+
     // Draw story content
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("Lucrecia was in the forest...", 10, 110);
+    globals.ctx.fillText("When the seller fell for her deception,", 10, 170);
+    globals.ctx.fillText("Lucretia felt her power returning.", 10, 185);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("Back", 180, 210);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 160, globals.arrow, 16, 16);
 }
 
 function drawGameOver(){
@@ -370,7 +389,7 @@ function renderGameOverScreen(){
     //Draw score
     globals.ctx.font = "16px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("GAME OVER", 80, 30);
+    globals.ctx.fillText("GAME OVER", 60, 30);
 
     //Draw high score
     globals.ctx.font = "8px emulogic";
@@ -384,9 +403,9 @@ function renderGameOverScreen(){
 
     //restart game
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RESTART", 100, 180);
+    globals.ctx.fillText("TRY AGAIN", 100, 180);
 
     globals.ctx.imageSet = new Image();
-    globals.ctx.imageSet.src = "./images/Arrow.png";
+    globals.ctx.imageSet.src = "./images/arrow.png";
     globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
 }

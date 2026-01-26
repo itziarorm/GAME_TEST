@@ -25,6 +25,8 @@ export const SpriteID = {
     DOOR:       8,
     KEY:        9,
     CARDS:      10,
+    POTION_VELOCITY:     11,
+    POTION_STOP:        12,
 }
 
 //Identificador de estado de sprite

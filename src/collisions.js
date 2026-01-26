@@ -8,8 +8,12 @@ export default function detectCollision(){
         const sprite = globals.sprites[i];
         detectCollisionBetweenPlayerAndSprite(sprite);
         //detectCollisionBetweenCardAndSprite(sprite);
+        
+        
     }
 
+    //detectCollisionBetweenPotionVelocityAndSprite(sprite);
+    
     detectCollisionBetweenPlayerAndMapObstacles();
 
     detectCollisionBetweenGhostAndMapObstacles();
@@ -18,7 +22,8 @@ export default function detectCollision(){
 
     detectCollisionBetweenGhostOrangeAndMapObstacles();
 
-    //detectCollisionBetweenGhostBlueAndMapObstacles();
+    
+
 }
 
 function detectCollisionBetweenPlayerAndSprite(sprite){
@@ -43,6 +48,32 @@ function detectCollisionBetweenPlayerAndSprite(sprite){
 
         sprite.isCollidingWithPlayer = true;
         //player.state = State.COLLISION;
+    }
+}
+
+function detectCollisionBetweenPotionVelocityAndSprite(){
+
+    sprite.isCollidingWithPotion = false;
+
+    const player = globals.sprites[9];
+    const sprite = globals.sprites[0];
+
+    const x1 = player.xPos + player.hitBox.xOffset;
+    const y1 = player.yPos + player.hitBox.yOffset;
+    const w1 = player.hitBox.xSize;
+    const h1 = player.hitBox.ySize;
+
+    const x2 = sprite.xPos + sprite.hitBox.xOffset;
+    const y2 = sprite.yPos + sprite.hitBox.yOffset;
+    const w2 = sprite.hitBox.xSize;
+    const h2 = sprite.hitBox.ySize;
+
+    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
+    
+    if (isOverlap){
+
+        sprite.isCollidingWithPotion = true;
+        //player = false;
     }
 }
 
@@ -501,28 +532,3 @@ function detectCollisionBetweenGhostOrangeAndMapObstacles(){
     }
 }
 
-function detectCollisionBetweenGhostBlueAndMapObstacles(){
-
-    const player = globals.sprites[4];
-
-    player.isCollidingWithObstacleOnTheRight = false;
-    player.isCollidingWithObstacleOnTheLeft = false;
-    player.isCollidingWithObstacleOnTheUp = false;
-    player.isCollidingWithObstacleOnTheDown = false;
-
-    let xPos;
-    let yPos;
-    let isCollidingOnPos1;
-    let isCollidingOnPos2;
-    let isCollidingOnPos3;
-    let isColliding;
-    let overlap;
-
-    const brickSize = globals.level.imageSet.gridSize;
-    const direction = player.state;
-
-    const obstacleIds = BlockIDs;
-
-    
-
-}

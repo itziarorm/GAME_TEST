@@ -54,10 +54,11 @@ function initVars(){
     globals.score = 0;
     globals.highScore = 0;
 
-    globals.life = 200;
+    globals.life = 120;
     globals.mana = 0;
-    globals.frameY = 14;
-    globals.frameX = 0;
+    globals.manaFrameY = 14;
+    globals.lifeFrameX = 0;
+    globals.lifeFrameY = 0;
 
     globals.arrow = 77;
 }
@@ -277,7 +278,7 @@ function initPotionVelocity(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 5, 5, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POTION_VELOCITY, State.STILL, 5, 5, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -297,7 +298,7 @@ function initPotionParalize(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 5, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POTION_STOP, State.STILL, 203, 5, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);

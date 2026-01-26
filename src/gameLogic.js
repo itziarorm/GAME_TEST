@@ -27,9 +27,13 @@ export default function update(){
 
         case Game.CONTROLS:
 
+            controls();
+
             break;
         
         case Game.STORY:
+
+            story();
 
             break;
 
@@ -48,7 +52,6 @@ function newGame(){
 
     if (globals.action.moveUp) {
 
-        //globals.menu.selected = (globals.menu.selected - 1 + globals.menu.options.length) % globals.menu.options.length;
         globals.action.moveUp = false; // resetear para que no se repita
 
         globals.arrow = 77;
@@ -56,7 +59,7 @@ function newGame(){
     }
 
     if (globals.action.moveDown) {
-        //globals.menu.selected = (globals.menu.selected + 1) % globals.menu.options.length;
+        
         globals.action.moveDown = false;
 
         if (globals.arrow >= 167) {
@@ -202,8 +205,9 @@ function updateSprite(sprite){
             updateKey(sprite);
 
             if(sprite.isCollidingWithPlayer){
-
+                
                 globals.score += 500;
+                globals.sprites.splice(11, 1);
             }
             break;
 
@@ -212,8 +216,9 @@ function updateSprite(sprite){
             updateCard(sprite);
 
             if(sprite.isCollidingWithPlayer){
-
+                
                 globals.score += 50;
+                //globals.sprites.splice(9, 1);
             }
 
             break;
@@ -223,6 +228,33 @@ function updateSprite(sprite){
             if(sprite.isCollidingWithPlayer){
 
                 globals.score += 50;
+
+                globals.sprites.splice(7, 1);
+                
+            }
+
+            break;
+        
+        case SpriteID.POTION_VELOCITY:
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 50;
+
+                globals.sprites.splice(5, 1);
+                
+            }
+
+            break;
+
+        case SpriteID.POTION_STOP:
+
+            if(sprite.isCollidingWithPlayer){
+
+                globals.score += 50;
+
+                globals.sprites.splice(6, 1);
+                
             }
 
             break;
@@ -232,6 +264,7 @@ function updateSprite(sprite){
             if(sprite.isCollidingWithPlayer){
 
                 globals.score += 2000;
+                globals.sprites.splice(10, 1);
             }
 
             break;
@@ -241,6 +274,7 @@ function updateSprite(sprite){
             if(sprite.isCollidingWithPlayer){
 
                 globals.score += 20;
+                globals.sprites.splice(8, 1);
             }
 
         default:
@@ -704,16 +738,21 @@ function updateHUDLifePoints(){
     
     if (globals.life <= 0) {
 
-        globals.frameX = 0; // vacío
-        //globals.gameState = Game.GAME_OVER;
+        globals.lifeFrameX = 0; // vacío
+        globals.lifeFrameY = 0;
 
-    } else if (globals.life <= 100) {
+    } else if (globals.life <= 30) {
 
-        globals.frameX = 28; // medio
+        globals.lifeFrameX = 0;
+
+    } else if (globals.life <= 80) {
+
+        globals.lifeFrameX = 28; // medio
 
     } else {
 
-        globals.frameX = 56; // completo
+        globals.lifeFrameX = 56; // completo
+        globals.lifeFrameY = 0;
     }
 }
 
@@ -760,8 +799,6 @@ function isGameOver(){
 
 function gameOver(){
 
-
-
     if (globals.action.moveUp) {
 
         globals.action.moveUp = false; // resetear para que no se repita
@@ -792,6 +829,46 @@ function gameOver(){
             console.log("Mostrando PLAYING");
             globals.gameState = Game.PLAYING;
             globals.life = 100;
+
+        }
+
+        globals.action.moveRight = false; // consumir la acción
+    }
+}
+
+function story(){
+
+    globals.arrow = 197;
+
+    if (globals.action.moveRight) {
+
+        // Determinar qué opción está seleccionada según la posición de la flecha
+        if (globals.arrow === 197) {
+            
+            console.log("Mostrando NEW GAME");
+
+            // Opción "NEW GAME" seleccionada
+            globals.gameState = Game.NEW_GAME;
+
+        }
+
+        globals.action.moveRight = false; // consumir la acción
+    }
+}
+
+function controls(){
+
+    globals.arrow = 197;
+
+    if (globals.action.moveRight) {
+
+        // Determinar qué opción está seleccionada según la posición de la flecha
+        if (globals.arrow === 197) {
+            
+            console.log("Mostrando NEW GAME");
+
+            // Opción "NEW GAME" seleccionada
+            globals.gameState = Game.NEW_GAME;
 
         }
 

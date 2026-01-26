@@ -51,8 +51,9 @@ export default{
     life: 0,
     mana: 0,
 
-    frameY: 0,
-    frameX: 0,
+    manaFrameY: 0,
+    lifeFrameX: 0,
+    lifeFrameY: 0,
 
     arrow: 0,
 
