@@ -54,7 +54,7 @@ function newGame(){
 
         globals.action.moveUp = false; // resetear para que no se repita
 
-        globals.arrow = 77;
+        globals.arrow = 117;
         
     }
 
@@ -62,10 +62,10 @@ function newGame(){
         
         globals.action.moveDown = false;
 
-        if (globals.arrow >= 167) {
-            globals.arrow = 77; // Reiniciar la flecha si excede las opciones
+        if (globals.arrow >= 177) {
+            globals.arrow = 117; // Reiniciar la flecha si excede las opciones
         } else{
-            globals.arrow += 30;
+            globals.arrow += 20;
         }
     
     }
@@ -73,25 +73,25 @@ function newGame(){
     if (globals.action.moveRight) {
 
         // Determinar qué opción está seleccionada según la posición de la flecha
-        if (globals.arrow === 77) {
+        if (globals.arrow === 117) {
             
             console.log("Mostrando NEW GAME");
 
             // Opción "NEW GAME" seleccionada
             globals.gameState = Game.PLAYING;
 
-        } else if (globals.arrow === 107) {
+        } else if (globals.arrow === 137) {
 
             // Opción "HIGH SCORE" seleccionada
             console.log("Mostrando STORY");
             globals.gameState = Game.STORY;
 
-        }else if (globals.arrow === 137) {
+        }else if (globals.arrow === 157) {
 
             console.log("Mostrando CONTROLS");
             globals.gameState = Game.CONTROLS;
 
-        }   else if (globals.arrow === 167) {
+        }   else if (globals.arrow === 177) {
 
             console.log("Mostrando HIGH SCORE");
             globals.gameState = Game.GAME_OVER;
@@ -111,7 +111,7 @@ function playGame(){
 
     detectCollisions();
 
-    updateEvents();
+    //updateEvents();
 
     updateGameTime();
     
@@ -150,9 +150,6 @@ function updateSprite(sprite){
         case SpriteID.PLAYER:
 
             updatePlayer(sprite);
-            
-            updateMana();
-            updateHUDMana();
             
             break;
         
@@ -271,6 +268,9 @@ function updateSprite(sprite){
 
         case SpriteID.POINTS:
 
+            updateMana(sprite);
+            updateHUDMana();
+
             if(sprite.isCollidingWithPlayer){
 
                 globals.score += 20;
@@ -287,11 +287,23 @@ function updatePlayer(sprite){
     //read keyboard and assign state
     readKeyboardAndAssignState(sprite);
 
-    if (globals.action.throwCard) {
+    let lastState = false;
+    let currState = false;
+
+    if (globals.action.throwCard && !lastState) {
         
         createCard(sprite);
         globals.action.throwCard = false;
+        lastState = false;
+
+    } else {
+
+        globals.action.throwCard = false;
+        lastState = true;
+
     }
+
+
 
     switch(sprite.state){
 
@@ -335,12 +347,12 @@ function updatePlayer(sprite){
 function createCard(sprite){
     
    let direction = State.RIGHT;
-    let x = sprite.xPos + 8;
-    let y = sprite.yPos + 8;
+    let x = sprite.xPos + 4;
+    let y = sprite.yPos + 4;
 
     if (sprite.state === State.LEFT || sprite.state === State.STILL_LEFT) {
         direction = State.LEFT;
-        x = sprite.xPos;
+        x = sprite.xPos - 8;
 
     } else if (sprite.state === State.RIGHT || sprite.state === State.STILL_RIGHT) {
         direction = State.RIGHT;
@@ -348,7 +360,7 @@ function createCard(sprite){
 
     } else if (sprite.state === State.UP || sprite.state === State.STILL_UP) {
         direction = State.UP;
-        y = sprite.yPos;
+        y = sprite.yPos - 8;
 
     } else if (sprite.state === State.DOWN || sprite.state === State.STILL_DOWN) {
         direction = State.DOWN;
@@ -361,8 +373,6 @@ function createCard(sprite){
     globals.sprites.push(card);
 
 }
-
-
 
 function updateCard(sprite){
 
@@ -756,24 +766,27 @@ function updateHUDLifePoints(){
     }
 }
 
-function updateMana(){
+function updateMana(sprite){
 
-    //si toca una bola acumula mana
+    if(sprite.isCollidingWithPlayer){
+            
+        globals.mana += 10;
+    }
 }
 
 function updateHUDMana(){
 
     if (globals.mana <= 5) {
 
-        globals.frameY = 14;
+        globals.manaFrameY = 14;
 
     } else if (globals.mana <= 20) {
         
-        globals.frameY = 42;
+        globals.manaFrameY = 42;
 
     } else {
         
-        globals.frameY = 70;
+        globals.manaFrameY = 70;
     }
 }
 
@@ -829,6 +842,7 @@ function gameOver(){
             console.log("Mostrando PLAYING");
             globals.gameState = Game.PLAYING;
             globals.life = 100;
+            globals.score++;
 
         }
 

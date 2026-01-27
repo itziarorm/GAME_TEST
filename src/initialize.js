@@ -60,7 +60,7 @@ function initVars(){
     globals.lifeFrameX = 0;
     globals.lifeFrameY = 0;
 
-    globals.arrow = 77;
+    globals.arrow = 117;
 }
 
 function initEvents(){
@@ -154,15 +154,15 @@ function initPlayer(){
 function initCardPrint(x, y, direction){
     
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(20, 0, 8, 8, 0, 0, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(1, 1);
 
     //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(20);
+    const physics = new Physics(50);
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+    const hitBox = new HitBox(8, 8, 0, 0);
 
     if (direction === State.LEFT) physics.vx = -physics.vLimit;
     else if (direction === State.RIGHT) physics.vx = physics.vLimit;

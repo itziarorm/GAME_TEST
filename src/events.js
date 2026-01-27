@@ -53,10 +53,25 @@ export function keyupHandler(event){
     }
 }
 
-export function updateEvents(){
+export function updateEvents(sprite){
 
-    
+    if(sprite.isCollidingWithPlayer) {
+
+        //si toca la carta puede disparar durante 30 segundos
+    }
+
+    if (globals.mana >= 30){
+
+        //la llave se ve y puede abrir la puerta
+    }
+
+    if(sprite.isCollidingWithPlayer){
+
+        //si toca la pocion va más rápido durante unos segundos / los enemigos se paran
+    }
+
 }
+
 export function keySelect(event){
     
     switch(event.keyCode){

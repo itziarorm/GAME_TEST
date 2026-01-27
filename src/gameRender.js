@@ -7,7 +7,7 @@ export default function render(){
 
         case Game.LOADING:
             
-            //Draw loading spinner
+            drawLoading(); //Draw loading spinner
             
             break;
 
@@ -46,6 +46,22 @@ export default function render(){
     }
 }
 
+function drawLoading(){
+
+    renderLoading();
+}
+
+function renderLoading(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("LOADING...", 100, 90);
+}
+
 function drawNewGame(){
 
     renderNewScreen();
@@ -57,25 +73,38 @@ function renderNewScreen(){
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
+    globals.ctx.font = "24px emulogic";
+    globals.ctx.fillStyle = "red";
+    globals.ctx.fillText("SCAPE", 80, 40);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillText("FROM THE", 100, 52);
+
+    globals.ctx.font = "24px emulogic";
+    globals.ctx.fillText("SHADOWS", 60, 80);
+
     //Draw score
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("NEW GAME", 100, 90);
+    globals.ctx.fillText("NEW GAME", 100, 130);
 
     //story
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("STORY", 100, 120);
+    globals.ctx.fillText("STORY", 100, 150);
 
     //controls
-
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("CONTROLS", 100, 150);
+    globals.ctx.fillText("CONTROLS", 100, 170);
 
     //Draw high score
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("HIGH SCORE", 100, 180);
+    globals.ctx.fillText("HIGH SCORE", 100, 190);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("© kaotika", 100, 220);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";      //x, y, xsize, ysize
@@ -316,6 +345,10 @@ function renderControlsScreen(){
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("CONTROLS", 60, 20);
+
     //Keys
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
@@ -355,6 +388,10 @@ function renderStoryScreen(){
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("CHAPTER 3", 80, 10);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/forest.webp";
