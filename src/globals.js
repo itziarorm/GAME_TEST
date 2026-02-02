@@ -57,4 +57,5 @@ export default{
 
     arrow: 0,
 
+    particles: [],
 };

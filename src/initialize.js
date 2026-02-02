@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, SpriteID, State, FPS } from "./constants.js";
+import { Game, SpriteID, State, FPS, ParticleId, ParticleState } from "./constants.js";
 import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
@@ -11,6 +11,7 @@ import { keydownHandler, keySelect, keyupHandler } from "./events.js";
 import { FreePhysics } from "./Physics.js";
 import { GhostBlue } from "./Sprite.js";
 import HitBox from "./HitBox.js";
+import { FireParticle } from "./Particle.js";
 
 function initHTMLelements(){
 
@@ -85,7 +86,7 @@ function loadAssets(){
     //Load the brick image
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
-    tileSet.src = "./images/col.png";
+    tileSet.src = "./images/tileSet.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
 }
@@ -126,6 +127,7 @@ function initSprites(){
     initPotionInverted();
     initCards();
     initPoints();
+    initPoints2();
     initDoor();
     initKey();
     initCardPrint();
@@ -145,7 +147,7 @@ function initPlayer(){
     const hitBox = new HitBox(8, 12, 4, 2);
 
     //create player sprite
-    const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 105, 175, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 160, 210, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -212,7 +214,7 @@ function initGhostYellow(){
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 203, 90, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.YELLOW, State.DOWN_3, 325, 210, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
     //add ghost to sprites array
     globals.sprites.push(ghost);
@@ -234,7 +236,7 @@ function initGhostOrange(){
     const initTimeToChangeDirection = Math.floor(Math.random() * 2) + 1;
 
     //create ghost sprite
-    const ghost = new Ghost(SpriteID.ORANGE, State.RIGHT_4, 20, 160, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    const ghost = new Ghost(SpriteID.ORANGE, State.RIGHT_4, 100, 290, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
     
 
     //add ghost to sprites array
@@ -278,7 +280,7 @@ function initPotionVelocity(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION_VELOCITY, State.STILL, 5, 5, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POTION_VELOCITY, State.STILL, 15, 15, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -298,7 +300,7 @@ function initPotionParalize(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION_STOP, State.STILL, 203, 5, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POTION_STOP, State.STILL, 330, 15, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -318,7 +320,7 @@ function initPotionInverted(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 203, 220, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 330, 352, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -338,7 +340,7 @@ function initCards(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.CARDS, State.STILL, 5, 220, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.CARDS, State.STILL, 15, 352, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -347,7 +349,7 @@ function initCards(){
 function initPoints(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(23, 0, 16, 16, 0, 0, 16);
+    const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
 
     //create frames data: 4 frames, animation speed 5 frames/second
     const frames = new Frames(8, 8);
@@ -358,7 +360,27 @@ function initPoints(){
     const hitBox = new HitBox(6, 6, 5, 4);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POINTS, State.STILL, 130, 5, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POINTS, State.STILL, 160, 28, imageSet, frames, physics, hitBox);
+   
+    //add player to sprites array
+    globals.sprites.push(player);
+}
+
+function initPoints2(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+    const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
+
+    //create frames data: 4 frames, animation speed 5 frames/second
+    const frames = new Frames(8, 8);
+
+    //physics with vlimit =  40 pixels/seconds
+    const physics = new Physics(0);
+
+    const hitBox = new HitBox(6, 6, 5, 4);
+
+    //create player sprite
+    const player = new Sprite(SpriteID.POINTS, State.STILL, 140, 92, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -378,7 +400,7 @@ function initDoor(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.DOOR, State.STILL, 200, 160, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.DOOR, State.STILL, 300, 260, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -398,7 +420,7 @@ function initKey(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.KEY, State.STILL, 5, 80, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.KEY, State.STILL, 15, 80, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -406,8 +428,44 @@ function initKey(){
 
 function initLevel(){
 
-    const imageSet = new ImageSet(0, 0, 8, 8, 0, 0, 8);
+    const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
     globals.level = new Level(level1, imageSet);
+}
+
+function initParticles(){
+
+    initFire();
+}
+
+function initFire(){
+
+    const numParticles = 100;
+
+    for(let i = 0; i < numParticles; ++i){
+
+        createFireParticle();
+    }
+}
+
+export function createFireParticle(){
+
+    const alpha = 4.0;
+    const velocity = Math.random() + 20 + 10;
+    const physics = new Physics(velocity);
+
+    const xInit = Math.random() * 10 + 30;
+    const yInit = 220;
+
+    const radius = 3 ^ Math.random() + 2;
+
+    const particle = new FireParticle(ParticleId.FIRE, ParticleState.ON, xInit, yInit, radius, alpha, physics);
+
+    const randomAngle = Math.random() * Math.PI / 3 + 5^Math.PI/2;
+
+    particle.physics.vx = particle.physics.vLimit * Math.cos(randomAngle);
+    particle.physics.vy = particle.physics.vLimit * Math.sin(randomAngle);
+
+    globals.particles.push(particle);
 }
 
 export {
@@ -417,5 +475,6 @@ export {
     initSprites,
     initLevel,
     initTimers,
-    initEvents
+    initEvents,
+    initParticles,
 }

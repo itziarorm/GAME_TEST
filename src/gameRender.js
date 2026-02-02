@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, Tile } from "./constants.js";
+import { Game, ParticleId, ParticleState, Tile } from "./constants.js";
 
 export default function render(){
 
@@ -126,6 +126,8 @@ function drawGame(){
     //draw sprites
     drawSprites();
 
+    renderParticles();
+
     //draw HUD
     renderHUD();
 
@@ -163,7 +165,7 @@ function drawSprites(){
 
         renderSprite(sprite);
 
-        drawHitBox(sprite);
+        //drawHitBox(sprite);
     }
 }
 
@@ -214,7 +216,7 @@ function renderMap(){
 
             globals.ctx.drawImage(
 
-                globals.tileSets[Tile.SIZE_8],
+                globals.tileSets[Tile.SIZE_12],
                 xTile, yTile,
                 brickSize, brickSize,
                 xPos, yPos,
@@ -351,23 +353,47 @@ function renderControlsScreen(){
 
     //Keys
     globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("UP", 60, 90);
 
-    globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("DOWN", 60, 120);
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/W.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 30, 78, 17, 16);
+
+    globals.ctx.fillStyle = "gold";
+    globals.ctx.fillText("LEFT", 60, 120);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/A.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 30, 108, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("LEFT", 60, 150);
+    globals.ctx.fillText("DOWN", 60, 150);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/S.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 30, 138, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RIGHT", 60, 180);
+    globals.ctx.fillText("RIGHT/CONFIRM", 60, 180);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/D.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 30, 168, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("ATTACK", 160, 90);
 
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/E.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 130, 78, 17, 16);
+
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("COIN", 160, 120);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/C.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 130, 108, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("Back", 180, 210);
@@ -445,4 +471,45 @@ function renderGameOverScreen(){
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
     globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
+}
+
+function renderParticles(){
+
+    for (let i = 0; i < globals.particles.length; ++i){
+
+        const particle = globals.particles[i];
+
+        renderParticle(particle);
+    }
+}
+
+function renderParticle(particle){
+
+    const type = particle.id;
+    switch (type){
+
+        case ParticleId.FIRE:
+            renderFireParticle(particle);
+            break;
+        
+        default:
+            break;
+    }
+}
+
+function renderFireParticle(particle){
+
+    if(particle.state != ParticleState.OFF){
+
+        globals.ctxHUD_RIGHT.save();
+        globals.ctxHUD_RIGHT.fillStyle = 'red';
+        //globals.ctx.filter = 'saturate (500%)';
+
+        globals.ctxHUD_RIGHT.globalAlpha = particle.alpha;
+        globals.ctxHUD_RIGHT.beginPath();
+        globals.ctxHUD_RIGHT.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
+
+        globals.ctxHUD_RIGHT.fill();
+        globals.ctxHUD_RIGHT.restore();
+    }
 }

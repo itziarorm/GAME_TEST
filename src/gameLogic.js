@@ -1,8 +1,9 @@
 import globals from "./globals.js";
-import { Game, State, SpriteID } from "./constants.js";
+import { Game, State, SpriteID, ParticleState, ParticleId } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents } from "./events.js";
+import { createFireParticle } from "./initialize.js";
 
 export default function update(){
 
@@ -114,6 +115,8 @@ function playGame(){
     //updateEvents();
 
     updateGameTime();
+
+    updateParticles();
     
     updateLevelTime();
     
@@ -564,16 +567,9 @@ function updateAnimationFrame(sprite){
                 sprite.frames.frameCounter = 0;
             }
     }
-
-    
 }
 
 function swapDirection(sprite){
-
-    sprite.state = sprite.state === State.RIGHT_2 ? State.LEFT_2 : State.RIGHT_2;
-}
-
-function swapDirectionRandom(sprite){
 
     sprite.state = sprite.state === State.RIGHT_2 ? State.LEFT_2 : State.RIGHT_2;
 }
@@ -614,7 +610,7 @@ function updateDirectionRandomUpRight(sprite){
         //set new random time to change direction between 1 and 8 seconds
         sprite.maxTimeToChangeDirection = Math.floor(Math.random() * 10) + 1;
         
-        // Cambiar dirección en orden: UP_4 → RIGHT_4 → DOWN_4 → LEFT_4 → repetir
+        // Change direction
         if (sprite.state === State.UP_4) {
             sprite.state = State.RIGHT_4;
         } else if (sprite.state === State.RIGHT_4) {
@@ -622,6 +618,8 @@ function updateDirectionRandomUpRight(sprite){
         } else {
             sprite.state = State.LEFT_4;
         }
+
+        //sprite.state = sprite.state === State.UP_4 ? State.RIGHT_4 : sprite.state === State.RIGHT_4 ? State.DOWN_4 : State.LEFT_4; 
     }
 }
 
@@ -776,11 +774,11 @@ function updateMana(sprite){
 
 function updateHUDMana(){
 
-    if (globals.mana <= 5) {
+    if (globals.mana <= 15) {
 
         globals.manaFrameY = 14;
 
-    } else if (globals.mana <= 20) {
+    } else if (globals.mana <= 30) {
         
         globals.manaFrameY = 42;
 
@@ -888,4 +886,78 @@ function controls(){
 
         globals.action.moveRight = false; // consumir la acción
     }
+}
+
+function updateParticles(){
+
+    for (let i = 0; i < globals.particles.length; ++i){
+
+        const particle = globals.particles[i];
+
+        if(particle.id === ParticleId.FIRE && particle.state === ParticleState.OFF){
+
+            globals.particles.splice (i, 1);
+            i--;
+
+            createFireParticle();
+        } else{
+
+            updateParticle(particle);
+        }
+    }
+}
+
+function updateParticle(particle){
+
+    const type = particle.id;
+    switch (type){
+
+        case ParticleId.EXPLOSION:
+            break;
+
+        case ParticleId.FIRE:
+            
+            updateFireParticle(particle);
+        
+            break;
+
+        default: 
+            break;
+    }
+}
+
+function updateFireParticle(particle){
+
+    switch(particle.state){
+
+        case ParticleState.ON: 
+            
+            particle.radius -= 0.1;
+
+            if(particle.radius < 2){
+                particle.state = ParticleState.FADE;
+            }
+
+            break;
+            
+        case ParticleState.FADE: 
+
+            particle.alpha -= 0.3;
+
+            if(particle.alpha <= 0){
+
+                particle.state = ParticleState.OFF;
+            }
+
+            break;
+
+        case ParticleState.OFF:
+            break;
+
+        default:
+            break;
+    }
+
+    particle.xPos += particle.physics.vx * globals.deltaTime;
+    particle.yPos += particle.physics.vy * globals.deltaTime;
 }

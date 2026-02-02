@@ -74,7 +74,7 @@ export const State = {
 export const Tile = {
 
     SIZE_16: 0,
-    SIZE_8: 1
+    SIZE_12: 1
 }
 
 export const Block = {
@@ -138,4 +138,17 @@ export const Collision = {
     BORDER_DOWN: 1,
     BORDER_LEFT: 2,
     BORDER_RIGHT: 3
+}
+
+export const ParticleId = {
+    
+    EXPLOSION: 0,
+    FIRE: 1,
+}
+
+export const ParticleState = {
+
+    ON: 0,
+    FADE: 1,
+    OFF:-1,
 }
