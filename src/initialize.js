@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, SpriteID, State, FPS, ParticleId, ParticleState } from "./constants.js";
+import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound } from "./constants.js";
 import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
@@ -7,7 +7,7 @@ import { Level, level1 } from "./Levels.js";
 import Timer from "./Timer.js";
 import Physics from "./Physics.js";
 import { Ghost } from "./Sprite.js";
-import { keydownHandler, keySelect, keyupHandler } from "./events.js";
+import { keydownHandler, keySelect, keyupHandler, updateMusic } from "./events.js";
 import { FreePhysics } from "./Physics.js";
 import { GhostBlue } from "./Sprite.js";
 import HitBox from "./HitBox.js";
@@ -62,6 +62,15 @@ function initVars(){
     globals.lifeFrameY = 0;
 
     globals.arrow = 117;
+
+    globals.hasKey = false;
+    globals.visibleKey = false;
+    globals.isDoor = false;
+    globals.canThrow = true;
+    globals.card_cooldown = 1.5;
+
+    //SOUND
+    globals.currentSound = Sound.NO_SOUND;
 }
 
 function initEvents(){
@@ -89,6 +98,32 @@ function loadAssets(){
     tileSet.src = "./images/tileSet.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
+
+    //Load Sounds
+    let gameMusic = document.querySelector("#gameMusic");
+    gameMusic.addEventListener("canplaythrough", loadHandler, false);
+    gameMusic.addEventListener("timeupdate", updateMusic, false);
+    gameMusic.load();
+    globals.sounds.push(gameMusic);
+    globals.assetsToLoad.push(gameMusic);
+
+    let jumpSound = document.querySelector("#shootSound");
+    jumpSound.addEventListener("canplaythrough", loadHandler, false);
+    jumpSound.load();
+    globals.sounds.push(shootSound);
+    globals.assetsToLoad.push(shootSound);
+
+    let hurtSound = document.querySelector("#hurtSound");
+    hurtSound.addEventListener("canplaythrough", loadHandler, false);
+    hurtSound.load();
+    globals.sounds.push(hurtSound);
+    globals.assetsToLoad.push(hurtSound);
+
+    let powerSound = document.querySelector("#powerSound");
+    powerSound.addEventListener("canplaythrough", loadHandler, false);
+    powerSound.load();
+    globals.sounds.push(powerSound);
+    globals.assetsToLoad.push(powerSound);
 }
 
 function loadHandler(){
@@ -102,6 +137,11 @@ function loadHandler(){
             globals.tileSets[i].removeEventListener("load", loadHandler, false);
         }
         
+        for(let i = 0; i < globals.sounds.length; ++i){
+
+            globals.sounds[i].removeEventListener("canplaythrough", loadHandler, false);
+        }
+
         console.log("Assets finished loading");
 
         globals.gameState = Game.NEW_GAME;
@@ -128,6 +168,7 @@ function initSprites(){
     initCards();
     initPoints();
     initPoints2();
+    initPoints3();
     initDoor();
     initKey();
     initCardPrint();
@@ -386,6 +427,31 @@ function initPoints2(){
     globals.sprites.push(player);
 }
 
+function initPoints3(){
+    const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
+    const frames = new Frames(8, 8);
+    const physics = new Physics(0);
+    const hitBox = new HitBox(6, 6, 5, 4);
+    
+    // Definir posiciones específicas
+    const positions = [
+        {x: 10, y: 36}, {x: 95, y: 30}, {x: 200, y: 36},
+        {x: 10, y: 60}, {x: 100, y: 180}, {x: 150, y: 200},
+        {x: 10, y: 80}, {x: 250, y: 200}, {x: 120, y: 140},
+        {x: 40, y: 80}, {x: 220, y: 140}, {x: 280, y: 160},
+        {x: 80, y: 220},  {x: 140, y: 240}, {x: 200, y: 220},
+        {x: 160, y: 240}, {x: 115, y: 336},  {x: 205, y: 336},
+        {x: 280, y: 308},  {x: 160, y: 320}
+    ];
+    
+    for(let i = 0; i < positions.length; i++){
+        
+        const point = new Sprite(SpriteID.POINTS, State.STILL, positions[i].x, positions[i].y, imageSet, frames, physics, hitBox);
+        
+        globals.sprites.push(point);
+    }
+}
+
 function initDoor(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
@@ -420,7 +486,7 @@ function initKey(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.KEY, State.STILL, 15, 80, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.KEY, State.STILL_RIGHT, 15, 80, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
@@ -430,6 +496,12 @@ function initLevel(){
 
     const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
     globals.level = new Level(level1, imageSet);
+}
+
+function initLevel2(){
+
+    const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
+    globals.level = new Level(level2, imageSet);
 }
 
 function initParticles(){
@@ -474,6 +546,7 @@ export {
     loadAssets,
     initSprites,
     initLevel,
+    initLevel2,
     initTimers,
     initEvents,
     initParticles,

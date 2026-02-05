@@ -152,3 +152,13 @@ export const ParticleState = {
     FADE: 1,
     OFF:-1,
 }
+
+//Sounds
+export const Sound = {
+
+    NO_SOUND: -1,
+    GAME_MUSIC: 0,
+    SHOOT:1,
+    HURT:2,
+    POWER_UP:3,
+}

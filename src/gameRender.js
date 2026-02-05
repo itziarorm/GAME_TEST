@@ -192,10 +192,7 @@ function drawHitBox(sprite){
     globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 
-function isDrawn(){
 
-
-}
 
 function renderMap(){
 
@@ -259,16 +256,7 @@ function drawSprite(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
 
 function renderHUD_Right(){
 
-    //datos metidos a mano
-    //const life = 3;
-    //const mana = 10;
     const stage = 1;
-
-
-    //Lucrecia
-    // globals.ctxHUD_Right.font = '8px emulogic';
-    // globals.ctxHUD_Right.fillStyle = 'lightblue';
-    // globals.ctxHUD_Right.fillText("LUCRECIA", 86, 16);
 
     globals.ctxHUD_RIGHT.imageSet = new Image();
     globals.ctxHUD_RIGHT.imageSet.src = "./images/lucrecia.png";
@@ -276,7 +264,7 @@ function renderHUD_Right(){
 
     //book
     globals.ctxHUD_RIGHT.imageSet = new Image();
-    globals.ctxHUD_RIGHT.imageSet.src = "./images/Book.png";      //x, y, xsize, ysize
+    globals.ctxHUD_RIGHT.imageSet.src = "./images/Book.png"; //x, y, xsize, ysize
     globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 0, 105, 80, 55);
 
     globals.ctxHUD_RIGHT.imageSetFrames = new Image();
@@ -301,24 +289,7 @@ function renderHUD_Right(){
         40, 105,          // dx, dy - posición donde dibujarlo en el canvas
         40, 55           // dw, dh - tamaño final en el canvas
     );
-    //     drawSprite(
-    //     globals.ctxHUD_RIGHT,
-    //     globals.ctxHUD_RIGHT.imageSetFrames,
-    //     56, 0,        // 0, 28, 56
-    //     14, 26,      // sw, sh  tamaño del sprite en la fuente
-    //     0, 105,    // dx, dy  posición donde dibujarlo en el canvas
-    //     40, 55       // dw, dh  tamaño final en el canvas
-    //   );
-
-    //   drawSprite(
-    //     globals.ctxHUD_RIGHT,
-    //     globals.ctxHUD_RIGHT.imageSetFrames,
-    //     14, 0,        // blue 14, 42, 70
-    //     14, 26,      // sw, sh  tamaño del sprite en la fuente
-    //     40, 105,    // dx, dy  posición donde dibujarlo en el canvas
-    //     40, 55       // dw, dh tamaño final en el canvas
-    //   );
-
+    
     //draw life
     globals.ctxHUD_RIGHT.font = '8px emulogic';
     globals.ctxHUD_RIGHT.fillStyle = 'lightblue';

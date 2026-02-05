@@ -9,6 +9,8 @@
 </head>
 <body>
     
+<!-- game screen -->
+
     <canvas id = "newGameScreen" width = "224" height = "240">
         Hello browser
     </canvas>
@@ -26,6 +28,25 @@
     </canvas>
     
     <label id = "txtPruebas"></label>
+
+    <!-- audio -->
+
+    <audio id = "gameMusic" >
+        <source src = "../sounds/gameMusic.wav" type= "audio/wav">
+        <source src = "../sounds/BeepBox-Song.wav" type= "audio/wav">
+    </audio>
+
+    <audio id = "shootSound">
+        <source src = "../sounds/shoot.wav" type= "audio/wav">
+    </audio>
+
+    <audio id = "hurtSound">
+        <source src = "../sounds/hurt.wav" type= "audio/wav">
+    </audio>
+
+    <audio id = "powerSound">
+        <source src = "../sounds/powerUp.wav" type= "audio/wav">
+    </audio>
 
     <script type = "module" src = "./src/game.js"></script>
 

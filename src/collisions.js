@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Block, BlockIDs, State } from "./constants.js";
+import { Block, BlockIDs, State, SpriteID } from "./constants.js";
 
 export default function detectCollision(){
 
@@ -7,12 +7,10 @@ export default function detectCollision(){
 
         const sprite = globals.sprites[i];
         detectCollisionBetweenPlayerAndSprite(sprite);
-        //detectCollisionBetweenCardAndSprite(sprite);
         
+        detectCollisionBetweenCardAndSprite(sprite);
         
     }
-
-    //detectCollisionBetweenPotionVelocityAndSprite(sprite);
     
     detectCollisionBetweenPlayerAndMapObstacles();
 
@@ -21,8 +19,6 @@ export default function detectCollision(){
     detectCollisionBetweenGhostYellowAndMapObstacles();
 
     detectCollisionBetweenGhostOrangeAndMapObstacles();
-
-    
 
 }
 
@@ -51,53 +47,33 @@ function detectCollisionBetweenPlayerAndSprite(sprite){
     }
 }
 
-function detectCollisionBetweenPotionVelocityAndSprite(){
-
-    sprite.isCollidingWithPotion = false;
-
-    const player = globals.sprites[9];
-    const sprite = globals.sprites[0];
-
-    const x1 = player.xPos + player.hitBox.xOffset;
-    const y1 = player.yPos + player.hitBox.yOffset;
-    const w1 = player.hitBox.xSize;
-    const h1 = player.hitBox.ySize;
-
-    const x2 = sprite.xPos + sprite.hitBox.xOffset;
-    const y2 = sprite.yPos + sprite.hitBox.yOffset;
-    const w2 = sprite.hitBox.xSize;
-    const h2 = sprite.hitBox.ySize;
-
-    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
-    
-    if (isOverlap){
-
-        sprite.isCollidingWithPotion = true;
-        //player = false;
-    }
-}
-
 function detectCollisionBetweenCardAndSprite(sprite){
 
     sprite.isCollidingWithCard = false;
 
-    const player = globals.sprites[10];
+    for (let i = 0; i < globals.sprites.length; i++) {
+        
+        const card = globals.sprites[i];
+        
+        if (card.id === SpriteID.CARD) {
+            
+            const cardX = card.xPos + card.hitBox.xOffset;
+            const cardY = card.yPos + card.hitBox.yOffset;
+            const cardW = card.hitBox.xSize;
+            const cardH = card.hitBox.ySize;
 
-    const x1 = player.xPos + player.hitBox.xOffset;
-    const y1 = player.yPos + player.hitBox.yOffset;
-    const w1 = player.hitBox.xSize;
-    const h1 = player.hitBox.ySize;
+            const ghostX = sprite.xPos + sprite.hitBox.xOffset;
+            const ghostY = sprite.yPos + sprite.hitBox.yOffset;
+            const ghostW = sprite.hitBox.xSize;
+            const ghostH = sprite.hitBox.ySize;
 
-    const x2 = sprite.xPos + sprite.hitBox.xOffset;
-    const y2 = sprite.yPos + sprite.hitBox.yOffset;
-    const w2 = sprite.hitBox.xSize;
-    const h2 = sprite.hitBox.ySize;
-
-    const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
-    
-    if (isOverlap){
-
-        sprite.isCollidingWithCard = true;
+            const isOverlap = rectIntersect(cardX, cardY, cardW, cardH, ghostX, ghostY, ghostW, ghostH);
+            if (isOverlap) {
+                
+                sprite.isCollidingWithCard = true;         
+            }
+        }
+        
     }
 }
 

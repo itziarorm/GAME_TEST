@@ -1,5 +1,6 @@
-import { Key } from "./constants.js";
+import { Key, Sound } from "./constants.js";
 import globals from "./globals.js";
+import Timer from "./Timer.js";
 
 export function keydownHandler(event){
 
@@ -53,23 +54,46 @@ export function keyupHandler(event){
     }
 }
 
-export function updateEvents(sprite){
+export function updateEvents(){
 
-    if(sprite.isCollidingWithPlayer) {
+    //eventCard(sprite);
 
-        //si toca la carta puede disparar durante 30 segundos
-    }
+    eventKey();
+    //eventVelocity(sprite);
+}
 
-    if (globals.mana >= 30){
-
-        //la llave se ve y puede abrir la puerta
-    }
+export function eventVelocity(sprite){
 
     if(sprite.isCollidingWithPlayer){
 
-        //si toca la pocion va más rápido durante unos segundos / los enemigos se paran
+        const player = globals.sprites[0];
+        player.physics.vLimit = 50; // velocidad aumentada
+                
+        // Temporizador de 5 segundos para resetear
+        globals.speedBoostTimer = new Timer(5, 1);
+                
+        const idxVel = globals.sprites.indexOf(sprite);
+        if (idxVel !== -1) globals.sprites.splice(idxVel, 1);
+    }
+}
+
+export function eventKey(){
+
+    if (globals.mana >= 10){
+
+        globals.visibleKey = true;
+        //globals.hasKey = true;
     }
 
+}
+
+export function eventCard(sprite){
+
+    if(sprite.isCollidingWithPlayer){
+        globals.canThrow = true; //el jugador puede lanzar cartas
+        const idxCard = globals.sprites.indexOf(sprite);
+        if (idxCard !== -1) globals.sprites.splice(idxCard, 1);
+    }
 }
 
 export function keySelect(event){
@@ -87,5 +111,17 @@ export function keySelect(event){
             case Key.CONFIRM:
                 globals.action.confirm = true;
                 break;
+    }
+}
+
+export function updateMusic(){
+
+    const buffer = 0.28;
+    const music = globals.sounds[Sound.GAME_MUSIC];
+
+    if(music.currentTime > music.duration - buffer){
+
+        music.currentTime = 0;
+        music.play();
     }
 }

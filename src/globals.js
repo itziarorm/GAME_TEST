@@ -58,4 +58,18 @@ export default{
     arrow: 0,
 
     particles: [],
+
+    hasKey: false,
+    isDoor: false,
+    visibleKey: false,
+    canThrow: true,
+    card_cooldown: 1.5,
+      
+    speedBoostTimer: null,    
+    throwCooldown: 0,          
+    throwCooldownMax: 1.5, 
+
+    //sound
+    sounds: [],
+    currentSound: -1,
 };
