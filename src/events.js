@@ -56,10 +56,7 @@ export function keyupHandler(event){
 
 export function updateEvents(){
 
-    //eventCard(sprite);
-
     eventKey();
-    //eventVelocity(sprite);
 }
 
 export function eventVelocity(sprite){
@@ -67,13 +64,8 @@ export function eventVelocity(sprite){
     if(sprite.isCollidingWithPlayer){
 
         const player = globals.sprites[0];
-        player.physics.vLimit = 50; // velocidad aumentada
-                
-        // Temporizador de 5 segundos para resetear
-        globals.speedBoostTimer = new Timer(5, 1);
-                
-        const idxVel = globals.sprites.indexOf(sprite);
-        if (idxVel !== -1) globals.sprites.splice(idxVel, 1);
+        player.physics.vLimit = 60; 
+    
     }
 }
 
@@ -82,18 +74,8 @@ export function eventKey(){
     if (globals.mana >= 10){
 
         globals.visibleKey = true;
-        //globals.hasKey = true;
     }
 
-}
-
-export function eventCard(sprite){
-
-    if(sprite.isCollidingWithPlayer){
-        globals.canThrow = true; //el jugador puede lanzar cartas
-        const idxCard = globals.sprites.indexOf(sprite);
-        if (idxCard !== -1) globals.sprites.splice(idxCard, 1);
-    }
 }
 
 export function keySelect(event){

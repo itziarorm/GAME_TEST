@@ -7,6 +7,8 @@ export const Game = {
     STORY:      4,
     CONTROLS:   5,
     DASHBOARD:  6,
+    LOAD_LEVEL1: 7,
+    LOAD_LEVEL2: 8
 };
 
 export const FPS = 30;
@@ -26,7 +28,7 @@ export const SpriteID = {
     KEY:        9,
     CARDS:      10,
     POTION_VELOCITY:     11,
-    POTION_STOP:        12,
+    POTION_STOP:        12
 }
 
 //Identificador de estado de sprite
@@ -68,7 +70,7 @@ export const State = {
     DOWN_5: 3,
 
     //POTION
-    STILL: 0,
+    STILL: 0
 }
 
 export const Tile = {
@@ -96,7 +98,7 @@ export const Block = {
     SPIKES:    14,
     EXIT:      15,
     FLOOR:     16,
-    PLATFORM:  17,
+    PLATFORM:  17
 
     //create array for the collision
 }
@@ -143,14 +145,14 @@ export const Collision = {
 export const ParticleId = {
     
     EXPLOSION: 0,
-    FIRE: 1,
+    FIRE: 1
 }
 
 export const ParticleState = {
 
     ON: 0,
     FADE: 1,
-    OFF:-1,
+    OFF:-1
 }
 
 //Sounds
@@ -160,5 +162,11 @@ export const Sound = {
     GAME_MUSIC: 0,
     SHOOT:1,
     HURT:2,
-    POWER_UP:3,
+    POWER_UP:3
+}
+
+export const Levels = {
+
+    LEVEL1: 0,
+    LEVEL2: 1
 }

@@ -114,24 +114,47 @@ function renderNewScreen(){
 
 function drawGame(){
 
-    //to complete
+    if(globals.currentLevel === 0){
+    
+        //clear canvases
+        globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+        globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+        globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
-    //clear canvases
-    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
-    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+        renderMap();
 
-    renderMap();
+        //draw sprites
+        drawSprites();
 
-    //draw sprites
-    drawSprites();
+        renderParticles();
 
-    renderParticles();
+        //draw HUD
+        renderHUD();
 
-    //draw HUD
-    renderHUD();
+        renderHUD_Right();
 
-    renderHUD_Right();
+    }else if (globals.currentLevel === 1){
+            
+        //clear canvases
+        globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+        globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+        globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+        renderMap();
+
+        //draw sprites
+        drawSprites();
+
+        renderParticles();
+
+        //draw HUD
+        renderHUD();
+
+        renderHUD_Right();    
+            
+            
+    }
+    
 
 }
 
@@ -191,8 +214,6 @@ function drawHitBox(sprite){
     globals.ctx.strokeStyle = "red";
     globals.ctx.strokeRect(x1, y1, w1, h1);
 }
-
-
 
 function renderMap(){
 
@@ -271,23 +292,23 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.imageSetFrames.src = "./images/book_frames.png";
 
 
-    // Dibujar el sprite
+    // Life and mana sprite
     drawSprite(
         globals.ctxHUD_RIGHT,
         globals.ctxHUD_RIGHT.imageSetFrames,
-        globals.lifeFrameX, globals.lifeFrameY,        // sx, sy - posición del frame en la imagen
-        14, 26,          // sw, sh - tamaño del frame en la fuente
-        0, 105,          // dx, dy - posición donde dibujarlo en el canvas
-        40, 55           // dw, dh - tamaño final en el canvas
+        globals.lifeFrameX, globals.lifeFrameY,    // sx, sy - frame image
+        14, 26,          // sw, sh - frame size
+        0, 105,          // dx, dy - canvas position
+        40, 55           // dw, dh - canvas size
     );
 
     drawSprite(
         globals.ctxHUD_RIGHT,
         globals.ctxHUD_RIGHT.imageSetFrames,
-        globals.manaFrameY, 0,        // sx, sy - posición del frame en la imagen
-        14, 26,          // sw, sh - tamaño del frame en la fuente
-        40, 105,          // dx, dy - posición donde dibujarlo en el canvas
-        40, 55           // dw, dh - tamaño final en el canvas
+        globals.manaFrameY, 0,        
+        14, 26,          
+        40, 105,          
+        40, 55          
     );
     
     //draw life

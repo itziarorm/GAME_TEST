@@ -1,9 +1,10 @@
 import globals from "./globals.js";
-import { Game, State, SpriteID, ParticleState, ParticleId, Sound } from "./constants.js";
+import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
 import { createFireParticle } from "./initialize.js";
+import { level2 } from "./Levels.js";
 
 export default function update(){
 
@@ -51,12 +52,14 @@ export default function update(){
 
 function newGame(){
 
+    playSound();
+
+    globals.currentSound = Sound.GAME_MUSIC;
+
     if (globals.action.moveUp) {
 
         globals.action.moveUp = false; 
-
         globals.arrow = 117;
-        
     }
 
     if (globals.action.moveDown) {
@@ -65,6 +68,7 @@ function newGame(){
 
         if (globals.arrow >= 177) {
             globals.arrow = 117; 
+
         } else{
             globals.arrow += 20;
         }
@@ -72,18 +76,15 @@ function newGame(){
     }
 
     if (globals.action.moveRight) {
-
         
         if (globals.arrow === 117) {
             
             console.log("Mostrando NEW GAME");
-
-            // "NEW GAME" 
+ 
             globals.gameState = Game.PLAYING;
 
         } else if (globals.arrow === 137) {
 
-            // "HIGH SCORE"
             console.log("Mostrando STORY");
             globals.gameState = Game.STORY;
 
@@ -106,8 +107,6 @@ function newGame(){
 
 function playGame(){
 
-    //completar
-
     updateSprites();
 
     detectCollisions();
@@ -122,6 +121,8 @@ function playGame(){
 
     playSound();
     
+    changelevel();
+
     isGameOver();
 }
 
@@ -167,6 +168,8 @@ function updateSprite(sprite){
 
             updateScore(sprite);
 
+            globals.currentSound = Sound.HURT;
+
             if(sprite.isCollidingWithCard){
                 const index = globals.sprites.indexOf(sprite);
 
@@ -186,6 +189,8 @@ function updateSprite(sprite){
             updateHUDLifePoints();
 
             updateScore(sprite);
+
+            globals.currentSound = Sound.HURT;
 
             if(sprite.isCollidingWithCard){
                 const index = globals.sprites.indexOf(sprite);
@@ -207,6 +212,8 @@ function updateSprite(sprite){
 
             updateScore(sprite);
 
+            globals.currentSound = Sound.HURT;
+
             if(sprite.isCollidingWithCard){
                 const index = globals.sprites.indexOf(sprite);
 
@@ -226,6 +233,8 @@ function updateSprite(sprite){
             updateHUDLifePoints();
 
             updateScore(sprite);
+
+            globals.currentSound = Sound.HURT;
 
             if(sprite.isCollidingWithCard){
                 const index = globals.sprites.indexOf(sprite);
@@ -266,6 +275,7 @@ function updateSprite(sprite){
 
             if(sprite.isCollidingWithPlayer){
                 
+                globals.hasCard = true;
                 globals.currentSound = Sound.POWER_UP;
 
                 globals.score += 50;
@@ -363,12 +373,13 @@ function updateSprite(sprite){
                     globals.score += 2000;
                     const index = globals.sprites.indexOf(sprite);
 
-                if (index !== -1) {
+                    globals.currentLevel += 1;
 
-                    globals.sprites.splice(index, 1);
+                    if (index !== -1) {
+
+                        globals.sprites.splice(index, 1);
+                    }
                 }
-                }
-                
             }
 
             break;
@@ -394,19 +405,31 @@ function updateSprite(sprite){
     }
 }
 
+function changelevel(){
+
+    if (globals.currentLevel === Levels.LEVEL2){
+
+        globals.level.data = level2;
+
+    }
+
+}
+
 function updatePlayer(sprite){
 
     //read keyboard and assign state
     readKeyboardAndAssignState(sprite);
 
     if (globals.card_cooldown > 0) {
+        
         globals.card_cooldown -= globals.deltaTime;
+        
         if (globals.card_cooldown <= 0) {
             globals.canThrow = true;
         }
     }
 
-    if (globals.action.throwCard && globals.canThrow){
+    if (globals.action.throwCard && globals.canThrow && globals.hasCard){
 
         createCard(sprite);
         globals.currentSound = Sound.SHOOT;
@@ -479,7 +502,6 @@ function createCard(sprite){
         y = sprite.yPos + 16;
     }
 
-    //Usar la función global
     const card = globals.initCardPrint(x, y, direction);
 
     globals.sprites.push(card);
@@ -728,7 +750,6 @@ function updateDirectionRandomUpRight(sprite){
             sprite.state = State.LEFT_4;
         }
 
-        //sprite.state = sprite.state === State.UP_4 ? State.RIGHT_4 : sprite.state === State.RIGHT_4 ? State.DOWN_4 : State.LEFT_4; 
     }
 }
 
@@ -855,7 +876,7 @@ function updateHUDLifePoints(){
     
     if (globals.life <= 0) {
 
-        globals.lifeFrameX = 0; // vacío
+        globals.lifeFrameX = 0; //null
         globals.lifeFrameY = 0;
 
     } else if (globals.life <= 30) {
@@ -864,11 +885,11 @@ function updateHUDLifePoints(){
 
     } else if (globals.life <= 80) {
 
-        globals.lifeFrameX = 28; // medio
+        globals.lifeFrameX = 28; // medium
 
     } else {
 
-        globals.lifeFrameX = 56; // completo
+        globals.lifeFrameX = 56; // complete
         globals.lifeFrameY = 0;
     }
 }
@@ -933,7 +954,7 @@ function gameOver(){
 
     if (globals.action.moveUp) {
 
-        globals.action.moveUp = false; // resetear para que no se repita
+        globals.action.moveUp = false; 
 
         globals.arrow = 137;
         
@@ -947,17 +968,16 @@ function gameOver(){
 
     if (globals.action.moveRight) {
 
-        // Determinar qué opción está seleccionada según la posición de la flecha
         if (globals.arrow === 137) {
             
             console.log("Mostrando NEW GAME");
 
-            // Opción "NEW GAME" seleccionada
+            // NEW GAME select
             globals.gameState = Game.NEW_GAME;
 
         } else if (globals.arrow === 167) {
 
-            // Opción "HIGH SCORE" seleccionada
+            // HIGH SCORE select
             console.log("Mostrando PLAYING");
             globals.gameState = Game.PLAYING;
             globals.life = 100;
@@ -965,7 +985,7 @@ function gameOver(){
 
         }
 
-        globals.action.moveRight = false; // consumir la acción
+        globals.action.moveRight = false;
     }
 }
 
@@ -975,17 +995,13 @@ function story(){
 
     if (globals.action.moveRight) {
 
-        // Determinar qué opción está seleccionada según la posición de la flecha
         if (globals.arrow === 197) {
             
             console.log("Mostrando NEW GAME");
-
-            // Opción "NEW GAME" seleccionada
             globals.gameState = Game.NEW_GAME;
-
         }
 
-        globals.action.moveRight = false; // consumir la acción
+        globals.action.moveRight = false; 
     }
 }
 
@@ -995,17 +1011,13 @@ function controls(){
 
     if (globals.action.moveRight) {
 
-        // Determinar qué opción está seleccionada según la posición de la flecha
         if (globals.arrow === 197) {
             
             console.log("Mostrando NEW GAME");
-
-            // Opción "NEW GAME" seleccionada
             globals.gameState = Game.NEW_GAME;
-
         }
 
-        globals.action.moveRight = false; // consumir la acción
+        globals.action.moveRight = false;
     }
 }
 

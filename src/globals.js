@@ -62,6 +62,8 @@ export default{
     hasKey: false,
     isDoor: false,
     visibleKey: false,
+
+    hasCard: false,
     canThrow: true,
     card_cooldown: 1.5,
       
@@ -72,4 +74,6 @@ export default{
     //sound
     sounds: [],
     currentSound: -1,
+
+    currentLevel: 0
 };

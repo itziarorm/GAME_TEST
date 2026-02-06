@@ -1,9 +1,9 @@
 import globals from "./globals.js";
-import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound } from "./constants.js";
+import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound, Levels } from "./constants.js";
 import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
-import { Level, level1 } from "./Levels.js";
+import { Level, level1, level2 } from "./Levels.js";
 import Timer from "./Timer.js";
 import Physics from "./Physics.js";
 import { Ghost } from "./Sprite.js";
@@ -66,11 +66,15 @@ function initVars(){
     globals.hasKey = false;
     globals.visibleKey = false;
     globals.isDoor = false;
+
+    globals.hasCard = false;
     globals.canThrow = true;
     globals.card_cooldown = 1.5;
 
     //SOUND
     globals.currentSound = Sound.NO_SOUND;
+
+    globals.currentLevel = Levels.LEVEL1;
 }
 
 function initEvents(){
@@ -436,11 +440,11 @@ function initPoints3(){
     // Definir posiciones específicas
     const positions = [
         {x: 10, y: 36}, {x: 95, y: 30}, {x: 200, y: 36},
-        {x: 10, y: 60}, {x: 100, y: 180}, {x: 150, y: 200},
+        {x: 10, y: 60}, {x: 80, y: 180}, {x: 160, y: 290},
         {x: 10, y: 80}, {x: 250, y: 200}, {x: 120, y: 140},
         {x: 40, y: 80}, {x: 220, y: 140}, {x: 280, y: 160},
-        {x: 80, y: 220},  {x: 140, y: 240}, {x: 200, y: 220},
-        {x: 160, y: 240}, {x: 115, y: 336},  {x: 205, y: 336},
+        {x: 50, y: 220},  {x: 140, y: 240}, {x: 220, y: 240},
+        {x: 180, y: 240}, {x: 115, y: 336},  {x: 205, y: 336},
         {x: 280, y: 308},  {x: 160, y: 320}
     ];
     
@@ -495,7 +499,15 @@ function initKey(){
 function initLevel(){
 
     const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
-    globals.level = new Level(level1, imageSet);
+    
+
+    if(globals.currentLevel === Levels.LEVEL1){
+
+        globals.level = new Level(level1, imageSet);
+    }else if (globals.currentLevel === Levels.LEVEL2){
+        
+        globals.level = new Level(level2, imageSet);
+    }
 }
 
 function initLevel2(){
@@ -546,7 +558,7 @@ export {
     loadAssets,
     initSprites,
     initLevel,
-    initLevel2,
+    //initLevel2,
     initTimers,
     initEvents,
     initParticles,

@@ -6,8 +6,8 @@ export default function detectCollision(){
     for(let i = 1; i < globals.sprites.length; ++i){
 
         const sprite = globals.sprites[i];
+
         detectCollisionBetweenPlayerAndSprite(sprite);
-        
         detectCollisionBetweenCardAndSprite(sprite);
         
     }
@@ -43,7 +43,6 @@ function detectCollisionBetweenPlayerAndSprite(sprite){
     if (isOverlap){
 
         sprite.isCollidingWithPlayer = true;
-        //player.state = State.COLLISION;
     }
 }
 
@@ -152,8 +151,8 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
             yPos = player.yPos + player.hitBox.yOffset;
             isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
-            yPos = player.yPos + player.hitBox.yOffset + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
+            //yPos = player.yPos + player.hitBox.yOffset + brickSize;
+            //isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
             isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleIds);
@@ -176,8 +175,8 @@ function detectCollisionBetweenPlayerAndMapObstacles(){
             yPos = player.yPos + player.hitBox.yOffset;
             isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
-            yPos = player.yPos + player.hitBox.yOffset + brickSize;
-            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
+            //yPos = player.yPos + player.hitBox.yOffset + brickSize;
+            //isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstacleIds);
 
             yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
             isCollidingOnPos3 = isCollidingWithObstacleAt(xPos,yPos, obstacleIds);
