@@ -16,8 +16,20 @@ export default function update(){
             
             break;
         case Game.PLAYING:
-            
+
             playGame();
+            
+            break;
+
+        case Game.LOAD_LEVEL1:
+            
+            //loadLevel1();
+            
+            break;
+            
+        case Game.LOAD_LEVEL2:
+            
+            //loadLevel2();
             
             break;
 
@@ -54,12 +66,11 @@ function newGame(){
 
     playSound();
 
-    globals.currentSound = Sound.GAME_MUSIC;
-
     if (globals.action.moveUp) {
 
         globals.action.moveUp = false; 
         globals.arrow = 117;
+        globals.currentSound = Sound.GAME_MUSIC;
     }
 
     if (globals.action.moveDown) {
@@ -99,7 +110,7 @@ function newGame(){
             globals.gameState = Game.GAME_OVER;
 
         }
-
+        
         globals.action.moveRight = false;
     }
 
@@ -443,7 +454,7 @@ function updatePlayer(sprite){
     switch(sprite.state){
 
         case State.UP:
-
+        
             sprite.physics.vx = 0;
             sprite.physics.vy = -sprite.physics.vLimit;
             break;

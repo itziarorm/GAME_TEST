@@ -439,18 +439,18 @@ function initPoints3(){
     
     // Definir posiciones específicas
     const positions = [
-        {x: 10, y: 36}, {x: 95, y: 30}, {x: 200, y: 36},
-        {x: 10, y: 60}, {x: 80, y: 180}, {x: 160, y: 290},
-        {x: 10, y: 80}, {x: 250, y: 200}, {x: 120, y: 140},
-        {x: 40, y: 80}, {x: 220, y: 140}, {x: 280, y: 160},
-        {x: 50, y: 220},  {x: 140, y: 240}, {x: 220, y: 240},
-        {x: 180, y: 240}, {x: 115, y: 336},  {x: 205, y: 336},
-        {x: 280, y: 308},  {x: 160, y: 320}
+        [10, 36],   [95, 30],   [200, 36],
+        [10, 60],   [80, 180],  [160, 290],
+        [10, 80],   [250, 200], [120, 140],
+        [40, 80],   [220, 140], [280, 160],
+        [50, 220],  [140, 240], [220, 240],
+        [180, 240], [115, 336], [205, 336],
+        [280, 308], [160, 320]
     ];
     
     for(let i = 0; i < positions.length; i++){
         
-        const point = new Sprite(SpriteID.POINTS, State.STILL, positions[i].x, positions[i].y, imageSet, frames, physics, hitBox);
+        const point = new Sprite(SpriteID.POINTS, State.STILL, positions[i][0], positions[i][1], imageSet, frames, physics, hitBox);
         
         globals.sprites.push(point);
     }

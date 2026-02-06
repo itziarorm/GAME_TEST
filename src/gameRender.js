@@ -114,48 +114,23 @@ function renderNewScreen(){
 
 function drawGame(){
 
-    if(globals.currentLevel === 0){
+    //clear canvases
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    renderMap();
+
+    //draw sprites
+    drawSprites();
+
+    renderParticles();
+
+    //draw HUD
+    renderHUD();
+
+    renderHUD_Right();
     
-        //clear canvases
-        globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-        globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
-        globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
-
-        renderMap();
-
-        //draw sprites
-        drawSprites();
-
-        renderParticles();
-
-        //draw HUD
-        renderHUD();
-
-        renderHUD_Right();
-
-    }else if (globals.currentLevel === 1){
-            
-        //clear canvases
-        globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-        globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
-        globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
-
-        renderMap();
-
-        //draw sprites
-        drawSprites();
-
-        renderParticles();
-
-        //draw HUD
-        renderHUD();
-
-        renderHUD_Right();    
-            
-            
-    }
-    
-
 }
 
 function renderSprite(sprite){
