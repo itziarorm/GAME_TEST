@@ -25,6 +25,18 @@ export function keydownHandler(event){
         case Key.CARD:
             globals.action.throwCard = true;
             break;
+
+        case Key.CONFIRM:
+            globals.action.confirm = true;
+            break;
+
+        case Key.INSERT_COIN:
+            globals.action.insertCoin = true;
+            break;
+
+        case Key.MUSIC:
+            globals.action.music = true;
+            break;
     }
 }
 
@@ -51,6 +63,18 @@ export function keyupHandler(event){
         case Key.CARD:
             globals.action.throwCard = false;
             break;
+
+        case Key.CONFIRM:
+            globals.action.confirm = false;
+            break;
+
+        case Key.INSERT_COIN:
+            globals.action.insertCoin = false;
+            break;
+
+        case Key.MUSIC:
+            globals.action.music = false;
+            break;
     }
 }
 
@@ -71,34 +95,16 @@ export function eventVelocity(sprite){
 
 export function eventKey(){
 
-    if (globals.mana >= 10){
+    if (globals.mana >= 200){
 
         globals.visibleKey = true;
     }
 
 }
 
-export function keySelect(event){
-    
-    switch(event.keyCode){
-            
-            case Key.UP:
-                globals.action.moveUp = true;
-                break;
-
-            case Key.DOWN:
-                globals.action.moveDown = true;
-                break;
-            
-            case Key.CONFIRM:
-                globals.action.confirm = true;
-                break;
-    }
-}
-
 export function updateMusic(){
 
-    const buffer = 0.28;
+    const buffer = 0.20;
     const music = globals.sounds[Sound.GAME_MUSIC];
 
     if(music.currentTime > music.duration - buffer){

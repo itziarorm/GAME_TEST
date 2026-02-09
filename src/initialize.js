@@ -7,7 +7,7 @@ import { Level, level1, level2 } from "./Levels.js";
 import Timer from "./Timer.js";
 import Physics from "./Physics.js";
 import { Ghost } from "./Sprite.js";
-import { keydownHandler, keySelect, keyupHandler, updateMusic } from "./events.js";
+import { keydownHandler, keyupHandler, updateMusic } from "./events.js";
 import { FreePhysics } from "./Physics.js";
 import { GhostBlue } from "./Sprite.js";
 import HitBox from "./HitBox.js";
@@ -49,7 +49,8 @@ function initVars(){
         moveDown: false,
         throwCard: false,
         confirm: false,
-        insertCoin: false
+        insertCoin: false,
+        music: false
     }
 
     globals.score = 0;
@@ -82,7 +83,6 @@ function initEvents(){
     //keyboard events
     window.addEventListener("keydown", keydownHandler, false);
     window.addEventListener("keyup", keyupHandler, false);
-    window.addEventListener("keySelect", keySelect, false);
 }
 
 function loadAssets(){

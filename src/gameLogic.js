@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels } from "./constants.js";
+import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, BlockFreePositions } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
@@ -66,13 +66,18 @@ function newGame(){
 
     playSound();
 
+    if(globals.action.music){
+
+        globals.action.music = false;
+        globals.currentSound = Sound.GAME_MUSIC;
+    }
+
     if (globals.action.moveUp) {
 
         globals.action.moveUp = false; 
         globals.arrow = 117;
-        globals.currentSound = Sound.GAME_MUSIC;
     }
-
+    
     if (globals.action.moveDown) {
         
         globals.action.moveDown = false;
@@ -83,11 +88,12 @@ function newGame(){
         } else{
             globals.arrow += 20;
         }
-    
     }
 
-    if (globals.action.moveRight) {
+    if (globals.action.confirm) {
         
+        console.log("Confirming selection");
+
         if (globals.arrow === 117) {
             
             console.log("Mostrando NEW GAME");
@@ -111,9 +117,8 @@ function newGame(){
 
         }
         
-        globals.action.moveRight = false;
+        globals.action.confirm = false;
     }
-
 }
 
 function playGame(){
@@ -155,7 +160,6 @@ function updateLevelTime(){
 
         //reset counter
         globals.levelTime.timeChangeCounter = 0;
-
     }
 }
 
@@ -176,18 +180,17 @@ function updateSprite(sprite){
 
             updateLife(sprite);
             updateHUDLifePoints();
-
             updateScore(sprite);
 
-            globals.currentSound = Sound.HURT;
-
             if(sprite.isCollidingWithCard){
-                const index = globals.sprites.indexOf(sprite);
+                
+                globals.currentSound = Sound.HURT;
 
-                if (index !== -1) {
-                    
-                    globals.sprites.splice(index, 1);
-                }
+                const randomIndex = Math.floor(Math.random() * BlockFreePositions.length);
+                const newPosition = BlockFreePositions[randomIndex];
+
+                sprite.xPos = newPosition[0];
+                sprite.yPos = newPosition[1];
             }
 
             break;
@@ -198,12 +201,12 @@ function updateSprite(sprite){
 
             updateLife(sprite);
             updateHUDLifePoints();
-
             updateScore(sprite);
 
-            globals.currentSound = Sound.HURT;
-
             if(sprite.isCollidingWithCard){
+                
+                globals.currentSound = Sound.HURT;
+                
                 const index = globals.sprites.indexOf(sprite);
 
                 if (index !== -1) {
@@ -220,12 +223,12 @@ function updateSprite(sprite){
 
             updateLife(sprite);
             updateHUDLifePoints();
-
             updateScore(sprite);
 
-            globals.currentSound = Sound.HURT;
-
             if(sprite.isCollidingWithCard){
+                
+                globals.currentSound = Sound.HURT;
+                
                 const index = globals.sprites.indexOf(sprite);
 
                 if (index !== -1) {
@@ -245,9 +248,10 @@ function updateSprite(sprite){
 
             updateScore(sprite);
 
-            globals.currentSound = Sound.HURT;
-
             if(sprite.isCollidingWithCard){
+                
+                globals.currentSound = Sound.HURT;
+                
                 const index = globals.sprites.indexOf(sprite);
 
                 if (index !== -1) {
@@ -278,6 +282,7 @@ function updateSprite(sprite){
                     }
                 }
             }
+
             break;
 
         case SpriteID.CARDS:
@@ -306,7 +311,6 @@ function updateSprite(sprite){
 
             if(sprite.isCollidingWithPlayer){
                 
-                
                 globals.score += 100;
                 const index = globals.sprites.indexOf(sprite);
 
@@ -314,7 +318,6 @@ function updateSprite(sprite){
                     
                     globals.sprites.splice(index, 1);
                 }
-
             }
 
             break;
@@ -332,7 +335,6 @@ function updateSprite(sprite){
                     
                     globals.sprites.splice(index, 1);
                 }
-                
             }
 
             break;
@@ -352,7 +354,6 @@ function updateSprite(sprite){
                 }
 
                 eventVelocity(sprite);
-                
             }
 
             break;
@@ -370,7 +371,6 @@ function updateSprite(sprite){
                     
                     globals.sprites.splice(index, 1);
                 }
-                
             }
 
             break;
@@ -421,9 +421,7 @@ function changelevel(){
     if (globals.currentLevel === Levels.LEVEL2){
 
         globals.level.data = level2;
-
     }
-
 }
 
 function updatePlayer(sprite){
@@ -444,11 +442,8 @@ function updatePlayer(sprite){
 
         createCard(sprite);
         globals.currentSound = Sound.SHOOT;
-
         globals.canThrow = false;
-        
         globals.card_cooldown = 1.5;
-        
     }
     
     switch(sprite.state){
@@ -514,9 +509,7 @@ function createCard(sprite){
     }
 
     const card = globals.initCardPrint(x, y, direction);
-
     globals.sprites.push(card);
-
 }
 
 function updateCard(sprite){
@@ -655,7 +648,6 @@ function updateGhostBlue(sprite){
         case Collision.BORDER_DOWN:
             sprite.physics.vy = -sprite.physics.vLimit;
             break;
-
     }
 
     //calculate distance moved
@@ -760,7 +752,6 @@ function updateDirectionRandomUpRight(sprite){
         } else {
             sprite.state = State.LEFT_4;
         }
-
     }
 }
 
@@ -880,7 +871,6 @@ function updateLife(sprite){
             
         globals.life--;
     }
-    
 }
 
 function updateHUDLifePoints(){
@@ -966,9 +956,7 @@ function gameOver(){
     if (globals.action.moveUp) {
 
         globals.action.moveUp = false; 
-
-        globals.arrow = 137;
-        
+        globals.arrow = 137;        
     }
 
     if (globals.action.moveDown) {
@@ -977,7 +965,7 @@ function gameOver(){
         globals.arrow = 167;
     }
 
-    if (globals.action.moveRight) {
+    if (globals.action.confirm) {
 
         if (globals.arrow === 137) {
             
@@ -996,7 +984,7 @@ function gameOver(){
 
         }
 
-        globals.action.moveRight = false;
+        globals.action.confirm = false;
     }
 }
 
@@ -1004,7 +992,7 @@ function story(){
 
     globals.arrow = 197;
 
-    if (globals.action.moveRight) {
+    if (globals.action.confirm) {
 
         if (globals.arrow === 197) {
             
@@ -1012,7 +1000,7 @@ function story(){
             globals.gameState = Game.NEW_GAME;
         }
 
-        globals.action.moveRight = false; 
+        globals.action.confirm = false; 
     }
 }
 
@@ -1020,7 +1008,7 @@ function controls(){
 
     globals.arrow = 197;
 
-    if (globals.action.moveRight) {
+    if (globals.action.confirm) {
 
         if (globals.arrow === 197) {
             
@@ -1028,7 +1016,7 @@ function controls(){
             globals.gameState = Game.NEW_GAME;
         }
 
-        globals.action.moveRight = false;
+        globals.action.confirm = false;
     }
 }
 

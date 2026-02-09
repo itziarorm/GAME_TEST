@@ -124,13 +124,15 @@ export const BlockIDs = [
 
 export const Key = {
 
-    UP:     87,     //w
-    LEFT:   65,     //a
-    DOWN:   83,     //s
-    RIGHT:  68,     //d
-    CARD:   69,     //e
-    CONFIRM: 13,    //enter
-    INSERT_COIN: 67 //c
+    UP:     87,       //w
+    LEFT:   65,       //a
+    DOWN:   83,       //s
+    RIGHT:  68,       //d
+    CARD:   69,       //e
+    CONFIRM: 13,      //enter
+    INSERT_COIN: 67,  //c
+    MUSIC:   77,      //m
+    NO_MUSIC: 78      //n
 }
 
 export const Collision = {

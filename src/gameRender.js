@@ -342,7 +342,7 @@ function renderControlsScreen(){
     globals.ctx.drawImage(globals.ctx.imageSet, 30, 138, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RIGHT/CONFIRM", 60, 180);
+    globals.ctx.fillText("RIGHT", 60, 180);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/D.png";
@@ -356,11 +356,14 @@ function renderControlsScreen(){
     globals.ctx.drawImage(globals.ctx.imageSet, 130, 78, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("COIN", 160, 120);
+    globals.ctx.fillText("CONFIRM", 160, 120);
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("COIN", 160, 150);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/C.png";
-    globals.ctx.drawImage(globals.ctx.imageSet, 130, 108, 17, 16);
+    globals.ctx.drawImage(globals.ctx.imageSet, 130, 138, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("Back", 180, 210);
