@@ -57,20 +57,19 @@ export default{
 
     arrow: 0,
 
+    //particles
     particles: [],
 
+    //key
     hasKey: false,
     isDoor: false,
     visibleKey: false,
 
+    //card
     hasCard: false,
     canThrow: true,
     card_cooldown: 1.5,
-      
-    speedBoostTimer: null,    
-    throwCooldown: 0,          
-    throwCooldownMax: 1.5, 
-
+    
     //sound
     sounds: [],
     currentSound: -1,

@@ -11,7 +11,7 @@ import { keydownHandler, keyupHandler, updateMusic } from "./events.js";
 import { FreePhysics } from "./Physics.js";
 import { GhostBlue } from "./Sprite.js";
 import HitBox from "./HitBox.js";
-import { FireParticle } from "./Particle.js";
+import { ExplosionParticle, FireParticle, LiquidParticle } from "./Particle.js";
 
 function initHTMLelements(){
 
@@ -56,7 +56,7 @@ function initVars(){
     globals.score = 0;
     globals.highScore = 0;
 
-    globals.life = 120;
+    globals.life = 100;
     globals.mana = 0;
     globals.manaFrameY = 14;
     globals.lifeFrameX = 0;
@@ -64,10 +64,12 @@ function initVars(){
 
     globals.arrow = 117;
 
+    //key
     globals.hasKey = false;
     globals.visibleKey = false;
     globals.isDoor = false;
 
+    //card
     globals.hasCard = false;
     globals.canThrow = true;
     globals.card_cooldown = 1.5;
@@ -75,6 +77,7 @@ function initVars(){
     //SOUND
     globals.currentSound = Sound.NO_SOUND;
 
+    //Level
     globals.currentLevel = Levels.LEVEL1;
 }
 
@@ -504,6 +507,7 @@ function initLevel(){
     if(globals.currentLevel === Levels.LEVEL1){
 
         globals.level = new Level(level1, imageSet);
+        
     }else if (globals.currentLevel === Levels.LEVEL2){
         
         globals.level = new Level(level2, imageSet);
@@ -518,12 +522,40 @@ function initLevel2(){
 
 function initParticles(){
 
+    initExplosion();
     initFire();
+    initLiquid();
+}
+
+function initExplosion(){
+
+    const numParticles = 50;
+    const xInit = 40;
+    const yInit = 70;
+    const radius = 1;
+    const timeToFadeMax = 5;
+    const alpha = 1.0;
+
+    for(let i = 0; i < numParticles; ++i){
+
+        const velocity = Math.random() * 5;
+        const physics = new Physics(velocity);
+
+        const timeToFade = timeToFadeMax ^ Math.random() + 1;
+        const particle = new ExplosionParticle(ParticleId.EXPLOSION, ParticleState.ON, xInit, yInit, radius, alpha, physics, timeToFade);
+
+        const randomAngle = Math.random() * 2 * Math.PI;
+
+        particle.physics.vx = particle.physics.vLimit * Math.cos(randomAngle);
+        particle.physics.vy = particle.physics.vLimit * Math.sin(randomAngle);
+
+        globals.particles.push(particle);
+    }
 }
 
 function initFire(){
 
-    const numParticles = 100;
+    const numParticles = 10;
 
     for(let i = 0; i < numParticles; ++i){
 
@@ -552,13 +584,43 @@ export function createFireParticle(){
     globals.particles.push(particle);
 }
 
+function initLiquid(){
+
+    const numParticles = 10;
+
+    for(let i = 0; i < numParticles; ++i){
+
+        createLiquidParticle();
+    }
+}
+
+export function createLiquidParticle(){
+
+    const alpha = 4.0;
+    const velocity = Math.random() + 10;
+    const physics = new Physics(velocity);
+
+    const xInit = Math.random() * 10 + 30;
+    const yInit = 200;
+
+    const radius = Math.random() + 2;
+
+    const particle = new LiquidParticle(ParticleId.LIQUID, ParticleState.ON, xInit, yInit, radius, alpha, physics);
+
+    const randomAngle = Math.random() * 2 - Math.PI;
+
+    particle.physics.vx = particle.physics.vLimit * Math.cos(randomAngle);
+    particle.physics.vy = particle.physics.vLimit * Math.sin(randomAngle);
+
+    globals.particles.push(particle);
+}
+
 export {
     initHTMLelements,
     initVars,
     loadAssets,
     initSprites,
     initLevel,
-    //initLevel2,
     initTimers,
     initEvents,
     initParticles,

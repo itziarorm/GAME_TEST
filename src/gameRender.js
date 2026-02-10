@@ -16,6 +16,18 @@ export default function render(){
             drawGame();
             
             break;
+
+        case Game.LOAD_LEVEL1:
+            
+            drawLevel1();
+            
+            break;
+            
+        case Game.LOAD_LEVEL2:
+            
+            //drawLevel2();
+            
+            break;
         
         case Game.NEW_GAME:
 
@@ -73,15 +85,16 @@ function renderNewScreen(){
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
-    globals.ctx.font = "24px emulogic";
-    globals.ctx.fillStyle = "red";
-    globals.ctx.fillText("SCAPE", 80, 40);
-
+    //TITLE
+    globals.ctx.font = "32px emulogic";
+    globals.ctx.fillStyle = "darkviolet";
+    globals.ctx.fillText("SCAPE", 140, 40);
+    
     globals.ctx.font = "8px emulogic";
-    globals.ctx.fillText("FROM THE", 100, 52);
+    globals.ctx.fillText("FROM THE", 180, 52);
 
-    globals.ctx.font = "24px emulogic";
-    globals.ctx.fillText("SHADOWS", 60, 80);
+    globals.ctx.font = "32px emulogic";
+    globals.ctx.fillText("SHADOWS", 110, 90);
 
     //Draw score
     globals.ctx.font = "8px emulogic";
@@ -104,12 +117,33 @@ function renderNewScreen(){
 
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("© kaotika", 100, 220);
+    globals.ctx.fillText("© kaotika", 180, 320);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";      //x, y, xsize, ysize
     globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
+}
 
+function drawLevel1(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("LOADING...", 100, 90);
+}
+
+function drawLevel2(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("LOADING...", 100, 90);
 }
 
 function drawGame(){
@@ -160,9 +194,7 @@ function drawSprites(){
         const sprite = globals.sprites[i];
 
         //drawSpriteRectangle(sprite);
-
         renderSprite(sprite);
-
         //drawHitBox(sprite);
     }
 }
@@ -366,6 +398,9 @@ function renderControlsScreen(){
     globals.ctx.drawImage(globals.ctx.imageSet, 130, 138, 17, 16);
 
     globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("MUSIC", 160, 180);
+
+    globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("Back", 180, 210);
 
     globals.ctx.imageSet = new Image();
@@ -458,16 +493,54 @@ function renderParticle(particle){
     const type = particle.id;
     switch (type){
 
+        case ParticleId.EXPLOSION:
+            renderExplosionParticle(particle);
+            break;
+
         case ParticleId.FIRE:
             renderFireParticle(particle);
             break;
         
+        case ParticleId.LIQUID:
+            renderLiquidParticle(particle);
+            break;
+
         default:
             break;
     }
 }
 
+function renderExplosionParticle(particle){
+
+    if(particle.state != ParticleState.OFF){
+
+        globals.ctxHUD_RIGHT.fillStyle = 'blue';
+        globals.ctxHUD_RIGHT.globalAlpha = particle.alpha;
+        globals.ctxHUD_RIGHT.beginPath();
+        globals.ctxHUD_RIGHT.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
+        globals.ctxHUD_RIGHT.fill();
+        globals.ctxHUD_RIGHT.globalAlpha = 1.0;
+    }
+}
+
 function renderFireParticle(particle){
+
+    if(particle.state != ParticleState.OFF){
+
+        globals.ctxHUD_RIGHT.save();
+        globals.ctxHUD_RIGHT.fillStyle = 'red';
+        //globals.ctx.filter = 'saturate (500%)';
+
+        globals.ctxHUD_RIGHT.globalAlpha = particle.alpha;
+        globals.ctxHUD_RIGHT.beginPath();
+        globals.ctxHUD_RIGHT.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
+
+        globals.ctxHUD_RIGHT.fill();
+        globals.ctxHUD_RIGHT.restore();
+    }
+}
+
+function renderLiquidParticle(particle){
 
     if(particle.state != ParticleState.OFF){
 

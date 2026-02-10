@@ -3,7 +3,7 @@ import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, BlockF
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
-import { createFireParticle } from "./initialize.js";
+import { createFireParticle, createLiquidParticle } from "./initialize.js";
 import { level2 } from "./Levels.js";
 
 export default function update(){
@@ -23,7 +23,7 @@ export default function update(){
 
         case Game.LOAD_LEVEL1:
             
-            //loadLevel1();
+            loadLevel1();
             
             break;
             
@@ -98,7 +98,7 @@ function newGame(){
             
             console.log("Mostrando NEW GAME");
  
-            globals.gameState = Game.PLAYING;
+            globals.gameState = Game.LOAD_LEVEL1;
 
         } else if (globals.arrow === 137) {
 
@@ -119,6 +119,16 @@ function newGame(){
         
         globals.action.confirm = false;
     }
+}
+
+function loadLevel1(){
+
+    globals.gameState = Game.PLAYING;
+}
+
+function loadLevel2(){
+
+    globals.gameState = Game.PLAYING;
 }
 
 function playGame(){
@@ -287,8 +297,6 @@ function updateSprite(sprite){
 
         case SpriteID.CARDS:
 
-            updateCard(sprite);
-
             if(sprite.isCollidingWithPlayer){
                 
                 globals.hasCard = true;
@@ -308,17 +316,6 @@ function updateSprite(sprite){
         case SpriteID.CARD:
 
             updateCard(sprite);
-
-            if(sprite.isCollidingWithPlayer){
-                
-                globals.score += 100;
-                const index = globals.sprites.indexOf(sprite);
-
-                if (index !== -1) {
-                    
-                    globals.sprites.splice(index, 1);
-                }
-            }
 
             break;
 
@@ -420,6 +417,7 @@ function changelevel(){
 
     if (globals.currentLevel === Levels.LEVEL2){
 
+        //globals.gameState = Game.LOAD_LEVEL2;
         globals.level.data = level2;
     }
 }
@@ -880,7 +878,7 @@ function updateHUDLifePoints(){
         globals.lifeFrameX = 0; //null
         globals.lifeFrameY = 0;
 
-    } else if (globals.life <= 30) {
+    } else if (globals.life <= 40) {
 
         globals.lifeFrameX = 0;
 
@@ -905,11 +903,11 @@ function updateMana(sprite){
 
 function updateHUDMana(){
 
-    if (globals.mana <= 15) {
+    if (globals.mana <= 80) {
 
         globals.manaFrameY = 14;
 
-    } else if (globals.mana <= 30) {
+    } else if (globals.mana <= 120) {
         
         globals.manaFrameY = 42;
 
@@ -1032,6 +1030,8 @@ function updateParticles(){
             i--;
 
             createFireParticle();
+            createLiquidParticle();
+
         } else{
 
             updateParticle(particle);
@@ -1045,12 +1045,15 @@ function updateParticle(particle){
     switch (type){
 
         case ParticleId.EXPLOSION:
+            updateExplosionParticle(particle);
             break;
 
         case ParticleId.FIRE:
-            
             updateFireParticle(particle);
-        
+            break;
+
+        case ParticleId.LIQUID:
+            updateLiquidParticle(particle);
             break;
 
         default: 
@@ -1058,7 +1061,81 @@ function updateParticle(particle){
     }
 }
 
+function updateExplosionParticle(particle){
+
+    particle.fadeCounter += globals.deltaTime;
+
+    switch(particle.state){
+
+        case ParticleState.ON: 
+
+            if(particle.fadeCounter > particle.timeToFade){
+                
+                particle.fadeCounter = 0;
+                particle.state = ParticleState.FADE;
+            }
+
+            break;
+            
+        case ParticleState.FADE: 
+
+            particle.alpha -= 0.3;
+
+            if(particle.alpha <= 0){
+
+                particle.state = ParticleState.OFF;
+            }
+
+            break;
+
+        case ParticleState.OFF:
+            break;
+
+        default:
+            break;
+    }
+
+    particle.xPos += particle.physics.vx * globals.deltaTime;
+    particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
 function updateFireParticle(particle){
+
+    switch(particle.state){
+
+        case ParticleState.ON: 
+            
+            particle.radius -= 0.1;
+
+            if(particle.radius < 2){
+                particle.state = ParticleState.FADE;
+            }
+
+            break;
+            
+        case ParticleState.FADE: 
+
+            particle.alpha -= 0.3;
+
+            if(particle.alpha <= 0){
+
+                particle.state = ParticleState.OFF;
+            }
+
+            break;
+
+        case ParticleState.OFF:
+            break;
+
+        default:
+            break;
+    }
+
+    particle.xPos += particle.physics.vx * globals.deltaTime;
+    particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function updateLiquidParticle(particle){
 
     switch(particle.state){
 

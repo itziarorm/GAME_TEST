@@ -147,7 +147,8 @@ export const Collision = {
 export const ParticleId = {
     
     EXPLOSION: 0,
-    FIRE: 1
+    FIRE: 1,
+    LIQUID: 2
 }
 
 export const ParticleState = {
@@ -175,6 +176,17 @@ export const Levels = {
 
 //To do: create array with the positions of the blocks that are free to move
 export const BlockFreePositions = 
+[
+        [10, 36],   [95, 30],   [200, 36],
+        [10, 60],   [80, 180],  [160, 290],
+        [10, 80],   [250, 200], [120, 140],
+        [40, 80],   [220, 140], [280, 160],
+        [50, 220],  [140, 240], [220, 240],
+        [180, 240], [115, 336], [205, 336],
+        [280, 308], [160, 320]
+];
+
+export const PositionsLevel2 = 
 [
         [10, 36],   [95, 30],   [200, 36],
         [10, 60],   [80, 180],  [160, 290],
