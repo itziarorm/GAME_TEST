@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, BlockFreePositions } from "./constants.js";
+import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, RandomFreePositions } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
@@ -29,7 +29,7 @@ export default function update(){
             
         case Game.LOAD_LEVEL2:
             
-            //loadLevel2();
+            loadLevel2();
             
             break;
 
@@ -128,7 +128,19 @@ function loadLevel1(){
 
 function loadLevel2(){
 
+    //reset();
+    //const player = globals.sprites[0];
+    //player.xPos = 180;
+    //player.yPos = 180;
+
+    globals.level.data = level2;
     globals.gameState = Game.PLAYING;
+}
+
+function reset(){
+
+    globals.sprites = [];
+    globals.particles = [];
 }
 
 function playGame(){
@@ -196,8 +208,8 @@ function updateSprite(sprite){
                 
                 globals.currentSound = Sound.HURT;
 
-                const randomIndex = Math.floor(Math.random() * BlockFreePositions.length);
-                const newPosition = BlockFreePositions[randomIndex];
+                const randomIndex = Math.floor(Math.random() * RandomFreePositions.length);
+                const newPosition = RandomFreePositions[randomIndex];
 
                 sprite.xPos = newPosition[0];
                 sprite.yPos = newPosition[1];
@@ -217,12 +229,11 @@ function updateSprite(sprite){
                 
                 globals.currentSound = Sound.HURT;
                 
-                const index = globals.sprites.indexOf(sprite);
+                const randomIndex = Math.floor(Math.random() * RandomFreePositions.length);
+                const newPosition = RandomFreePositions[randomIndex];
 
-                if (index !== -1) {
-                    
-                    globals.sprites.splice(index, 1);
-                }
+                sprite.xPos = newPosition[0];
+                sprite.yPos = newPosition[1];
             }
 
             break;
@@ -417,8 +428,11 @@ function changelevel(){
 
     if (globals.currentLevel === Levels.LEVEL2){
 
-        //globals.gameState = Game.LOAD_LEVEL2;
-        globals.level.data = level2;
+        //reset();
+        globals.gameState = Game.LOAD_LEVEL2;
+        //globals.sprites = [];
+        //initSprites();
+        //globals.level.data = level2;
     }
 }
 
@@ -907,7 +921,7 @@ function updateHUDMana(){
 
         globals.manaFrameY = 14;
 
-    } else if (globals.mana <= 120) {
+    } else if (globals.mana <= 180) {
         
         globals.manaFrameY = 42;
 

@@ -68,7 +68,9 @@ export default{
     //card
     hasCard: false,
     canThrow: true,
-    card_cooldown: 1.5,
+    card_cooldown: 0,
+
+    velocityTime: 0,
     
     //sound
     sounds: [],

@@ -99,21 +99,21 @@ function renderNewScreen(){
     //Draw score
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("NEW GAME", 100, 130);
+    globals.ctx.fillText("NEW GAME", 180, 130);
 
     //story
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("STORY", 100, 150);
+    globals.ctx.fillText("STORY", 180, 150);
 
     //controls
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("CONTROLS", 100, 170);
+    globals.ctx.fillText("CONTROLS", 180, 170);
 
     //Draw high score
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("HIGH SCORE", 100, 190);
+    globals.ctx.fillText("HIGH SCORE", 180, 190);
 
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
@@ -121,7 +121,7 @@ function renderNewScreen(){
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";      //x, y, xsize, ysize
-    globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
+    globals.ctx.drawImage(globals.ctx.imageSet, 160, globals.arrow, 16, 16);
 }
 
 function drawLevel1(){
@@ -284,7 +284,7 @@ function drawSprite(ctx, img, sx, sy, sw, sh, dx, dy, dw, dh) {
 
 function renderHUD_Right(){
 
-    const stage = 1;
+    const stage = globals.currentLevel + 1;
 
     globals.ctxHUD_RIGHT.imageSet = new Image();
     globals.ctxHUD_RIGHT.imageSet.src = "./images/lucrecia.png";
@@ -294,6 +294,16 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.imageSet = new Image();
     globals.ctxHUD_RIGHT.imageSet.src = "./images/Book.png"; //x, y, xsize, ysize
     globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 0, 105, 80, 55);
+
+
+    //const xPos = Math.floor(globals.ctxHUD_RIGHT.imageSet.xPos);
+    //const yPos = Math.floor(globals.ctxHUD_RIGHT.imageSet.yPos);
+    //globals.ctxHUD_RIGHT.translate(xPos + globals.ctxHUD_RIGHT.imageSet.xSize / 2, yPos + globals.ctxHUD_RIGHT.imageSet.ySize / 2);
+    //let angle = 30;
+    //let angle_radius = angle * Math.PI / 180;
+    //globals.ctxHUD_RIGHT.rotate(angle_radius);
+    //globals.ctxHUD_RIGHT.translate(-(xPos + globals.ctxHUD_RIGHT.imageSet.xSize / 2), -(yPos + globals.ctxHUD_RIGHT.imageSet.ySize / 2));
+    //globals.ctxHUD_RIGHT.setTransform(1, 0, 0, 1, 0, 0);
 
     globals.ctxHUD_RIGHT.imageSetFrames = new Image();
     globals.ctxHUD_RIGHT.imageSetFrames.src = "./images/book_frames.png";
@@ -514,12 +524,12 @@ function renderExplosionParticle(particle){
 
     if(particle.state != ParticleState.OFF){
 
-        globals.ctxHUD_RIGHT.fillStyle = 'blue';
-        globals.ctxHUD_RIGHT.globalAlpha = particle.alpha;
-        globals.ctxHUD_RIGHT.beginPath();
-        globals.ctxHUD_RIGHT.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
-        globals.ctxHUD_RIGHT.fill();
-        globals.ctxHUD_RIGHT.globalAlpha = 1.0;
+        globals.ctx.fillStyle = 'blue';
+        globals.ctx.globalAlpha = particle.alpha;
+        globals.ctx.beginPath();
+        globals.ctx.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
+        globals.ctx.fill();
+        globals.ctx.globalAlpha = 1.0;
     }
 }
 
@@ -527,16 +537,16 @@ function renderFireParticle(particle){
 
     if(particle.state != ParticleState.OFF){
 
-        globals.ctxHUD_RIGHT.save();
-        globals.ctxHUD_RIGHT.fillStyle = 'red';
+        globals.ctx.save();
+        globals.ctx.fillStyle = 'red';
         //globals.ctx.filter = 'saturate (500%)';
 
-        globals.ctxHUD_RIGHT.globalAlpha = particle.alpha;
-        globals.ctxHUD_RIGHT.beginPath();
-        globals.ctxHUD_RIGHT.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
+        globals.ctx.globalAlpha = particle.alpha;
+        globals.ctx.beginPath();
+        globals.ctx.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
 
-        globals.ctxHUD_RIGHT.fill();
-        globals.ctxHUD_RIGHT.restore();
+        globals.ctx.fill();
+        globals.ctx.restore();
     }
 }
 
@@ -544,15 +554,15 @@ function renderLiquidParticle(particle){
 
     if(particle.state != ParticleState.OFF){
 
-        globals.ctxHUD_RIGHT.save();
-        globals.ctxHUD_RIGHT.fillStyle = 'red';
+        globals.ctx.save();
+        globals.ctx.fillStyle = 'lightgreen';
         //globals.ctx.filter = 'saturate (500%)';
 
-        globals.ctxHUD_RIGHT.globalAlpha = particle.alpha;
-        globals.ctxHUD_RIGHT.beginPath();
-        globals.ctxHUD_RIGHT.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
+        globals.ctx.globalAlpha = particle.alpha;
+        globals.ctx.beginPath();
+        globals.ctx.arc(particle.xPos, particle.yPos, particle.radius, 0, 2 * Math.PI);
 
-        globals.ctxHUD_RIGHT.fill();
-        globals.ctxHUD_RIGHT.restore();
+        globals.ctx.fill();
+        globals.ctx.restore();
     }
 }

@@ -79,6 +79,8 @@ function initVars(){
 
     //Level
     globals.currentLevel = Levels.LEVEL1;
+
+    globals.velocityTime = 2;
 }
 
 function initEvents(){
@@ -175,10 +177,10 @@ function initSprites(){
     initCards();
     initPoints();
     initPoints2();
-    initPoints3();
     initDoor();
     initKey();
     initCardPrint();
+    initPoints3();
 }
 
 function initPlayer(){
@@ -528,10 +530,10 @@ function initParticles(){
 }
 
 function initExplosion(){
-
+    
     const numParticles = 50;
-    const xInit = 40;
-    const yInit = 70;
+    const xInit = globals.sprites[12].xPos;
+    const yInit = globals.sprites[12].yPos;
     const radius = 1;
     const timeToFadeMax = 5;
     const alpha = 1.0;
@@ -566,11 +568,11 @@ function initFire(){
 export function createFireParticle(){
 
     const alpha = 4.0;
-    const velocity = Math.random() + 20 + 10;
+    const velocity = Math.random() + 10;
     const physics = new Physics(velocity);
 
-    const xInit = Math.random() * 10 + 30;
-    const yInit = 220;
+    const xInit = Math.random() * 5 + globals.sprites[0].xPos + 5;
+    const yInit = globals.sprites[0].yPos + 15;
 
     const radius = 3 ^ Math.random() + 2;
 
@@ -600,8 +602,8 @@ export function createLiquidParticle(){
     const velocity = Math.random() + 10;
     const physics = new Physics(velocity);
 
-    const xInit = Math.random() * 10 + 30;
-    const yInit = 200;
+    const xInit = Math.random() * 10 + globals.sprites[5].xPos + 3;
+    const yInit = globals.sprites[5].yPos + 15;
 
     const radius = Math.random() + 2;
 

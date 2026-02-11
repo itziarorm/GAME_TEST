@@ -175,7 +175,7 @@ export const Levels = {
 }
 
 //To do: create array with the positions of the blocks that are free to move
-export const BlockFreePositions = 
+export const RandomFreePositions = 
 [
         [10, 36],   [95, 30],   [200, 36],
         [10, 60],   [80, 180],  [160, 290],

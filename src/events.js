@@ -89,13 +89,23 @@ export function eventVelocity(sprite){
 
         const player = globals.sprites[0];
         player.physics.vLimit = 60; 
+
+        if (globals.velocityTime > 0) {
+                
+            globals.velocityTime -= globals.deltaTime;
+            
+            if (globals.velocityTime <= 0) {
+
+                player.physics.vLimit = 40;
+            }
+        }
     
     }
 }
 
 export function eventKey(){
 
-    if (globals.mana >= 200){
+    if (globals.mana >= 20){
 
         globals.visibleKey = true;
     }
