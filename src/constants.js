@@ -8,7 +8,9 @@ export const Game = {
     CONTROLS:   5,
     DASHBOARD:  6,
     LOAD_LEVEL1: 7,
-    LOAD_LEVEL2: 8
+    LOAD_LEVEL2: 8,
+    HIGHSCORE: 9,
+    HIGHSCORE_TOP: 10
 };
 
 export const FPS = 30;

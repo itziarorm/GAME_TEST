@@ -57,6 +57,16 @@ export default function update(){
 
             break;
 
+        case Game.HIGHSCORE:
+
+            highScore();
+            break;
+
+        case Game.HIGHSCORE_TOP:
+
+            topHighScore();
+            break;
+
         default:
             console.error("ERROR: Game State invalid");
     }
@@ -113,7 +123,7 @@ function newGame(){
         }   else if (globals.arrow === 177) {
 
             console.log("Mostrando HIGH SCORE");
-            globals.gameState = Game.GAME_OVER;
+            globals.gameState = Game.HIGHSCORE_TOP;
 
         }
         
@@ -990,7 +1000,7 @@ function gameOver(){
 
             // HIGH SCORE select
             console.log("Mostrando PLAYING");
-            globals.gameState = Game.PLAYING;
+            globals.gameState = Game.HIGHSCORE;
             globals.life = 100;
             globals.score++;
 
@@ -1183,4 +1193,14 @@ function updateLiquidParticle(particle){
 
     particle.xPos += particle.physics.vx * globals.deltaTime;
     particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function highScore(){
+
+
+}
+
+function topHighScore(){
+
+
 }

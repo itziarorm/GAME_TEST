@@ -53,6 +53,18 @@ export default function render(){
 
             break;
 
+        case Game.HIGHSCORE:
+
+            drawHighScore();
+
+            break;
+
+        case Game.HIGHSCORE_TOP:
+
+            drawTopHighScore();
+
+            break;
+
         default:
             console.error("ERROR: Game State invalid");
     }
@@ -463,7 +475,6 @@ function renderGameOverScreen(){
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
-
     //Draw score
     globals.ctx.font = "16px emulogic";
     globals.ctx.fillStyle = "lightgray";
@@ -481,7 +492,7 @@ function renderGameOverScreen(){
 
     //restart game
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("TRY AGAIN", 100, 180);
+    globals.ctx.fillText("HighScores", 100, 180);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
@@ -565,4 +576,49 @@ function renderLiquidParticle(particle){
         globals.ctx.fill();
         globals.ctx.restore();
     }
+}
+
+function drawHighScore(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("HIGH SCORE", 60, 30);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("TOP   NAME    LEVEL    SCORE", 100, 80);
+
+    //Draw high score
+    //globals.ctx.font = "8px emulogic";
+    //globals.ctx.fillStyle = "lightgray";
+    //globals.ctx.fillText("SCORE", 100, 110);
+    //globals.ctx.fillText(" " + globals.highScore, 100, 120);
+
+    //go back to new game
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RETURN", 180, 200);
+
+}
+
+function drawTopHighScore(){
+
+    let top = 1;
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("HIGH SCORE", 60, 30);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("TOP   NAME    LEVEL    SCORE", 100, 80);
+    globals.ctx.fillText(" " + top + "     AMN       1     105000", 100, 100);
+
 }
