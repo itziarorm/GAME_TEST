@@ -53,6 +53,11 @@ export default function render(){
 
             break;
 
+        case Game.LOAD_HIGHSCORE:
+            
+            drawLoadHighScore();
+            break;
+
         case Game.HIGHSCORE:
 
             drawHighScore();
@@ -578,6 +583,13 @@ function renderLiquidParticle(particle){
     }
 }
 
+function drawLoadHighScore(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+}
+
 function drawHighScore(){
 
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
@@ -600,7 +612,11 @@ function drawHighScore(){
 
     //go back to new game
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RETURN", 180, 200);
+    globals.ctx.fillText("RETURN", 300, 300);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 300, globals.arrow, 16, 16);
 
 }
 
@@ -620,5 +636,13 @@ function drawTopHighScore(){
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("TOP   NAME    LEVEL    SCORE", 100, 80);
     globals.ctx.fillText(" " + top + "     AMN       1     105000", 100, 100);
+
+    //go back to new game
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RETURN", 300, 300);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 280, globals.arrow, 16, 16);
 
 }

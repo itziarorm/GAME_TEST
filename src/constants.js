@@ -10,7 +10,8 @@ export const Game = {
     LOAD_LEVEL1: 7,
     LOAD_LEVEL2: 8,
     HIGHSCORE: 9,
-    HIGHSCORE_TOP: 10
+    HIGHSCORE_TOP: 10,
+    LOAD_HIGHSCORE: 11
 };
 
 export const FPS = 30;
@@ -52,6 +53,7 @@ export const State = {
     LEFT_2:  1,
     RIGHT_2: 2,
     DOWN_2: 3,
+    OFF: -1,
 
     //YELLOW GHOST
     UP_3: 0,
@@ -100,7 +102,8 @@ export const Block = {
     SPIKES:    14,
     EXIT:      15,
     FLOOR:     16,
-    PLATFORM:  17
+    PLATFORM:  17,
+    BLOCK_SOLID: 22
 
     //create array for the collision
 }

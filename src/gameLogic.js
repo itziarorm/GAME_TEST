@@ -57,6 +57,11 @@ export default function update(){
 
             break;
 
+        case Game.LOAD_HIGHSCORE:
+            
+            loadHighScore();
+            break;
+
         case Game.HIGHSCORE:
 
             highScore();
@@ -132,7 +137,7 @@ function newGame(){
 }
 
 function loadLevel1(){
-
+    
     globals.gameState = Game.PLAYING;
 }
 
@@ -421,12 +426,14 @@ function updateSprite(sprite){
             if(sprite.isCollidingWithPlayer){
 
                 globals.score += 20;
-                const index = globals.sprites.indexOf(sprite);
 
-                if (index !== -1) {
+                sprite.state = State.OFF;
+                // const index = globals.sprites.indexOf(sprite);
 
-                    globals.sprites.splice(index, 1);
-                }
+                // if (index !== -1) {
+
+                //     globals.sprites.splice(index, 1);
+                // }
             }
 
         default:
@@ -802,6 +809,14 @@ function updateSprites(){
 
         const sprite = globals.sprites[i];
         updateSprite(sprite);
+        
+        if(sprite.state === State.OFF){
+
+            const index = globals.sprites.indexOf(sprite);
+            globals.sprites.splice(index, 1);
+                
+        }
+        
     }
 }
 
@@ -1195,12 +1210,39 @@ function updateLiquidParticle(particle){
     particle.yPos += particle.physics.vy * globals.deltaTime;
 }
 
+function loadHighScore(){
+
+}
+
 function highScore(){
 
+    globals.arrow = 287;
+
+    if (globals.action.confirm) {
+
+        if (globals.arrow === 287) {
+            
+            console.log("Mostrando NEW GAME");
+            globals.gameState = Game.NEW_GAME;
+        }
+
+        globals.action.confirm = false; 
+    }
 
 }
 
 function topHighScore(){
 
+    globals.arrow = 287;
 
+    if (globals.action.confirm) {
+
+        if (globals.arrow === 287) {
+            
+            console.log("Mostrando NEW GAME");
+            globals.gameState = Game.NEW_GAME;
+        }
+
+        globals.action.confirm = false; 
+    }
 }
