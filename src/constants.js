@@ -11,7 +11,8 @@ export const Game = {
     LOAD_LEVEL2: 8,
     HIGHSCORE: 9,
     HIGHSCORE_TOP: 10,
-    LOAD_HIGHSCORE: 11
+    LOAD_HIGHSCORE: 11,
+    HIGHSCORE_TOP2: 12,
 };
 
 export const FPS = 30;

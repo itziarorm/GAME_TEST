@@ -5,6 +5,7 @@ import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
 import { createFireParticle, createLiquidParticle } from "./initialize.js";
 import { level2 } from "./Levels.js";
+import { highScoreData } from "./HighScoreFake.js";
 
 export default function update(){
 
@@ -57,6 +58,11 @@ export default function update(){
 
             break;
 
+        case Game.INSERT_NAME:
+            
+            insertName();
+            break;
+
         case Game.LOAD_HIGHSCORE:
             
             loadHighScore();
@@ -70,6 +76,11 @@ export default function update(){
         case Game.HIGHSCORE_TOP:
 
             topHighScore();
+            break;
+
+        case Game.HIGHSCORE_TOP2:
+
+            topHighScore2();
             break;
 
         default:
@@ -128,7 +139,7 @@ function newGame(){
         }   else if (globals.arrow === 177) {
 
             console.log("Mostrando HIGH SCORE");
-            globals.gameState = Game.HIGHSCORE_TOP;
+            globals.gameState = Game.LOAD_HIGHSCORE;
 
         }
         
@@ -1015,7 +1026,7 @@ function gameOver(){
 
             // HIGH SCORE select
             console.log("Mostrando PLAYING");
-            globals.gameState = Game.HIGHSCORE;
+            globals.gameState = Game.INSERT_NAME;
             globals.life = 100;
             globals.score++;
 
@@ -1212,15 +1223,34 @@ function updateLiquidParticle(particle){
 
 function loadHighScore(){
 
+    globals.arrow = 317;
+    globals.gameState = Game.HIGHSCORE_TOP;
+
+}
+
+function insertName(){
+
+    globals.arrow = 317;
+
+    if (globals.action.confirm) {
+
+        if (globals.arrow === 317) {
+            
+            console.log("Mostrando NEW GAME");
+            globals.gameState = Game.HIGHSCORE;
+        }
+        
+        globals.action.confirm = false; 
+    }
 }
 
 function highScore(){
 
-    globals.arrow = 287;
+    globals.arrow = 317;
 
     if (globals.action.confirm) {
 
-        if (globals.arrow === 287) {
+        if (globals.arrow === 317) {
             
             console.log("Mostrando NEW GAME");
             globals.gameState = Game.NEW_GAME;
@@ -1233,11 +1263,49 @@ function highScore(){
 
 function topHighScore(){
 
-    globals.arrow = 287;
+    if (globals.action.moveUp) {
+
+        globals.action.moveUp = false; 
+        globals.arrow = 317;
+    }
+    
+    if (globals.action.moveDown) {
+        
+        globals.action.moveDown = false;
+
+        if (globals.arrow > 337) {
+            globals.arrow = 317; 
+
+        } else{
+            globals.arrow += 20;
+        }
+    }
 
     if (globals.action.confirm) {
 
-        if (globals.arrow === 287) {
+        if (globals.arrow === 317) {
+            
+            console.log("Mostrando NEW GAME");
+            globals.gameState = Game.HIGHSCORE_TOP2;
+        }
+        if (globals.arrow === 337) {
+            
+            console.log("Mostrando NEW GAME");
+            globals.gameState = Game.NEW_GAME;
+        }
+
+        globals.action.confirm = false; 
+    }
+
+}
+
+function topHighScore2(){
+
+    globals.arrow = 317;
+
+    if (globals.action.confirm) {
+
+        if (globals.arrow === 317) {
             
             console.log("Mostrando NEW GAME");
             globals.gameState = Game.NEW_GAME;

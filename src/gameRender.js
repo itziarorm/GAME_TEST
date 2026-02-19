@@ -1,5 +1,6 @@
 import globals from "./globals.js";
 import { Game, ParticleId, ParticleState, Tile } from "./constants.js";
+import { highScoreData } from "./HighScoreFake.js";
 
 export default function render(){
 
@@ -53,6 +54,12 @@ export default function render(){
 
             break;
 
+        case Game.INSERT_NAME:
+
+            drawInsertName();
+
+            break;
+
         case Game.LOAD_HIGHSCORE:
             
             drawLoadHighScore();
@@ -67,6 +74,12 @@ export default function render(){
         case Game.HIGHSCORE_TOP:
 
             drawTopHighScore();
+
+            break;
+
+        case Game.HIGHSCORE_TOP2:
+
+            drawTopHighScore2();
 
             break;
 
@@ -312,7 +325,7 @@ function renderHUD_Right(){
     globals.ctxHUD_RIGHT.imageSet.src = "./images/Book.png"; //x, y, xsize, ysize
     globals.ctxHUD_RIGHT.drawImage(globals.ctxHUD_RIGHT.imageSet, 0, 105, 80, 55);
 
-
+    //Transform
     //const xPos = Math.floor(globals.ctxHUD_RIGHT.imageSet.xPos);
     //const yPos = Math.floor(globals.ctxHUD_RIGHT.imageSet.yPos);
     //globals.ctxHUD_RIGHT.translate(xPos + globals.ctxHUD_RIGHT.imageSet.xSize / 2, yPos + globals.ctxHUD_RIGHT.imageSet.ySize / 2);
@@ -590,6 +603,41 @@ function drawLoadHighScore(){
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 }
 
+function drawInsertName(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+    
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("INSERT NAME", 120, 60);
+
+    //globals.ctx.fillStyle = "lightgray";
+    //globals.ctx.fillRect(100, 9, 40, 8);
+    globals.ctx.fillStyle = "orange";
+    globals.ctx.fillRect(80, 80, 60, 80);
+
+    globals.ctx.fillStyle = "pink";
+    globals.ctx.fillRect(180, 80, 60, 80);
+
+    globals.ctx.fillStyle = "blue";
+    globals.ctx.fillRect(280, 80, 60, 80);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/keys.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 30, 200, 365 / 1.1, 109 / 1.1);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RETURN", 300, 330);   
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 280, globals.arrow, 16, 16);
+
+}
+
 function drawHighScore(){
 
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
@@ -604,6 +652,12 @@ function drawHighScore(){
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("TOP   NAME    LEVEL    SCORE", 100, 80);
 
+    for(let i = 0; i < 10; ++i){
+
+        const highScore = highScoreData[i];
+        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, highScore.xPos, highScore.yPos);
+    }
+
     //Draw high score
     //globals.ctx.font = "8px emulogic";
     //globals.ctx.fillStyle = "lightgray";
@@ -611,12 +665,13 @@ function drawHighScore(){
     //globals.ctx.fillText(" " + globals.highScore, 100, 120);
 
     //go back to new game
+    globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RETURN", 300, 300);
+    globals.ctx.fillText("RETURN", 300, 330);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
-    globals.ctx.drawImage(globals.ctx.imageSet, 300, globals.arrow, 16, 16);
+    globals.ctx.drawImage(globals.ctx.imageSet, 280, globals.arrow, 16, 16);
 
 }
 
@@ -635,11 +690,54 @@ function drawTopHighScore(){
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("TOP   NAME    LEVEL    SCORE", 100, 80);
-    globals.ctx.fillText(" " + top + "     AMN       1     105000", 100, 100);
+    //globals.ctx.fillText(" " + top + "     AMN       1     105000", 100, 100);
+
+    for(let i = 0; i < 10; ++i){
+
+        const highScore = highScoreData[i];
+        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, highScore.xPos, highScore.yPos);
+    }
 
     //go back to new game
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RETURN", 300, 300);
+    globals.ctx.fillText("CONTINUE", 300, 330);
+
+    //go back to new game
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RETURN", 300, 350);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/arrow.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 280, globals.arrow, 16, 16);
+
+}
+
+function drawTopHighScore2(){
+
+    let top = 1;
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("HIGH SCORE", 60, 30);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("TOP   NAME    LEVEL    SCORE", 100, 80);
+    //globals.ctx.fillText(" " + top + "     AMN       1     105000", 100, 100);
+
+    for(let i = 10; i < highScoreData.length; ++i){
+
+        const highScore = highScoreData[i];
+        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, highScore.xPos, highScore.yPos);
+    }
+
+    //go back to new game
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("RETURN", 300, 330);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
