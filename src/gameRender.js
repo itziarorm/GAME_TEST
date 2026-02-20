@@ -630,7 +630,7 @@ function drawInsertName(){
 
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("RETURN", 300, 330);   
+    globals.ctx.fillText("CONTINUE", 300, 330);   
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
@@ -655,7 +655,7 @@ function drawHighScore(){
     for(let i = 0; i < 10; ++i){
 
         const highScore = highScoreData[i];
-        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, highScore.xPos, highScore.yPos);
+        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, 100, 100 + i * 20);
     }
 
     //Draw high score
@@ -695,7 +695,7 @@ function drawTopHighScore(){
     for(let i = 0; i < 10; ++i){
 
         const highScore = highScoreData[i];
-        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, highScore.xPos, highScore.yPos);
+        globals.ctx.fillText(" " + (highScore.position) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, 100, 100 + i * 20);
     }
 
     //go back to new game
@@ -732,7 +732,7 @@ function drawTopHighScore2(){
     for(let i = 10; i < highScoreData.length; ++i){
 
         const highScore = highScoreData[i];
-        globals.ctx.fillText(" " + (i + 1) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, highScore.xPos, highScore.yPos);
+        globals.ctx.fillText(" " + (highScore.position) + "     " + highScore.name + "      " + highScore.level + "     " + highScore.score, 100, 100 + (i % 10) * 20);
     }
 
     //go back to new game

@@ -1231,7 +1231,7 @@ function loadHighScore(){
 function insertName(){
 
     globals.arrow = 317;
-
+    
     if (globals.action.confirm) {
 
         if (globals.arrow === 317) {
