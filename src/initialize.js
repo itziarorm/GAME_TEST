@@ -185,22 +185,41 @@ function initSprites(){
 
 function initPlayer(){
 
-    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(0, 0, 16, 16, 0, 0, 16);
+    if(globals.currentLevel === Levels.LEVEL1){
 
-    //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(4, 4);
+        //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+        const imageSet = new ImageSet(0, 0, 44, 57, 10, 6, 64);
 
-    //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(40);
+        //create frames data: 8 frames, animation speed 5 frames/second
+        const frames = new Frames(8, 5);
 
-    const hitBox = new HitBox(8, 12, 4, 2);
+        //physics with vlimit =  40 pixels/seconds
+        const physics = new Physics(40);
 
-    //create player sprite
-    const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 160, 210, imageSet, frames, physics, hitBox);
-   
-    //add player to sprites array
-    globals.sprites.push(player);
+        //create hitbox object xSize, ySize, xOffset, yOffset
+        const hitBox = new HitBox(16, 51, 14, 5);
+
+        //create player sprite
+        const player = new Sprite(SpriteID.PLAYER, State.STILL_RIGHT, 30, 40, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
+
+    }else if(globals.currentLevel === Levels.LEVEL2){
+
+        const imageSet = new ImageSet(0, 0, 16, 16, 0, 0, 16);
+
+        const frames = new Frames(4, 4);
+
+        const physics = new Physics(40);
+
+        const hitBox = new HitBox(8, 12, 4, 2);
+
+        const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 30, 20, imageSet, frames, physics, hitBox);
+
+        globals.sprites.push(player);
+    }
+        
 }
 
 function initCardPrint(x, y, direction){

@@ -13,6 +13,7 @@ export const Game = {
     HIGHSCORE_TOP: 10,
     LOAD_HIGHSCORE: 11,
     HIGHSCORE_TOP2: 12,
+    INSERT_NAME: 13
 };
 
 export const FPS = 30;

@@ -3,7 +3,7 @@ import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, Random
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
-import { createFireParticle, createLiquidParticle } from "./initialize.js";
+import { createFireParticle, createLiquidParticle, initSprites } from "./initialize.js";
 import { level2 } from "./Levels.js";
 import { highScoreData } from "./HighScoreFake.js";
 
@@ -154,13 +154,19 @@ function loadLevel1(){
 
 function loadLevel2(){
 
-    //reset();
-    //const player = globals.sprites[0];
-    //player.xPos = 180;
-    //player.yPos = 180;
-
+    console.log("👤 Init Player - Nivel:", globals.currentLevel);
+    globals.sprites = [];
+    
     globals.level.data = level2;
+    
+    initSprites();
+    
+    globals.hasKey = false;
+    globals.isDoor = false;
+    
     globals.gameState = Game.PLAYING;
+    
+    console.log("Nivel 2 cargado correctamente");
 }
 
 function reset(){
@@ -184,8 +190,6 @@ function playGame(){
     updateLevelTime();
 
     playSound();
-    
-    changelevel();
 
     isGameOver();
 }
@@ -419,6 +423,7 @@ function updateSprite(sprite){
                     const index = globals.sprites.indexOf(sprite);
 
                     globals.currentLevel += 1;
+                    changelevel();
 
                     if (index !== -1) {
 
@@ -455,12 +460,9 @@ function updateSprite(sprite){
 function changelevel(){
 
     if (globals.currentLevel === Levels.LEVEL2){
-
-        //reset();
+       
         globals.gameState = Game.LOAD_LEVEL2;
-        //globals.sprites = [];
-        //initSprites();
-        //globals.level.data = level2;
+        loadLevel2(); 
     }
 }
 
