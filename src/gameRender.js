@@ -618,6 +618,9 @@ function drawInsertName(){
     globals.ctx.fillStyle = "orange";
     globals.ctx.fillRect(80, 80, 60, 80);
 
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillRect(80, 80, 3, 80);
+
     globals.ctx.fillStyle = "pink";
     globals.ctx.fillRect(180, 80, 60, 80);
 
@@ -625,8 +628,8 @@ function drawInsertName(){
     globals.ctx.fillRect(280, 80, 60, 80);
 
     globals.ctx.imageSet = new Image();
-    globals.ctx.imageSet.src = "./images/keys.png";
-    globals.ctx.drawImage(globals.ctx.imageSet, 30, 200, 365 / 1.1, 109 / 1.1);
+    globals.ctx.imageSet.src = "./images/master.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 50, 200, 237, 67);
 
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";

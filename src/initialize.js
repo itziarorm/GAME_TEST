@@ -188,19 +188,19 @@ function initPlayer(){
     if(globals.currentLevel === Levels.LEVEL1){
 
         //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-        const imageSet = new ImageSet(0, 0, 44, 57, 10, 6, 64);
+        const imageSet = new ImageSet(0, 0, 16, 16, 0, 0, 16);
 
         //create frames data: 8 frames, animation speed 5 frames/second
-        const frames = new Frames(8, 5);
+        const frames = new Frames(4, 4);
 
         //physics with vlimit =  40 pixels/seconds
         const physics = new Physics(40);
 
         //create hitbox object xSize, ySize, xOffset, yOffset
-        const hitBox = new HitBox(16, 51, 14, 5);
+        const hitBox = new HitBox(8, 12, 4, 2);
 
         //create player sprite
-        const player = new Sprite(SpriteID.PLAYER, State.STILL_RIGHT, 30, 40, imageSet, frames, physics, hitBox);
+        const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 160, 210, imageSet, frames, physics, hitBox);
     
         //add player to sprites array
         globals.sprites.push(player);
@@ -215,7 +215,7 @@ function initPlayer(){
 
         const hitBox = new HitBox(8, 12, 4, 2);
 
-        const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 30, 20, imageSet, frames, physics, hitBox);
+        const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 180, 180, imageSet, frames, physics, hitBox);
 
         globals.sprites.push(player);
     }
@@ -377,6 +377,7 @@ function initPotionParalize(){
 
 function initPotionInverted(){
 
+    if(globals.currentLevel === Levels.LEVEL1){
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
     const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
 
@@ -393,26 +394,60 @@ function initPotionInverted(){
    
     //add player to sprites array
     globals.sprites.push(player);
+
+    }else if(globals.currentLevel === Levels.LEVEL2){
+        
+        const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
+
+        const frames = new Frames(1, 1);
+
+        const physics = new Physics(0);
+
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        const player = new Sprite(SpriteID.POTION, State.STILL, 330, 280, imageSet, frames, physics, hitBox);
+    
+        globals.sprites.push(player);
+    }
 }
 
 function initCards(){
 
-    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(22, 0, 16, 16, 0, 0, 16);
+    if(globals.currentLevel === Levels.LEVEL1){
 
-    //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 1);
+        //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+        const imageSet = new ImageSet(22, 0, 16, 16, 0, 0, 16);
 
-    //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(0);
+        //create frames data: 4 frames, animation speed 5 frames/second
+        const frames = new Frames(1, 1);
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+        //physics with vlimit =  40 pixels/seconds
+        const physics = new Physics(0);
 
-    //create player sprite
-    const player = new Sprite(SpriteID.CARDS, State.STILL, 15, 352, imageSet, frames, physics, hitBox);
-   
-    //add player to sprites array
-    globals.sprites.push(player);
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        //create player sprite
+        const player = new Sprite(SpriteID.CARDS, State.STILL, 15, 352, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
+
+    }else if(globals.currentLevel === Levels.LEVEL2){
+
+        const imageSet = new ImageSet(22, 0, 16, 16, 0, 0, 16);
+
+        const frames = new Frames(1, 1);
+
+        const physics = new Physics(0);
+
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        //create player sprite
+        const player = new Sprite(SpriteID.CARDS, State.STILL, 15, 320, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
+    }
 }
 
 function initPoints(){
@@ -482,42 +517,77 @@ function initPoints3(){
 
 function initDoor(){
 
-    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
+    if(globals.currentLevel === Levels.LEVEL1){
 
-    //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 1);
+        //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+        const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
 
-    //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(0);
+        //create frames data: 4 frames, animation speed 5 frames/second
+        const frames = new Frames(1, 1);
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+        //physics with vlimit =  40 pixels/seconds
+        const physics = new Physics(0);
 
-    //create player sprite
-    const player = new Sprite(SpriteID.DOOR, State.STILL, 300, 260, imageSet, frames, physics, hitBox);
-   
-    //add player to sprites array
-    globals.sprites.push(player);
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        //create player sprite
+        const player = new Sprite(SpriteID.DOOR, State.STILL, 300, 260, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
+
+    }else if(globals.currentLevel === Levels.LEVEL2){
+
+        const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
+
+        const frames = new Frames(1, 1);
+
+        const physics = new Physics(0);
+
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        const player = new Sprite(SpriteID.DOOR, State.STILL, 300, 100, imageSet, frames, physics, hitBox);
+    
+        globals.sprites.push(player);
+    }
 }
 
 function initKey(){
 
-    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
+    if(globals.currentLevel === Levels.LEVEL1){
+        //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+        const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
 
-    //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(12, 5);
+        //create frames data: 4 frames, animation speed 5 frames/second
+        const frames = new Frames(12, 5);
 
-    //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(10);
+        //physics with vlimit =  40 pixels/seconds
+        const physics = new Physics(10);
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+        const hitBox = new HitBox(10, 14, 3, 1);
 
-    //create player sprite
-    const player = new Sprite(SpriteID.KEY, State.STILL_RIGHT, 15, 80, imageSet, frames, physics, hitBox);
-   
-    //add player to sprites array
-    globals.sprites.push(player);
+        //create player sprite
+        const player = new Sprite(SpriteID.KEY, State.STILL_RIGHT, 15, 80, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
+    
+    }else if(globals.currentLevel === Levels.LEVEL2){
+
+        const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
+
+        const frames = new Frames(12, 5);
+
+        const physics = new Physics(10);
+
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        //create player sprite
+        const player = new Sprite(SpriteID.KEY, State.STILL_RIGHT, 15, 280, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
+    }
 }
 
 function initLevel(){
