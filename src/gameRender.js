@@ -510,7 +510,7 @@ function renderGameOverScreen(){
 
     //restart game
     globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("HighScores", 100, 180);
+    globals.ctx.fillText("Save highscore", 100, 180);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
@@ -605,6 +605,9 @@ function drawLoadHighScore(){
 
 function drawInsertName(){
 
+    const xPos = globals.keyPosX;
+    const yPos = globals.keyPosY;
+
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
@@ -624,13 +627,31 @@ function drawInsertName(){
     globals.ctx.fillStyle = "pink";
     globals.ctx.fillRect(180, 80, 60, 80);
 
-    globals.ctx.fillStyle = "blue";
+    globals.ctx.fillStyle = "lightblue";
     globals.ctx.fillRect(280, 80, 60, 80);
 
+    //draw letter
+    globals.ctx.font = "64px emulogic";
+    globals.ctx.fillStyle = "purple";
+    globals.ctx.fillText(globals.nameKey, 80, 160);
+
+    globals.ctx.font = "64px emulogic";
+    globals.ctx.fillStyle = "green";
+    globals.ctx.fillText(globals.nameKey, 180, 160);
+
+    globals.ctx.font = "64px emulogic";
+    globals.ctx.fillStyle = "darkred";
+    globals.ctx.fillText("Q", 280, 160);
+
+    //keyboard
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/master.png";
     globals.ctx.drawImage(globals.ctx.imageSet, 50, 200, 237, 67);
 
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/selector.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, xPos, yPos, 15, 14);
+    
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("CONTINUE", 300, 330);   

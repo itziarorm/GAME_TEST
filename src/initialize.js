@@ -50,7 +50,8 @@ function initVars(){
         throwCard: false,
         confirm: false,
         insertCoin: false,
-        music: false
+        music: false,
+        name: false
     }
 
     globals.score = 0;
@@ -81,6 +82,13 @@ function initVars(){
     globals.currentLevel = Levels.LEVEL1;
 
     globals.velocityTime = 2;
+
+    //insert name
+    globals.keyPosX = 53;
+    globals.keyPosY = 190;
+    globals.nameKey = "";
+    globals.fil = 0;
+    globals.col = 0;
 }
 
 function initEvents(){

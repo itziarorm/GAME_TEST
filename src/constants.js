@@ -105,7 +105,7 @@ export const Block = {
     EXIT:      15,
     FLOOR:     16,
     PLATFORM:  17,
-    BLOCK_SOLID: 22
+    BLOCK_SOLID: 24
 
     //create array for the collision
 }
@@ -139,7 +139,8 @@ export const Key = {
     CONFIRM: 13,      //enter
     INSERT_COIN: 67,  //c
     MUSIC:   77,      //m
-    NO_MUSIC: 78      //n
+    NO_MUSIC: 78,     //n
+    INSERT_NAME: 32   //space
 }
 
 export const Collision = {
@@ -202,4 +203,9 @@ export const PositionsLevel2 =
         [50, 220],  [140, 240], [220, 240],
         [180, 240], [115, 336], [205, 336],
         [280, 308], [160, 320]
+];
+
+export const InsertName = [ ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], 
+                            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], 
+                            ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
 ];

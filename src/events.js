@@ -37,6 +37,10 @@ export function keydownHandler(event){
         case Key.MUSIC:
             globals.action.music = true;
             break;
+
+        case Key.INSERT_NAME:
+            globals.action.name = true;
+            break;
     }
 }
 
@@ -74,6 +78,10 @@ export function keyupHandler(event){
 
         case Key.MUSIC:
             globals.action.music = false;
+            break;
+
+        case Key.INSERT_NAME:
+            globals.action.name = false;
             break;
     }
 }

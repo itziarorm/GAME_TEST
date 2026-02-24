@@ -76,5 +76,13 @@ export default{
     sounds: [],
     currentSound: -1,
 
-    currentLevel: 0
+    currentLevel: 0,
+
+    keyPosX: 0,
+    keyPosY: 0,
+
+    name: [],
+    nameKey: "",
+    fil: 0,
+    col: 0
 };

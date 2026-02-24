@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, RandomFreePositions } from "./constants.js";
+import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, RandomFreePositions, InsertName } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
 import { updateEvents, eventVelocity } from "./events.js";
@@ -150,6 +150,7 @@ function newGame(){
 function loadLevel1(){
     
     globals.sprites = [];
+    globals.life = 100;
 
     initSprites();
 
@@ -994,7 +995,7 @@ function gameOver(){
 
             // NEW GAME select
             globals.gameState = Game.LOAD_LEVEL1;
-            globals.life = 100;
+            //globals.life = 100;
             globals.score++;
 
         } else if (globals.arrow === 167) {
@@ -1002,8 +1003,6 @@ function gameOver(){
             // insert name
             //console.log("Name");
             globals.gameState = Game.INSERT_NAME;
-            
-
         }
 
         globals.action.confirm = false;
@@ -1203,6 +1202,43 @@ function loadHighScore(){
 }
 
 function insertName(){
+
+    if(globals.action.moveRight){
+
+        globals.keyPosX += 24;
+        ++globals.fil;
+        globals.action.moveRight = false;
+    }
+    
+    if(globals.action.moveDown){
+
+        globals.keyPosY += 20;
+        globals.col++;
+        
+        globals.action.moveDown = false;
+    }
+    
+    if(globals.action.moveLeft){
+
+        globals.keyPosX -= 24;
+        globals.fil--;
+        globals.action.moveLeft = false;
+    }
+    
+    if(globals.action.moveUp){
+
+        globals.keyPosY -= 20;
+        globals.col--;
+        globals.action.moveUp = false;
+    }
+
+    globals.nameKey = InsertName[globals.col][globals.fil];
+    
+    if(globals.action.name){
+
+        globals.name[0] = globals.nameKey;
+        
+    }
 
     globals.arrow = 317;
     
