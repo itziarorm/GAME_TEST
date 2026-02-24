@@ -1,6 +1,6 @@
 body {
   background-image: url("../images/arcade.jpg"); /* tu color deseado */
-  background-size: 90% 105%;
+  background-size: 100% 110%;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -9,10 +9,12 @@ body {
 
 #gameScreen{
 
-    width: 896px;
-    height: 960px;
-    margin-top: 325px;
-    margin-left: 642px;
+    position: absolute;
+    width: 627.2px;
+    height: 672px;
+    left: 43.6%;
+    top: 59%;
+    transform: translate(-50%, -50%);
     background-color: black;
     border-style: solid;
     image-rendering: pixelated;
@@ -22,10 +24,13 @@ body {
 
 #gameHUD{
 
-    width: 1203px;
-    height: 64px;
-    margin-left: 642px;
-    margin-bottom: -335px;
+    position: absolute;
+    width: 842.1px;
+    height: 44.8px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(59% - 380.8px);
+    margin-bottom: -1px;
     background-color: black;
     border-style: solid;
     image-rendering: pixelated;
@@ -40,9 +45,13 @@ body {
 
 #gameHUD_RIGHT{
 
-    width: 300px;
-    height: 960px;
-    margin-left: -5px;
+    position: absolute;
+    width: 210px;
+    height: 672px;
+    left: calc(43.8% + 313.6px);
+    top: 59%;
+    transform: translateY(-50%);
+    margin-left: -1px;
     object-fit: contain;
     background-color: black;
     border-style: solid;

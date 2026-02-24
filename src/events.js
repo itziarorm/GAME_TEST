@@ -41,6 +41,10 @@ export function keydownHandler(event){
         case Key.INSERT_NAME:
             globals.action.name = true;
             break;
+
+        case Key.DELETE:
+            globals.action.delete = true;
+            break;
     }
 }
 
@@ -82,6 +86,10 @@ export function keyupHandler(event){
 
         case Key.INSERT_NAME:
             globals.action.name = false;
+            break;
+
+        case Key.DELETE:
+            globals.action.delete = true;
             break;
     }
 }

@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound, Levels } from "./constants.js";
+import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound, Levels, InsertName } from "./constants.js";
 import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
@@ -89,6 +89,16 @@ function initVars(){
     globals.nameKey = "";
     globals.fil = 0;
     globals.col = 0;
+    globals.name = ["", "", ""];
+
+    globals.nameIndex = 0;             
+    globals.maxNameLength = 3;         
+    globals.isNameComplete = false;
+
+    globals.blinkCounter = 0;
+    globals.blinkSpeed = 20;
+    
+    globals.cursorX = 90;
 }
 
 function initEvents(){
@@ -499,28 +509,43 @@ function initPoints2(){
 }
 
 function initPoints3(){
+
     const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
     const frames = new Frames(8, 8);
     const physics = new Physics(0);
     const hitBox = new HitBox(6, 6, 5, 4);
     
-    // Definir posiciones específicas
-    const positions = [
-        [10, 36],   [95, 30],   [200, 36],
-        [10, 60],   [80, 180],  [160, 290],
-        [10, 80],   [250, 200], [120, 140],
-        [40, 80],   [220, 140], [280, 160],
-        [50, 220],  [140, 240], [220, 240],
-        [180, 240], [115, 336], [205, 336],
-        [280, 308], [160, 320]
-    ];
+    const tileSize = 12; 
+    const spriteWidth = 16;    
+    const spriteHeight = 16; 
+
+    const offsetX = (tileSize - spriteWidth) / 2;   
+    const offsetY = (tileSize - spriteHeight) / 2;
+
     
-    for(let i = 0; i < positions.length; i++){
-        
-        const point = new Sprite(SpriteID.POINTS, State.STILL, positions[i][0], positions[i][1], imageSet, frames, physics, hitBox);
-        
-        globals.sprites.push(point);
+    
+    for(let i = 0; i < level1.length; i++){
+
+        for(let j = 0; j < level1[i].length; j++){
+            
+            if(level1[i][j] === 12 && i % 2 === 0){
+                
+                if(j % 2 === 0){
+                    
+                    let xPos = (j * tileSize) + offsetX;
+                    let yPos = (i * tileSize) + offsetY;
+
+                    const point = new Sprite(SpriteID.POINTS, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox);
+                    
+                    globals.sprites.push(point);
+                }
+                
+            }
+
+        }
+
     }
+
 }
 
 function initDoor(){

@@ -621,8 +621,8 @@ function drawInsertName(){
     globals.ctx.fillStyle = "orange";
     globals.ctx.fillRect(80, 80, 60, 80);
 
-    globals.ctx.fillStyle = "white";
-    globals.ctx.fillRect(80, 80, 3, 80);
+    //globals.ctx.fillStyle = "white";
+    //globals.ctx.fillRect(80, 80, 3, 80);
 
     globals.ctx.fillStyle = "pink";
     globals.ctx.fillRect(180, 80, 60, 80);
@@ -630,18 +630,30 @@ function drawInsertName(){
     globals.ctx.fillStyle = "lightblue";
     globals.ctx.fillRect(280, 80, 60, 80);
 
+    globals.blinkCounter++;
+    
+    // Reiniciar contador para que no crezca infinitamente
+    if (globals.blinkCounter >= globals.blinkSpeed * 2) {
+        globals.blinkCounter = 0;
+    }
+    
+    // Solo dibujar si el contador está en la primera mitad del ciclo
+    if (globals.blinkCounter < globals.blinkSpeed) {
+        globals.ctx.fillStyle = "gray";
+        globals.ctx.fillRect(globals.cursorX, 80, 3, 80);
+    }
     //draw letter
     globals.ctx.font = "64px emulogic";
     globals.ctx.fillStyle = "purple";
-    globals.ctx.fillText(globals.nameKey, 80, 160);
+    globals.ctx.fillText(globals.name[0], 80, 160);
 
     globals.ctx.font = "64px emulogic";
     globals.ctx.fillStyle = "green";
-    globals.ctx.fillText(globals.nameKey, 180, 160);
+    globals.ctx.fillText(globals.name[1], 180, 160);
 
     globals.ctx.font = "64px emulogic";
     globals.ctx.fillStyle = "darkred";
-    globals.ctx.fillText("Q", 280, 160);
+    globals.ctx.fillText(globals.name[2], 280, 160);
 
     //keyboard
     globals.ctx.imageSet = new Image();

@@ -1232,12 +1232,30 @@ function insertName(){
         globals.action.moveUp = false;
     }
 
+    
+
     globals.nameKey = InsertName[globals.col][globals.fil];
     
-    if(globals.action.name){
-
-        globals.name[0] = globals.nameKey;
+    if (globals.action.name) { 
         
+        if (globals.nameIndex < globals.maxNameLength) {
+            globals.name[globals.nameIndex] = globals.nameKey;
+            globals.cursorX += 100;
+            globals.nameIndex++;
+        }
+
+        globals.action.name = false;
+    }
+    if (globals.action.delete) {
+        
+        if (globals.nameIndex > 0) {
+            
+            globals.nameIndex--;
+            globals.name[globals.nameIndex] = "";
+            globals.cursorX -= 100;
+        }
+        
+        globals.action.delete = false;
     }
 
     globals.arrow = 317;

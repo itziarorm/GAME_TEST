@@ -127,6 +127,7 @@ export const BlockIDs = [
     Block.EXIT,
     Block.FLOOR,
     Block.PLATFORM,
+    Block.BLOCK_SOLID
 ]
 
 export const Key = {
@@ -140,7 +141,8 @@ export const Key = {
     INSERT_COIN: 67,  //c
     MUSIC:   77,      //m
     NO_MUSIC: 78,     //n
-    INSERT_NAME: 32   //space
+    INSERT_NAME: 32 ,  //space
+    DELETE: 8          //backspace
 }
 
 export const Collision = {

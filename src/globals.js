@@ -84,5 +84,13 @@ export default{
     name: [],
     nameKey: "",
     fil: 0,
-    col: 0
+    col: 0,
+    nameIndex: 0,             
+    maxNameLength: 3,         
+    isNameComplete: false,
+
+    blinkCounter: 0,
+    blinkSpeed: 30,
+
+    cursorX: 0
 };
