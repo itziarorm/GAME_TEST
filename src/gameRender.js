@@ -264,7 +264,7 @@ function renderMap(){
 
         for(let j = 0; j < num_col; ++j){
 
-            const xTile = (levelData[i][j] - 1) * brickSize;
+            const xTile = (levelData[i][j] - 1) % 18 * brickSize;
             const yTile = 0;
             const xPos = j * brickSize;
             const yPos = i * brickSize;

@@ -105,7 +105,7 @@ export const Block = {
     EXIT:      15,
     FLOOR:     16,
     PLATFORM:  17,
-    BLOCK_SOLID: 24
+    BLOCK_SOLID: 30
 
     //create array for the collision
 }

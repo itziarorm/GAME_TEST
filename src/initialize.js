@@ -193,8 +193,8 @@ function initSprites(){
     initPotionParalize();
     initPotionInverted();
     initCards();
-    initPoints();
-    initPoints2();
+    //initPoints();
+    //initPoints2();
     initDoor();
     initKey();
     initCardPrint();
@@ -373,7 +373,7 @@ function initPotionVelocity(){
     globals.sprites.push(player);
 }
 
-function initPotionParalize(){
+function initPotionInverted(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
     const imageSet = new ImageSet(19, 0, 16, 16, 0, 0, 16);
@@ -387,31 +387,32 @@ function initPotionParalize(){
     const hitBox = new HitBox(10, 14, 3, 1);
 
     //create player sprite
-    const player = new Sprite(SpriteID.POTION_STOP, State.STILL, 330, 15, imageSet, frames, physics, hitBox);
+    const player = new Sprite(SpriteID.POTION, State.STILL, 330, 15, imageSet, frames, physics, hitBox);
    
     //add player to sprites array
     globals.sprites.push(player);
 }
 
-function initPotionInverted(){
+function initPotionParalize(){
 
     if(globals.currentLevel === Levels.LEVEL1){
-    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
-    const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
 
-    //create frames data: 4 frames, animation speed 5 frames/second
-    const frames = new Frames(1, 1);
+        //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
+        const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
 
-    //physics with vlimit =  40 pixels/seconds
-    const physics = new Physics(0);
+        //create frames data: 4 frames, animation speed 5 frames/second
+        const frames = new Frames(1, 1);
 
-    const hitBox = new HitBox(10, 14, 3, 1);
+        //physics with vlimit =  40 pixels/seconds
+        const physics = new Physics(0);
 
-    //create player sprite
-    const player = new Sprite(SpriteID.POTION, State.STILL, 330, 352, imageSet, frames, physics, hitBox);
-   
-    //add player to sprites array
-    globals.sprites.push(player);
+        const hitBox = new HitBox(10, 14, 3, 1);
+
+        //create player sprite
+        const player = new Sprite(SpriteID.POTION_STOP, State.STILL, 330, 352, imageSet, frames, physics, hitBox);
+    
+        //add player to sprites array
+        globals.sprites.push(player);
 
     }else if(globals.currentLevel === Levels.LEVEL2){
         
@@ -423,7 +424,7 @@ function initPotionInverted(){
 
         const hitBox = new HitBox(10, 14, 3, 1);
 
-        const player = new Sprite(SpriteID.POTION, State.STILL, 330, 280, imageSet, frames, physics, hitBox);
+        const player = new Sprite(SpriteID.POTION_STOP, State.STILL, 330, 280, imageSet, frames, physics, hitBox);
     
         globals.sprites.push(player);
     }
@@ -510,36 +511,74 @@ function initPoints2(){
 
 function initPoints3(){
 
-    const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
-    const frames = new Frames(8, 8);
-    const physics = new Physics(0);
-    const hitBox = new HitBox(6, 6, 5, 4);
-    
-    const tileSize = 12; 
-    const spriteWidth = 16;    
-    const spriteHeight = 16; 
+    if(globals.currentLevel === Levels.LEVEL1){
 
-    const offsetX = (tileSize - spriteWidth) / 2;   
-    const offsetY = (tileSize - spriteHeight) / 2;
+        const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
+        const frames = new Frames(8, 8);
+        const physics = new Physics(0);
+        const hitBox = new HitBox(6, 6, 5, 4);
+        
+        const tileSize = 12; 
+        const spriteWidth = 16;    
+        const spriteHeight = 16; 
 
-    
-    
-    for(let i = 0; i < level1.length; i++){
+        const offsetX = (tileSize - spriteWidth) / 2;   
+        const offsetY = (tileSize - spriteHeight) / 2;
 
-        for(let j = 0; j < level1[i].length; j++){
-            
-            if(level1[i][j] === 12 && i % 2 === 0){
+        for(let i = 0; i < level1.length; i++){
+
+            for(let j = 0; j < level1[i].length; j++){
                 
-                if(j % 2 === 0){
+                if(level1[i][j] === 12 && i % 2 === 0){
                     
-                    let xPos = (j * tileSize) + offsetX;
-                    let yPos = (i * tileSize) + offsetY;
+                    if(j % 2 === 0){
+                        
+                        let xPos = (j * tileSize) + offsetX;
+                        let yPos = (i * tileSize) + offsetY;
 
-                    const point = new Sprite(SpriteID.POINTS, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox);
+                        const point = new Sprite(SpriteID.POINTS, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox);
+                        
+                        globals.sprites.push(point);
+                    }
                     
-                    globals.sprites.push(point);
                 }
+
+            }
+
+        }
+
+    } else if(globals.currentLevel === Levels.LEVEL2){
+
+        const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
+        const frames = new Frames(8, 8);
+        const physics = new Physics(0);
+        const hitBox = new HitBox(6, 6, 5, 4);
+        
+        const tileSize = 12; 
+        const spriteWidth = 16;    
+        const spriteHeight = 16; 
+
+        const offsetX = (tileSize - spriteWidth) / 2;   
+        const offsetY = (tileSize - spriteHeight) / 2;
+
+        for(let i = 0; i < level2.length; i++){
+
+            for(let j = 0; j < level2[i].length; j++){
                 
+                if(level2[i][j] === 12 && i % 2 === 0){
+                    
+                    if(j % 2 === 0){
+                        
+                        let xPos = (j * tileSize) + offsetX;
+                        let yPos = (i * tileSize) + offsetY;
+
+                        const point = new Sprite(SpriteID.POINTS, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox);
+                        
+                        globals.sprites.push(point);
+                    }
+                    
+                }
+
             }
 
         }
@@ -627,7 +666,6 @@ function initLevel(){
 
     const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
     
-
     if(globals.currentLevel === Levels.LEVEL1){
 
         globals.level = new Level(level1, imageSet);
@@ -636,12 +674,6 @@ function initLevel(){
         
         globals.level = new Level(level2, imageSet);
     }
-}
-
-function initLevel2(){
-
-    const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
-    globals.level = new Level(level2, imageSet);
 }
 
 function initParticles(){
@@ -654,8 +686,8 @@ function initParticles(){
 function initExplosion(){
     
     const numParticles = 50;
-    const xInit = globals.sprites[12].xPos;
-    const yInit = globals.sprites[12].yPos;
+    const xInit = globals.sprites[10].xPos;
+    const yInit = globals.sprites[10].yPos;
     const radius = 1;
     const timeToFadeMax = 5;
     const alpha = 1.0;

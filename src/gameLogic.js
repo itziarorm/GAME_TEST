@@ -2,7 +2,7 @@ import globals from "./globals.js";
 import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, RandomFreePositions, InsertName } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
-import { updateEvents, eventVelocity } from "./events.js";
+import { updateEvents, eventVelocity, eventStop } from "./events.js";
 import { createFireParticle, createLiquidParticle, initSprites } from "./initialize.js";
 import { level2 } from "./Levels.js";
 import { highScoreData } from "./HighScoreFake.js";
@@ -388,6 +388,7 @@ function updateSprite(sprite){
                 globals.score += 50;
 
                 sprite.state = State.OFF;
+                //eventStop(sprite);
             }
 
             break;
@@ -1232,13 +1233,12 @@ function insertName(){
         globals.action.moveUp = false;
     }
 
-    
-
     globals.nameKey = InsertName[globals.col][globals.fil];
     
     if (globals.action.name) { 
         
         if (globals.nameIndex < globals.maxNameLength) {
+            
             globals.name[globals.nameIndex] = globals.nameKey;
             globals.cursorX += 100;
             globals.nameIndex++;
@@ -1246,6 +1246,7 @@ function insertName(){
 
         globals.action.name = false;
     }
+
     if (globals.action.delete) {
         
         if (globals.nameIndex > 0) {

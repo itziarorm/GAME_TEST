@@ -119,6 +119,18 @@ export function eventVelocity(sprite){
     }
 }
 
+export function eventStop(sprite){
+
+    if(sprite.isCollidingWithPlayer){
+
+        for(let i = 1; i < 5; i++){
+            
+            const enemies = globals.sprites[i];
+            enemies.physics.vLimit = 0; 
+        }
+    }
+}
+
 export function eventKey(){
 
     if (globals.mana >= 20){
