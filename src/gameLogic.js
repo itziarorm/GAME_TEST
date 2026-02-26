@@ -905,11 +905,11 @@ function updateHUDLifePoints(){
         globals.lifeFrameX = 0; //null
         globals.lifeFrameY = 0;
 
-    } else if (globals.life <= 40) {
+    } else if (globals.life <= 10) {
 
         globals.lifeFrameX = 0;
 
-    } else if (globals.life <= 80) {
+    } else if (globals.life <= 25) {
 
         globals.lifeFrameX = 28; // medium
 
@@ -924,17 +924,17 @@ function updateMana(sprite){
 
     if(sprite.isCollidingWithPlayer){
             
-        globals.mana += 10;
+        globals.mana += 1;
     }
 }
 
 function updateHUDMana(){
 
-    if (globals.mana <= 80) {
+    if (globals.mana <= 65) {
 
         globals.manaFrameY = 14;
 
-    } else if (globals.mana <= 180) {
+    } else if (globals.mana <= 130) {
         
         globals.manaFrameY = 42;
 
@@ -1214,6 +1214,7 @@ function insertName(){
     if(globals.action.moveDown){
 
         globals.keyPosY += 20;
+        globals.keyPosX += 8;
         globals.col++;
         
         globals.action.moveDown = false;
@@ -1229,6 +1230,7 @@ function insertName(){
     if(globals.action.moveUp){
 
         globals.keyPosY -= 20;
+        globals.keyPosX -= 8;
         globals.col--;
         globals.action.moveUp = false;
     }

@@ -57,7 +57,7 @@ function initVars(){
     globals.score = 0;
     globals.highScore = 0;
 
-    globals.life = 100;
+    globals.life = 50;
     globals.mana = 0;
     globals.manaFrameY = 14;
     globals.lifeFrameX = 0;

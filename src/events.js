@@ -133,7 +133,7 @@ export function eventStop(sprite){
 
 export function eventKey(){
 
-    if (globals.mana >= 20){
+    if (globals.mana >= 138){
 
         globals.visibleKey = true;
     }
