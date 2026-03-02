@@ -92,5 +92,7 @@ export default{
     blinkCounter: 0,
     blinkSpeed: 30,
 
-    cursorX: 0
+    cursorX: 0,
+
+    coins: 0
 };

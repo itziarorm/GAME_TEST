@@ -89,7 +89,7 @@ export function keyupHandler(event){
             break;
 
         case Key.DELETE:
-            globals.action.delete = true;
+            globals.action.delete = false;
             break;
     }
 }

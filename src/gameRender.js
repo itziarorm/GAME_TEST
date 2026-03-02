@@ -26,7 +26,7 @@ export default function render(){
             
         case Game.LOAD_LEVEL2:
             
-            //drawLevel2();
+            drawLevel2();
             
             break;
         
@@ -83,6 +83,16 @@ export default function render(){
 
             break;
 
+        case Game.GAME_WIN:
+
+            drawGameWin();
+            break;
+
+        case Game.PAUSE:
+
+            drawPause();
+            break;
+
         default:
             console.error("ERROR: Game State invalid");
     }
@@ -99,9 +109,39 @@ function renderLoading(){
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
     globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
 
-    globals.ctx.font = "16px emulogic";
-    globals.ctx.fillStyle = "lightgray";
-    globals.ctx.fillText("LOADING...", 100, 90);
+    if(!globals.assetsLoaded){
+        
+        //loading
+        globals.ctx.fillStyle = "pink";
+        globals.ctx.fillRect(100, 180, 1000, 20);
+
+    }else {
+        
+        //TITLE
+        globals.ctx.font = "32px emulogic";
+        globals.ctx.fillStyle = "darkviolet";
+        globals.ctx.fillText("SCAPE", 140, 40);
+        
+        globals.ctx.font = "8px emulogic";
+        globals.ctx.fillText("FROM THE", 180, 52);
+
+        globals.ctx.font = "32px emulogic";
+        globals.ctx.fillText("SHADOWS", 110, 90);
+
+        globals.ctx.font = "16px emulogic";
+        globals.ctx.fillStyle = "lightgray";
+
+        globals.blinkCounter++;
+        
+        if (globals.blinkCounter >= globals.blinkSpeed * 2) {
+            globals.blinkCounter = 0;
+        }
+        
+        if (globals.blinkCounter < globals.blinkSpeed) {
+            globals.ctx.fillStyle = "red";
+            globals.ctx.fillText("Press c to start", 95, 300);
+        }
+    }
 }
 
 function drawNewGame(){
@@ -148,6 +188,12 @@ function renderNewScreen(){
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("© kaotika", 180, 320);
+
+    globals.ctx.fillStyle = "aqua";
+    globals.ctx.fillText("player 1", 70, 350);
+
+    globals.ctx.fillStyle = "gold";
+    globals.ctx.fillText("coins:" + globals.coins, 300, 350);
 
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";      //x, y, xsize, ysize
@@ -512,6 +558,14 @@ function renderGameOverScreen(){
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("Save highscore", 100, 180);
 
+    if(globals.coins < 0){
+        
+        globals.coins = 0;
+    }
+
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("coins: " + globals.coins, 290, 320);
+
     globals.ctx.imageSet = new Image();
     globals.ctx.imageSet.src = "./images/arrow.png";
     globals.ctx.drawImage(globals.ctx.imageSet, 80, globals.arrow, 16, 16);
@@ -779,4 +833,33 @@ function drawTopHighScore2(){
     globals.ctx.imageSet.src = "./images/arrow.png";
     globals.ctx.drawImage(globals.ctx.imageSet, 280, globals.arrow, 16, 16);
 
+}
+
+function drawGameWin(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("YOU WIN!!!", 100, 30);
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillText("Lucretia managed to escape from the foes.", 10, 200);
+    globals.ctx.fillText("Suddenly a path of light opened before her eyes.", 10, 220);
+    globals.ctx.fillText("It was a small cottage in the middle of the forest.", 10, 240);
+    globals.ctx.fillText("It's name was “Wound's Valley Inn”. She decided to enter.", 10, 260);
+
+}
+
+function drawPause(){
+
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    globals.ctxHUD_RIGHT.clearRect(0, 0, globals.canvasHUD_RIGHT.width, globals.canvasHUD_RIGHT.height);
+
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "lightgray";
+    globals.ctx.fillText("OPTIONS", 100, 30);
 }

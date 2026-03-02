@@ -99,6 +99,8 @@ function initVars(){
     globals.blinkSpeed = 20;
     
     globals.cursorX = 90;
+
+    globals.coins = 0;
 }
 
 function initEvents(){
@@ -169,9 +171,13 @@ function loadHandler(){
             globals.sounds[i].removeEventListener("canplaythrough", loadHandler, false);
         }
 
-        console.log("Assets finished loading");
+        console.log("Assets finished loading: " + globals.assetsToLoad.length);
+        
+        if(globals.action.insertCoin){
 
-        globals.gameState = Game.NEW_GAME;
+            globals.gameState = Game.NEW_GAME;
+            globals.action.insertCoin = false;
+        }
 
     }
 }

@@ -14,6 +14,7 @@ export default function update(){
         case Game.LOADING:
             
             console.log("Loading assets...");
+            loading();
             
             break;
         case Game.PLAYING:
@@ -83,8 +84,26 @@ export default function update(){
             topHighScore2();
             break;
 
+        case Game.GAME_WIN:
+
+            break;
+
+        case Game.PAUSE:
+
+            break;
+
         default:
             console.error("ERROR: Game State invalid");
+    }
+}
+
+function loading(){
+
+    if(globals.action.insertCoin){
+
+        globals.gameState = Game.NEW_GAME;
+        globals.coins ++;
+        globals.action.insertCoin = false;
     }
 }
 
@@ -96,6 +115,12 @@ function newGame(){
 
         globals.action.music = false;
         globals.currentSound = Sound.GAME_MUSIC;
+    }
+
+    if(globals.action.insertCoin){
+
+        globals.coins ++;
+        globals.action.insertCoin = false;
     }
 
     if (globals.action.moveUp) {
@@ -123,7 +148,8 @@ function newGame(){
         if (globals.arrow === 117) {
             
             console.log("LEVEL 1");
- 
+            
+            globals.coins --;
             globals.gameState = Game.LOAD_LEVEL1;
 
         } else if (globals.arrow === 137) {
@@ -978,6 +1004,12 @@ function isGameOver(){
 
 function gameOver(){
 
+    if(globals.action.insertCoin){
+
+        globals.coins ++;
+        globals.action.insertCoin = false;
+    }
+
     if (globals.action.moveUp) {
 
         globals.action.moveUp = false; 
@@ -992,11 +1024,11 @@ function gameOver(){
 
     if (globals.action.confirm) {
 
-        if (globals.arrow === 137) {
+        if (globals.arrow === 137 && globals.coins > 0) {
 
             // NEW GAME select
             globals.gameState = Game.LOAD_LEVEL1;
-            //globals.life = 100;
+            globals.coins--;
             globals.score++;
 
         } else if (globals.arrow === 167) {
@@ -1262,16 +1294,16 @@ function insertName(){
     }
 
     globals.arrow = 317;
-    
+
     if (globals.action.confirm) {
 
         if (globals.arrow === 317) {
-            
+
             console.log("Mostrando NEW GAME");
             globals.gameState = Game.HIGHSCORE;
         }
         
-        globals.action.confirm = false; 
+        globals.action.confirm = false;
     }
 }
 
