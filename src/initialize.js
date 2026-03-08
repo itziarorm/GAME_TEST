@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound, Levels, InsertName } from "./constants.js";
+import { Game, SpriteID, State, FPS, ParticleId, ParticleState, Sound, Levels, InsertName, winStoryLines, storyLines } from "./constants.js";
 import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
@@ -57,7 +57,7 @@ function initVars(){
     globals.score = 0;
     globals.highScore = 0;
 
-    globals.life = 50;
+    globals.life = 30;
     globals.mana = 0;
     globals.manaFrameY = 14;
     globals.lifeFrameX = 0;
@@ -79,9 +79,11 @@ function initVars(){
     globals.currentSound = Sound.NO_SOUND;
 
     //Level
-    globals.currentLevel = Levels.LEVEL1;
+    globals.currentLevel = 0;
+    globals.actualLevel = Levels.LEVEL1;
 
-    globals.velocityTime = 2;
+    globals.velocityTime = 0;
+    globals.stopTime = 0;
 
     //insert name
     globals.keyPosX = 53;
@@ -90,6 +92,7 @@ function initVars(){
     globals.fil = 0;
     globals.col = 0;
     globals.name = ["", "", ""];
+    globals.highScoreData = [];
 
     globals.nameIndex = 0;             
     globals.maxNameLength = 3;         
@@ -97,10 +100,50 @@ function initVars(){
 
     globals.blinkCounter = 0;
     globals.blinkSpeed = 20;
+
+    globals.playerBlinking = false;      // Estado de parpadeo
+    globals.blinkTimer = 0;               // Temporizador de parpadeo
+    globals.blinkDuration = 3;            // 3 segundos de parpadeo
+    globals.blinkVisible = true;
     
     globals.cursorX = 90;
 
     globals.coins = 0;
+
+    globals.winStoryLines = winStoryLines;
+
+    // Estado de animación
+    globals.winTextState = {
+        charIndex: 0,
+        frameCounter: 0,
+        speed: 4,
+        totalChars: 0
+    };
+
+    globals.storyLines = storyLines;
+
+    globals.storyLinesState = {
+        charIndex: 0,
+        frameCounter: 0,
+        speed: 4,
+        totalChars: 0
+    };
+
+    globals.ghost = {
+
+        isWaiting: true,  // Empieza esperando (escondido)
+        waitTimer: 0,      // Cuenta los 10 segundos
+        activeTimer: 0   // Cuenta los 5 segundos que está activo
+    };
+
+    globals.playerHistory = [];      // Array para guardar posiciones
+    globals.historyTime = 10;        // 10 segundos
+    globals.ghostSpawnTime = 10; 
+
+    globals.titleScale = 0;
+
+    globals.originalPlayerVelocity = null;
+    
 }
 
 function initEvents(){
@@ -136,6 +179,13 @@ function loadAssets(){
     globals.sounds.push(gameMusic);
     globals.assetsToLoad.push(gameMusic);
 
+    let menuMusic = document.querySelector("#menuMusic");
+    menuMusic.addEventListener("canplaythrough", loadHandler, false);
+    menuMusic.addEventListener("timeupdate", updateMusic, false);
+    menuMusic.load();
+    globals.sounds.push(menuMusic);
+    globals.assetsToLoad.push(menuMusic);
+
     let jumpSound = document.querySelector("#shootSound");
     jumpSound.addEventListener("canplaythrough", loadHandler, false);
     jumpSound.load();
@@ -153,6 +203,38 @@ function loadAssets(){
     powerSound.load();
     globals.sounds.push(powerSound);
     globals.assetsToLoad.push(powerSound);
+
+    let WalkSound = document.querySelector("#WalkSound");
+    WalkSound.addEventListener("canplaythrough", loadHandler, false);
+    WalkSound.load();
+    globals.sounds.push(WalkSound);
+    globals.assetsToLoad.push(WalkSound);
+
+    for(let i = 0; i < 40; i++){
+        const num = String(i).padStart(4, '0');
+        const img = new Image();  // ✅ Crear nueva imagen para cada archivo
+        
+        img.addEventListener("load", function(){
+            globals.assetsLoaded++;
+            globals.loadingImages[i] = img;  // ✅ Guardar en el array
+        }, false);
+        
+        img.src = "./images/loading/Moss daily, Tim Schipper-" + num + ".jpg";
+        globals.assetsToLoad.push(img);  // ✅ Añadir al array de assets
+    }
+
+    for(let i = 0; i < 8; i++){
+        const num = String(i).padStart(4, '0');
+        const img = new Image();
+        
+        img.addEventListener("load", function(){
+            globals.assetsLoaded++;
+            globals.menuImages[i] = img;  // ✅ Array separado para menú
+        }, false);
+        
+        img.src = "./images/menu/Undertale Fondos De Pantalla-" + num + ".jpg";
+        globals.assetsToLoad.push(img);
+    }
 }
 
 function loadHandler(){
@@ -195,6 +277,7 @@ function initSprites(){
     initGhostYellow();
     initGhostOrange();
     initGhostBlue();
+    initGhostFollower();
     initPotionVelocity();
     initPotionParalize();
     initPotionInverted();
@@ -209,7 +292,7 @@ function initSprites(){
 
 function initPlayer(){
 
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
 
         //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
         const imageSet = new ImageSet(0, 0, 16, 16, 0, 0, 16);
@@ -224,12 +307,12 @@ function initPlayer(){
         const hitBox = new HitBox(8, 12, 4, 2);
 
         //create player sprite
-        const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 160, 210, imageSet, frames, physics, hitBox);
+        const player = new Sprite(SpriteID.PLAYER, State.STILL_DOWN, 180, 210, imageSet, frames, physics, hitBox);
     
         //add player to sprites array
         globals.sprites.push(player);
 
-    }else if(globals.currentLevel === Levels.LEVEL2){
+    } else {
 
         const imageSet = new ImageSet(0, 0, 16, 16, 0, 0, 16);
 
@@ -359,6 +442,26 @@ function initGhostBlue(){
     globals.sprites.push(ghost);
 }
 
+function initGhostFollower(){
+
+    //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, sheetWidth
+    const imageSet = new ImageSet(11, 0, 16, 16, 0, -1, 16);
+    const frames = new Frames(4, 5);
+    const physics = new Physics(40);
+    const hitBox = new HitBox(10, 10, 3, 3);
+    const initTimeToChangeDirection = Math.floor(Math.random() * 3) + 1;
+
+    // Posición inicial fuera de pantalla (escondido)
+    const ghost = new Ghost(SpriteID.FOLLOWER, State.RIGHT_2, -100, -100, imageSet, frames, physics, initTimeToChangeDirection, hitBox);
+    
+    // Variables para el temporizador
+    ghost.isWaiting = true;        // Empieza esperando (escondido)
+    ghost.waitTimer = 0;           // Cuenta los 10 segundos
+    ghost.activeTimer = 0;         // Cuenta los 5 segundos que está activo
+    
+    globals.sprites.push(ghost);
+}
+
 function initPotionVelocity(){
 
     //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
@@ -401,7 +504,7 @@ function initPotionInverted(){
 
 function initPotionParalize(){
 
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
 
         //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
         const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
@@ -420,7 +523,7 @@ function initPotionParalize(){
         //add player to sprites array
         globals.sprites.push(player);
 
-    }else if(globals.currentLevel === Levels.LEVEL2){
+    }else {
         
         const imageSet = new ImageSet(20, 0, 16, 16, 0, 0, 16);
 
@@ -438,7 +541,7 @@ function initPotionParalize(){
 
 function initCards(){
 
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
 
         //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
         const imageSet = new ImageSet(22, 0, 16, 16, 0, 0, 16);
@@ -457,7 +560,7 @@ function initCards(){
         //add player to sprites array
         globals.sprites.push(player);
 
-    }else if(globals.currentLevel === Levels.LEVEL2){
+    }else {
 
         const imageSet = new ImageSet(22, 0, 16, 16, 0, 0, 16);
 
@@ -517,7 +620,7 @@ function initPoints2(){
 
 function initPoints3(){
 
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
 
         const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
         const frames = new Frames(8, 8);
@@ -553,7 +656,7 @@ function initPoints3(){
 
         }
 
-    } else if(globals.currentLevel === Levels.LEVEL2){
+    } else {
 
         const imageSet = new ImageSet(23, 0, 16, 16, 0, -1, 16);
         const frames = new Frames(8, 8);
@@ -595,7 +698,7 @@ function initPoints3(){
 
 function initDoor(){
 
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
 
         //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
         const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
@@ -614,7 +717,7 @@ function initDoor(){
         //add player to sprites array
         globals.sprites.push(player);
 
-    }else if(globals.currentLevel === Levels.LEVEL2){
+    }else {
 
         const imageSet = new ImageSet(18, 0, 16, 16, 0, 0, 16);
 
@@ -632,7 +735,7 @@ function initDoor(){
 
 function initKey(){
 
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
         //create image set: initFill, initCol, spriteWidth, spriteHeight, offsetX, offsetY, gridSize
         const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
 
@@ -650,7 +753,7 @@ function initKey(){
         //add player to sprites array
         globals.sprites.push(player);
     
-    }else if(globals.currentLevel === Levels.LEVEL2){
+    }else {
 
         const imageSet = new ImageSet(17, 0, 16, 16, 0, 0, 16);
 
@@ -672,11 +775,11 @@ function initLevel(){
 
     const imageSet = new ImageSet(0, 0, 12, 12, 0, 0, 12);
     
-    if(globals.currentLevel === Levels.LEVEL1){
+    if(globals.currentLevel % 2 === 0){
 
         globals.level = new Level(level1, imageSet);
         
-    }else if (globals.currentLevel === Levels.LEVEL2){
+    }else if (globals.currentLevel % 2 === 1){
         
         globals.level = new Level(level2, imageSet);
     }
@@ -692,8 +795,8 @@ function initParticles(){
 function initExplosion(){
     
     const numParticles = 50;
-    const xInit = globals.sprites[10].xPos;
-    const yInit = globals.sprites[10].yPos;
+    const xInit = globals.sprites[11].xPos;
+    const yInit = globals.sprites[11].yPos;
     const radius = 1;
     const timeToFadeMax = 5;
     const alpha = 1.0;
@@ -762,8 +865,8 @@ export function createLiquidParticle(){
     const velocity = Math.random() + 10;
     const physics = new Physics(velocity);
 
-    const xInit = Math.random() * 10 + globals.sprites[5].xPos + 3;
-    const yInit = globals.sprites[5].yPos + 15;
+    const xInit = Math.random() * 10 + globals.sprites[6].xPos + 3;
+    const yInit = globals.sprites[6].yPos + 15;
 
     const radius = Math.random() + 2;
 
@@ -777,6 +880,52 @@ export function createLiquidParticle(){
     globals.particles.push(particle);
 }
 
+function loadGameData(){
+
+    console.log("OK");
+
+    const url = "http://localhost:3000/SERVER/routes/getAllClassic.php";
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function(){
+        
+        if(this.readyState == 4){
+
+            if(this.status == 200){
+
+                if(this.responseText != null){
+
+                    const resultJSON = JSON.parse(this.responseText);
+
+                    if (resultJSON && resultJSON.length > 0) {
+
+                        for (let i = 0; i < resultJSON.length; i++) {
+                            
+                            let item = resultJSON[i];
+                            globals.highScoreData.push({
+                                name: item.playername,
+                                score: item.highscore,
+                                level: item.currentlevel
+                            });
+                        }
+                        console.log("Récords cargados: " + globals.highScoreData.length);
+                    }
+
+                    //initGame(resultJSON);
+                    
+                }
+                else alert ("Communication error: No data received");
+            }
+            else alert("Communication error: " + this.statusText);
+        }
+    }
+
+    request.open('GET', url, true);
+    request.responseType = "text";
+    request.send();
+
+}
+
 export {
     initHTMLelements,
     initVars,
@@ -786,4 +935,5 @@ export {
     initTimers,
     initEvents,
     initParticles,
+    loadGameData
 }

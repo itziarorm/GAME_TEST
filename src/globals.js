@@ -1,4 +1,5 @@
-import { Game } from "./constants.js";
+import { Game, storyLines, winStoryLines } from "./constants.js";
+import { highScoreData } from "./HighScoreFake.js";
 
 export default{
 
@@ -71,12 +72,14 @@ export default{
     card_cooldown: 0,
 
     velocityTime: 0,
+    stopTime: 0,
     
     //sound
     sounds: [],
     currentSound: -1,
 
     currentLevel: 0,
+    actualLevel: 0,
 
     keyPosX: 0,
     keyPosY: 0,
@@ -88,11 +91,44 @@ export default{
     nameIndex: 0,             
     maxNameLength: 3,         
     isNameComplete: false,
+    highScoreData: [],
 
     blinkCounter: 0,
     blinkSpeed: 30,
 
     cursorX: 0,
 
-    coins: 0
+    coins: 0,
+
+    winStoryLines: {},
+    winTextState: {},
+
+    storyLines: {},
+    storyLinesState: {},
+
+    ghost: {},
+
+    playerHistory: [],     
+    historyTime: 10,
+    
+    titleScale: 0,
+
+    loadingImages: [],              // Array para las 40 imágenes precargadas
+    loadingAnimFrame: 0,            // Frame actual (0-39)
+    loadingAnimCounter: 0,          // Contador para cambiar de frame
+    loadingAnimSpeed: 4,            // Velocidad: menor = más rápido (4 = cada 4 frames)
+    loadingImagesCount: 40,
+
+    menuImages: [],
+    menuAnimFrame: 0,
+    menuAnimCounter: 0,
+    menuAnimSpeed: 6,
+    menuImagesCount: 8,
+
+    playerBlinking: false,    // Estado de parpadeo
+    blinkTimer: 0,               // Temporizador de parpadeo
+    blinkDuration: 5,            // 5 segundos de parpadeo
+    blinkVisible: true,
+
+    originalPlayerVelocity: null
 };

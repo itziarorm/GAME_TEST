@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { initHTMLelements, loadAssets, initSprites, initVars, initLevel, initTimers, initEvents, initParticles } from "./initialize.js";
+import { initHTMLelements, loadAssets, initSprites, initVars, initLevel, initTimers, initEvents, initParticles, loadGameData } from "./initialize.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
 
@@ -12,7 +12,7 @@ function init(){
     initHTMLelements();
 
     loadAssets();
-
+        
     initSprites();
 
     initVars();
@@ -24,6 +24,8 @@ function init(){
     initEvents();
 
     initParticles();
+    
+    loadGameData();
 
     window.requestAnimationFrame(gameLoop);
 }

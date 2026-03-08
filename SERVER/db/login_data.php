@@ -1,6 +1,6 @@
 <?php
 
-    $cfg['nombre_bd'] = "highScores";
+    $cfg['nombre_bd'] = "game_highscores";
     $cfg['servidor'] = "ep-solitary-leaf-ag35m31h-pooler.c-2.eu-central-1.aws.neon.tech";
     $cfg['puerto'] = "5432";
     $cfg['usuario'] = "neondb_owner";

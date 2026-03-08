@@ -2,9 +2,9 @@ import globals from "./globals.js";
 import { Game, State, SpriteID, ParticleState, ParticleId, Sound, Levels, RandomFreePositions, InsertName } from "./constants.js";
 import { Collision } from "./constants.js";
 import detectCollisions from "./collisions.js";
-import { updateEvents, eventVelocity, eventStop } from "./events.js";
+import { updateEvents, eventVelocity, eventStop, eventLife, updateVelocityTimer, updateStopTimer } from "./events.js";
 import { createFireParticle, createLiquidParticle, initSprites } from "./initialize.js";
-import { level2 } from "./Levels.js";
+import { level1, level2 } from "./Levels.js";
 import { highScoreData } from "./HighScoreFake.js";
 
 export default function update(){
@@ -25,13 +25,13 @@ export default function update(){
 
         case Game.LOAD_LEVEL1:
             
-            loadLevel1();
+            loadLevels();
             
             break;
             
         case Game.LOAD_LEVEL2:
             
-            loadLevel2();
+            loadLevels();
             
             break;
 
@@ -86,6 +86,7 @@ export default function update(){
 
         case Game.GAME_WIN:
 
+            winGame();
             break;
 
         case Game.PAUSE:
@@ -99,11 +100,23 @@ export default function update(){
 
 function loading(){
 
+    if (globals.titleScale < 1) {
+        globals.titleScale += 0.01; // Ajusta: 0.01 = lento, 0.05 = rápido
+        if (globals.titleScale > 1) globals.titleScale = 1;
+    }
+
     if(globals.action.insertCoin){
 
         globals.gameState = Game.NEW_GAME;
         globals.coins ++;
         globals.action.insertCoin = false;
+
+        globals.action.music = true;
+        globals.currentSound = Sound.MENU_MUSIC;
+
+        globals.loadingAnimFrame = 0;
+        globals.loadingAnimCounter = 0;
+
     }
 }
 
@@ -111,11 +124,34 @@ function newGame(){
 
     playSound();
 
-    if(globals.action.music){
+    //RESET 
+    globals.score = 0;           
+    globals.life = 30;           
+    globals.mana = 0;            
+    globals.currentLevel = 0;   
 
-        globals.action.music = false;
-        globals.currentSound = Sound.GAME_MUSIC;
-    }
+    globals.hasKey = false;      
+    globals.hasCard = false;     
+    globals.visibleKey = false; 
+
+    globals.playerHistory = [];
+    
+    globals.titleScale = 0;
+
+    globals.playerBlinking = false;
+    globals.blinkTimer = 0;
+    globals.blinkVisible = true;
+
+    globals.velocityTime = 0;
+    globals.stopTime = 0;
+
+    globals.name = [" ", " ", " "];  
+    globals.nameIndex = 0;           
+    globals.cursorX = 90;           
+    globals.fil = 0;                 
+    globals.col = 0;                 
+    globals.keyPosX = 53;            
+    globals.keyPosY = 190; 
 
     if(globals.action.insertCoin){
 
@@ -148,7 +184,7 @@ function newGame(){
         if (globals.arrow === 117) {
             
             console.log("LEVEL 1");
-            
+
             globals.coins --;
             globals.gameState = Game.LOAD_LEVEL1;
 
@@ -173,46 +209,79 @@ function newGame(){
     }
 }
 
-function loadLevel1(){
+function loadLevel(levelNumber){
+
+    globals.action.music = true;  
+    //globals.currentSound = Sound.GAME_MUSIC;
+
+    globals.currentLevel = levelNumber;
     
     globals.sprites = [];
-    globals.life = 100;
-
-    initSprites();
-
-    globals.gameState = Game.PLAYING;
-}
-
-function loadLevel2(){
-
-    globals.sprites = [];
-    
-    globals.level.data = level2;
-    
-    //reset();
-
-    initSprites();
-
-    globals.mana = 0;
-    
-    globals.hasKey = false;
-    globals.visibleKey = false;
-    globals.isDoor = false;
-    
-    globals.gameState = Game.PLAYING;
-    
-    //console.log("Nivel 2 cargado correctamente");
-}
-
-function reset(){
-
-    globals.sprites = [];
-    globals.particles = [];
-
     globals.mana = 0;
     globals.hasKey = false;
     globals.visibleKey = false;
     globals.isDoor = false;
+
+    globals.playerBlinking = false;
+    globals.blinkTimer = 0;
+    globals.blinkVisible = true;
+
+    //card
+    globals.hasCard = false;
+    globals.canThrow = true;
+    globals.card_cooldown = 1.5;
+
+    //SOUND
+    globals.currentSound = Sound.NO_SOUND;
+
+    globals.velocityTime = 0;
+    globals.stopTime = 0;
+
+    globals.name = [" ", " ", " "];  
+    globals.nameIndex = 0;           
+    globals.cursorX = 90;
+
+    globals.gameState = Game.PLAYING;
+    
+    if (levelNumber % 2 === 0) {
+        
+        globals.level.data = level1;
+        console.log("Nivel", levelNumber, "LEVEL1");
+
+    } else {
+        
+        globals.level.data = level2;
+        console.log("Nivel", levelNumber, "LEVEL2");
+    }
+
+    globals.ghostSpawnTime = 10 - (levelNumber * 1.5); 
+    
+    initSprites();
+
+    const speedBonus = levelNumber * 5; // 5 píxeles/segundo por nivel
+    const baseVelocity = 40;
+    const maxVelocity = 100; // Límite máximo
+    
+    for(let i = 0; i < globals.sprites.length; i++){
+        const sprite = globals.sprites[i];
+        
+        if(sprite.physics && sprite.physics.vLimit){
+            const newVelocity = baseVelocity + speedBonus;
+            
+            // Aplicar límite máximo
+            if(newVelocity > maxVelocity){
+                sprite.physics.vLimit = maxVelocity;
+            } else {
+                sprite.physics.vLimit = newVelocity;
+            }
+        }
+    }
+    
+}
+
+function loadLevels(){
+
+    loadLevel(globals.currentLevel);
 }
 
 function playGame(){
@@ -228,6 +297,12 @@ function playGame(){
     updateParticles();
     
     updateLevelTime();
+
+    updateBlinkTimer();
+
+    updateVelocityTimer();
+
+    updateStopTimer();
 
     playSound();
 
@@ -343,6 +418,20 @@ function updateSprite(sprite){
 
             break;
 
+        case SpriteID.FOLLOWER:
+            
+            updateGhostFollower(sprite);
+            updateLife(sprite);
+            updateHUDLifePoints();
+            updateScore(sprite);
+            
+            if(sprite.isCollidingWithCard){
+                
+                globals.currentSound = Sound.HURT;
+            }
+            
+            break;
+
         case SpriteID.KEY:
             
             if (globals.visibleKey){
@@ -387,6 +476,7 @@ function updateSprite(sprite){
 
                 globals.currentSound = Sound.POWER_UP;
                 globals.score += 50;
+                eventLife(sprite);
 
                 sprite.state = State.OFF;
             }
@@ -399,9 +489,10 @@ function updateSprite(sprite){
 
                 globals.currentSound = Sound.POWER_UP;
                 globals.score += 50;
+                eventVelocity(sprite);
 
                 sprite.state = State.OFF;
-                eventVelocity(sprite);
+                
             }
 
             break;
@@ -413,8 +504,10 @@ function updateSprite(sprite){
                 globals.currentSound = Sound.POWER_UP;
                 globals.score += 50;
 
+                eventStop(sprite);
+
                 sprite.state = State.OFF;
-                //eventStop(sprite);
+                
             }
 
             break;
@@ -441,16 +534,12 @@ function updateSprite(sprite){
             updateHUDMana();
 
             if(sprite.isCollidingWithPlayer){
-
+                
+                globals.currentSound = Sound.ORBS;
                 globals.score += 20;
 
                 sprite.state = State.OFF;
-                // const index = globals.sprites.indexOf(sprite);
-
-                // if (index !== -1) {
-
-                //     globals.sprites.splice(index, 1);
-                // }
+            
             }
 
         default:
@@ -460,10 +549,38 @@ function updateSprite(sprite){
 
 function changelevel(){
 
-    if (globals.currentLevel === Levels.LEVEL2){
-       
+    if (globals.currentLevel >= 6) {
+        
+        globals.gameState = Game.GAME_WIN;
+        console.log("¡Juego Completado!");
+        return;
+    }
+
+    if (globals.currentLevel % 2 === 0){
+        globals.actualLevel = Levels.LEVEL1;
+        globals.gameState = Game.LOAD_LEVEL1;
+    } else {
+        globals.actualLevel = Levels.LEVEL2;
         globals.gameState = Game.LOAD_LEVEL2;
-        loadLevel2(); 
+    }
+}
+
+function updateBlinkTimer(){
+    if(globals.playerBlinking){
+        globals.blinkTimer -= globals.deltaTime;
+        
+        // Parpadeo: alternar visibilidad cada 0.1 segundos
+        if(Math.floor(globals.blinkTimer * 10) % 2 === 0){
+            globals.blinkVisible = true;
+        } else {
+            globals.blinkVisible = false;
+        }
+        
+        // Cuando termina el parpadeo
+        if(globals.blinkTimer <= 0){
+            globals.playerBlinking = false;
+            globals.blinkVisible = true;
+        }
     }
 }
 
@@ -526,6 +643,17 @@ function updatePlayer(sprite){
 
     //update animation frame
     updateAnimationFrame(sprite);
+
+    globals.playerHistory.push({
+        x: sprite.xPos,
+        y: sprite.yPos,
+        time: globals.gameTime
+    });
+    
+    // Borrar posiciones viejas
+    while(globals.playerHistory.length > 0 && globals.gameTime - globals.playerHistory[0].time > globals.historyTime){
+        globals.playerHistory.splice(0, 1);
+    }
 }
 
 function createCard(sprite){
@@ -706,6 +834,79 @@ function updateGhostBlue(sprite){
     calculateCollisionWithFourBorders(sprite);
 }
 
+function updateGhostFollower(sprite){
+
+    const player = globals.sprites[0]; 
+    
+    if (sprite.isWaiting) {
+        sprite.waitTimer += globals.deltaTime;
+
+        if (sprite.waitTimer >= globals.ghostSpawnTime) {
+            sprite.isWaiting = false;
+            sprite.waitTimer = 0;
+            
+            // Buscar la posición 
+            if (globals.playerHistory.length > 0) {
+
+                const oldPos = globals.playerHistory[0]; // La primera es la vieja
+                sprite.xPos = oldPos.x;
+                sprite.yPos = oldPos.y;
+
+            } else {
+
+                sprite.xPos = player.xPos;
+                sprite.yPos = player.yPos;
+            }
+            
+            sprite.state = State.RIGHT_2;
+        }
+
+    } else {
+
+        sprite.activeTimer += globals.deltaTime;
+        
+        const dx = player.xPos - sprite.xPos;
+        const dy = player.yPos - sprite.yPos;
+        
+        // Movimiento en 4 direcciones 
+        if (Math.abs(dx) > Math.abs(dy)) {
+            sprite.physics.vy = 0;
+            if (dx > 0) { 
+                sprite.physics.vx = 40; 
+                sprite.state = State.RIGHT_2; 
+            } else { 
+                sprite.physics.vx = -40; 
+                sprite.state = State.LEFT_2; 
+            }
+        } else {
+            sprite.physics.vx = 0;
+            if (dy > 0) { 
+                sprite.physics.vy = 40; 
+                sprite.state = State.DOWN_2; 
+            } else { 
+                sprite.physics.vy = -40; 
+                sprite.state = State.UP_2; 
+            }
+        }
+        
+        // Después de 5 segundos, desaparecer y volver a esperar
+        if (sprite.activeTimer >= 5) {
+            sprite.isWaiting = true;
+            sprite.activeTimer = 0;
+            sprite.xPos = -100;  // Esconder fuera de pantalla
+            sprite.yPos = -100;
+            sprite.physics.vx = 0;
+            sprite.physics.vy = 0;
+        }
+    }    
+        
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+    
+    // Actualizar animación
+    updateAnimationFrame(sprite);
+}
+
 function updateKey(sprite){
 
     updateAnimationFrame(sprite);
@@ -830,7 +1031,6 @@ function updateSprites(){
             globals.sprites.splice(index, 1);
                 
         }
-        
     }
 }
 
@@ -918,9 +1118,17 @@ function readKeyboardAndAssignState(sprite){
 
 function updateLife(sprite){
 
-    if(sprite.isCollidingWithPlayer){
+    if(sprite.isCollidingWithPlayer){ 
             
         globals.life--;
+
+        if(!globals.playerBlinking){
+
+            globals.playerBlinking = true;
+            globals.blinkTimer = globals.blinkDuration;
+            
+            globals.currentSound = Sound.HURT;
+        }
     }
 }
 
@@ -935,7 +1143,7 @@ function updateHUDLifePoints(){
 
         globals.lifeFrameX = 0;
 
-    } else if (globals.life <= 25) {
+    } else if (globals.life <= 20) {
 
         globals.lifeFrameX = 28; // medium
 
@@ -1030,6 +1238,7 @@ function gameOver(){
             globals.gameState = Game.LOAD_LEVEL1;
             globals.coins--;
             globals.score++;
+            globals.life = 30;
 
         } else if (globals.arrow === 167) {
 
@@ -1044,27 +1253,43 @@ function gameOver(){
 
 function story(){
 
-    globals.arrow = 197;
+    globals.arrow = 367;
 
+    if (globals.storyLinesState.totalChars === 0) {
+        
+        console.log("Inicializando animación STORY");
+        
+        let total = 0;
+        for (let i = 0; i < globals.storyLines.length; i++) {
+            total = total + globals.storyLines[i].length;
+        }
+        globals.storyLinesState.totalChars = total;
+        
+        // Reiniciar contadores
+        globals.storyLinesState.charIndex = 0;
+        globals.storyLinesState.frameCounter = 0;
+    }
+
+    // Manejar input del jugador
     if (globals.action.confirm) {
-
-        if (globals.arrow === 197) {
+        
+        if (globals.arrow === 367) {
             
-            console.log("Mostrando NEW GAME");
+            console.log("Volviendo a NEW GAME");
             globals.gameState = Game.NEW_GAME;
         }
-
+        
         globals.action.confirm = false; 
     }
 }
 
 function controls(){
 
-    globals.arrow = 197;
+    globals.arrow = 327;
 
     if (globals.action.confirm) {
 
-        if (globals.arrow === 197) {
+        if (globals.arrow === 327) {
             
             console.log("Mostrando NEW GAME");
             globals.gameState = Game.NEW_GAME;
@@ -1299,12 +1524,71 @@ function insertName(){
 
         if (globals.arrow === 317) {
 
+            let playerName = "";
+            for (let i = 0; i < globals.name.length; i++) {
+                playerName += globals.name[i];
+            }
+
+            const gameData = {
+                playerName: playerName,
+                highScore: globals.score,
+                currentLevel: globals.currentLevel + 1
+            };
+
+            saveGameData(gameData);
+            
+            //globals.highScoreData.push(gameData);
+
+            globals.highScoreData.push({
+            name: gameData.playerName,      
+            score: gameData.highScore,      
+            level: gameData.currentLevel
+        });
+
             console.log("Mostrando NEW GAME");
             globals.gameState = Game.HIGHSCORE;
         }
         
         globals.action.confirm = false;
     }
+}
+
+function saveGameData(gameData){
+
+    console.log("ADD");
+
+    const dataToSend = 'playerName=' + gameData.playerName + '&highScore=' + gameData.highScore + 
+                        '&currentLevel=' + gameData.currentLevel;
+
+    const url = "http://localhost:3000/SERVER/routes/postClassic.php";
+    const request = new XMLHttpRequest();
+
+    request.open('POST', url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    request.onreadystatechange = function(){
+        
+        if(this.readyState == 4){
+
+            if(this.status == 200){
+
+                if(this.responseText != null){
+
+                    const resultJSON = JSON.parse(this.responseText);
+
+                    const arrayResult = [resultJSON];
+
+                    //initGame(arrayResult);
+                }
+                else alert ("Communication error: No data received");
+            }
+            else alert("Communication error: " + this.statusText);
+        }
+    }
+
+    request.responseType = "text";
+    request.send(dataToSend);
+
 }
 
 function highScore(){
@@ -1376,4 +1660,34 @@ function topHighScore2(){
 
         globals.action.confirm = false; 
     }
+}
+
+function winGame(){
+
+    globals.arrow = 197;
+
+    // Solo reiniciar si es la primera vez que entramos
+    if (globals.winTextState.charIndex === 0 && globals.winTextState.totalChars === 0) {
+        console.log("Inicializando animación WIN");
+        
+        // Calcular totalChars
+        let total = 0;
+        for (let i = 0; i < globals.winStoryLines.length; i++) {
+            total += globals.winStoryLines[i].length;
+        }
+        globals.winTextState.totalChars = total;
+        
+        // Reiniciar contadores
+        globals.winTextState.charIndex = 0;
+        globals.winTextState.frameCounter = 0;
+    }
+
+    if (globals.action.confirm) {
+        if (globals.arrow === 197) {
+            console.log("Mostrando STORY");
+            globals.gameState = Game.GAME_OVER;
+        }
+        globals.action.confirm = false;
+    }
+
 }

@@ -48,9 +48,11 @@ class ModelBase extends Conexion{
 
     protected function createArray($data){
         
+        $array = [];
+
         while ($row = pg_fetch_assoc($data)){              //while($row = $data->fetch_array(MYSQLI_ASSOC)){
             
-        //AÑADIR SIGUIENTE FILA
+            //AÑADIR SIGUIENTE FILA
             $array[] = $row;
         }
 

@@ -28,14 +28,15 @@ export const SpriteID = {
     YELLOW:     2,
     ORANGE:     3,
     BLUE:       4,
-    POTION:     5,
-    CARD:       6,
-    POINTS:     7,
-    DOOR:       8,
-    KEY:        9,
-    CARDS:      10,
-    POTION_VELOCITY:     11,
-    POTION_STOP:        12
+    FOLLOWER:     5,
+    POTION:     6,
+    CARD:       7,
+    POINTS:     8,
+    DOOR:       9,
+    KEY:        10,
+    CARDS:      11,
+    POTION_VELOCITY:     12,
+    POTION_STOP:        13
 }
 
 //Identificador de estado de sprite
@@ -175,9 +176,12 @@ export const Sound = {
 
     NO_SOUND: -1,
     GAME_MUSIC: 0,
-    SHOOT:1,
-    HURT:2,
-    POWER_UP:3
+    MENU_MUSIC: 1,
+    SHOOT:2,
+    HURT:3,
+    POWER_UP:4,
+    ORBS: 5,
+    WALK: 6
 }
 
 export const Levels = {
@@ -212,4 +216,28 @@ export const PositionsLevel2 =
 export const InsertName = [ ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], 
                             ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], 
                             ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+];
+
+export const storyLines = [
+
+    "When the seller fell for her deception, Lucretia ",
+    "felt her power returning. But that night, as she",
+    "left the village, the men she had poisoned emerged, ",
+    "transformed into shadows. Lucretia ran, guided by",
+    "flashes from the cards that seemed to mark a path ",
+    "through the fog. On the verge of panic, the ",
+    "old woman crossed a stone threshold that emerged ",
+    "from the shadows, something she did not remember ",
+    "ever seeing before. Without knowing how, she had ",
+    "arrived at an ancient labyrinthine villa, ",
+    "and the ghosts entered behind her."
+];
+
+export const winStoryLines = [
+    
+    "Lucretia managed to escape from the foes.",
+    "Suddenly a path of light opened before her eyes.",
+    "It was a small cottage in the middle of the forest.",
+    "It's name was \"Wound's Valley Inn\".",
+    "She decided to enter."
 ];

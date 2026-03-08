@@ -15,13 +15,11 @@
     //$_POST['isbn'] = "2734535665790";
 
 
-    if(isset($_POST['position']) && isset($_POST['name']) && isset($_POST['stage']) && isset($_POST['score'])) {
+    if(isset($_POST['playerName']) && isset($_POST['highScore']) && isset($_POST['currentLevel'])) {
 
-        $newScore['author'] = $_POST['author'];
-        $newScore['title'] = $_POST['title'];
-        $newScore['category'] = $_POST['category'];
-        $newScore['year'] = $_POST['year'];
-        $newScore['isbn'] = $_POST['isbn'];
+        $newScore['playerName'] = $_POST['playerName'];
+        $newScore['highScore'] = $_POST['highScore'];
+        $newScore['currentLevel'] = $_POST['currentLevel'];
 
         $returnValue = $score->addNew($newScore);
 

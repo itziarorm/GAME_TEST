@@ -101,32 +101,91 @@ export function updateEvents(){
 
 export function eventVelocity(sprite){
 
-    if(sprite.isCollidingWithPlayer){
-
+    if(sprite.isCollidingWithPlayer && globals.velocityTime <= 0){
+        
         const player = globals.sprites[0];
-        player.physics.vLimit = 60; 
+        player.physics.vLimit = 60;  // Velocidad aumentada
 
-        if (globals.velocityTime > 0) {
+        globals.originalPlayerVelocity = player.physics.vLimit;
+
+        // Iniciar temporizador de 20 segundos
+        globals.velocityTime = 20;
+        
+    }
+}
+
+export function updateVelocityTimer(){
+    if(globals.velocityTime > 0){
+        
+        if(globals.velocityTime <= 0){
+
+            const player = globals.sprites[0];
+
+            if(player && globals.originalPlayerVelocity){
+
+                player.physics.vLimit = globals.originalPlayerVelocity;
+
+            } else {
                 
-            globals.velocityTime -= globals.deltaTime;
-            
-            if (globals.velocityTime <= 0) {
-
                 player.physics.vLimit = 40;
             }
+            
+            globals.velocityTime = 0;
+            globals.originalPlayerVelocity = null;
         }
-    
+    }
+}
+
+export function eventLife(sprite){
+
+    if(sprite.isCollidingWithPlayer){
+
+        globals.life += 10;
+
     }
 }
 
 export function eventStop(sprite){
 
-    if(sprite.isCollidingWithPlayer){
+    if(sprite.isCollidingWithPlayer && globals.stopTime <= 0){
 
-        for(let i = 1; i < 5; i++){
+        // Guardar velocidad original de cada enemigo
+        for(let i = 1; i < globals.sprites.length; i++){
+            const enemy = globals.sprites[i];
             
-            const enemies = globals.sprites[i];
-            enemies.physics.vLimit = 0; 
+            if(!enemy.originalVelocity){
+                enemy.originalVelocity = enemy.physics.vLimit;
+            }
+            
+            enemy.physics.vLimit = 0;
+        }
+
+        globals.stopTime = 10;
+    
+    }
+}
+
+export function updateStopTimer(){
+
+    if(globals.stopTime > 0){
+
+        globals.stopTime -= globals.deltaTime;
+
+        if(globals.stopTime <= 0){
+
+            for(let i = 1; i < globals.sprites.length; i++){
+
+                const enemy = globals.sprites[i];
+                
+                if(enemy.originalVelocity){
+                    enemy.physics.vLimit = enemy.originalVelocity;
+                    enemy.originalVelocity = null;
+                } else {
+                    enemy.physics.vLimit = 40;
+                }
+            }
+
+            globals.stopTime = 0;
         }
     }
 }

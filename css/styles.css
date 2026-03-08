@@ -4,7 +4,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-color: burlywood;
+  background-color: rgb(0, 0, 0);
 }
 
 #gameScreen{
@@ -29,7 +29,7 @@ body {
     height: 44.8px;
     left: 50%;
     transform: translateX(-50%);
-    top: calc(58% - 380.8px);
+    top: calc(59% - 380.8px);
     margin-bottom: -1px;
     background-color: black;
     border-style: solid;
@@ -43,12 +43,18 @@ body {
     src: url("../fonts/PressStart2P.ttf");
 }
 
+@font-face {
+
+    font-family: pokemon;
+    src: url("../fonts/Pokemon.ttf");
+}
+
 #gameHUD_RIGHT{
 
     position: absolute;
     width: 210px;
     height: 672px;
-    left: calc(43.8% + 313.6px);
+    left: calc(43.75% + 313.6px);
     top: 59%;
     transform: translateY(-50%);
     margin-left: -1px;
