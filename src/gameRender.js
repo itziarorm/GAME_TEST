@@ -561,9 +561,17 @@ function renderControlsScreen(){
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("CONFIRM", 160, 220);
 
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/ENTER.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 120, 198, 25, 30);
+
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText("SELECT LETTER", 140, 250);
+
+    globals.ctx.imageSet = new Image();
+    globals.ctx.imageSet.src = "./images/SPACEALTERNATIVE.png";
+    globals.ctx.drawImage(globals.ctx.imageSet, 80, 238, 60, 16);
 
     globals.ctx.fillStyle = "lightgray";
     globals.ctx.fillText(" INSERT COIN", 140, 280);
